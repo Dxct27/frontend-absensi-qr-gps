@@ -3,8 +3,10 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-const LeafletAdmin = () => {
-  const [position, setPosition] = useState(null);
+const DEFAULT_POSITION = [-6.200000, 106.816666]; // Default: Jakarta, Indonesia
+
+const LeafletAdmin = ({ onLocationChange }) => {
+  const [position, setPosition] = useState(null); // Start as null to avoid issues
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -12,13 +14,18 @@ const LeafletAdmin = () => {
         (location) => {
           const newPosition = [location.coords.latitude, location.coords.longitude];
           setPosition(newPosition);
+          onLocationChange(newPosition); // Set initial location to parent
         },
         (error) => {
           console.error("Error fetching location:", error);
+          setPosition(DEFAULT_POSITION);
+          onLocationChange(DEFAULT_POSITION); // Fallback location
         }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
+      setPosition(DEFAULT_POSITION);
+      onLocationChange(DEFAULT_POSITION);
     }
   }, []);
 
@@ -46,7 +53,9 @@ const LeafletAdmin = () => {
                 eventHandlers={{
                   dragend: (e) => {
                     const newPos = e.target.getLatLng();
-                    setPosition([newPos.lat, newPos.lng]);
+                    const newCoords = [newPos.lat, newPos.lng];
+                    setPosition(newCoords);
+                    onLocationChange(newCoords); // Update parent when moved
                   },
                 }}
               >

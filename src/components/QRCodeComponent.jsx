@@ -1,17 +1,50 @@
+import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
+import axios from "axios";
 
-const QRCodeComponent = () => {
-    const value = "testing barcode";
+const API_URL = import.meta.env.VITE_BASE_URL_API;
+
+const QRCodeComponent = ({ qrCodeId }) => {
+  const [qrValue, setQrValue] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchQRCode = async () => {
+      try {
+        console.log("Fetching QR Code for ID:", qrCodeId);
+        const response = await axios.get(`${API_URL}/qrcodes/${qrCodeId}`);
+        console.log("API Response:", response.data);
+        setQrValue(response.data.value);
+      } catch (error) {
+        console.error("Error fetching QR code:", error);
+        setError("Failed to load QR code");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (qrCodeId) {
+      fetchQRCode();
+    }
+  }, [qrCodeId]);
 
   return (
-    <div className="bg-white p-16">
-      <QRCode
-        size={256}
-        style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-        value={value}
-        viewBox={`0 0 256 256`}
-      />
+    <div className="bg-white p-5 rounded-lg shadow-lg">
+      {loading ? (
+        <p>Loading QR Code...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
+      ) : qrValue ? (
+        <>
+          <QRCode size={256} value={qrValue} />
+          <p className="text-center mt-2 text-gray-600">Hashed Value: {qrValue}</p>
+        </>
+      ) : (
+        <p className="text-red-500">QR Code not found!</p>
+      )}
     </div>
   );
 };
+
 export default QRCodeComponent;

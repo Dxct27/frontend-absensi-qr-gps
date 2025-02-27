@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 
-axios.defaults.headers.common['ngrok-skip-browser-warning'] = '420690';
+axios.defaults.headers.common["ngrok-skip-browser-warning"] = "420690";
 
 const AuthCallback = () => {
   const { login } = useContext(AuthContext);
@@ -15,6 +15,7 @@ const AuthCallback = () => {
 
     if (token) {
       localStorage.setItem("token", token);
+
       axios
         .get(`${import.meta.env.VITE_BASE_URL_API}/user`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -22,11 +23,9 @@ const AuthCallback = () => {
         .then(({ data }) => {
           console.log("User Data Retrieved:", data);
 
-          if (data.user && data.user.group) {
-            login(data.user, token);
-            navigate(
-              data.user.group === "admin" ? "/adminPanel" : "/dashboard"
-            );
+          if (data.group) {
+            login(data, token);
+            navigate(data.group === "admin" ? "/adminPanel" : "/dashboard");
           } else {
             console.error("Invalid user data format:", data);
             navigate("/");
