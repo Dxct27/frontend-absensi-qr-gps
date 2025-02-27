@@ -1,11 +1,19 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 
-// https://vite.dev/config/
-export default defineConfig({
-  server: {
-    allowedHosts: ["92c5-103-107-117-14.ngrok-free.app"],
-  },
-  plugins: [tailwindcss(), react()],
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  return {
+    server: {
+      host: "0.0.0.0",
+      port: 5173,
+      allowedHosts: [env.VITE_FRONTEND_URL]
+    },
+    plugins: [tailwindcss(), react()],
+    define: {
+      "process.env": env,
+    },
+  };
 });

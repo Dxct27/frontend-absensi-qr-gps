@@ -41,7 +41,7 @@ const Input = forwardRef(
           type={type}
           id={id}
           placeholder={placeholder}
-          className={`${icon && "pl-12"} ${textSize} opacity-70 border-2 transform transition ease-in-out duration-100 rounded-full border-gray-100 focus:border-primary500 ${paddingY} px-3 w-full focus:outline-none`}
+          className={`${icon && "pl-12"} ${textSize} opacity-70 border-2 transform transition ease-in-out duration-100 rounded-lg border-gray-100 focus:border-primary500 ${paddingY} px-3 w-full focus:outline-none`}
           required={required}
         />
       </div>

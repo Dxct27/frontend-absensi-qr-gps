@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import Label from "../Label";
 
 const Dropdown = ({ options, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,11 +26,10 @@ const Dropdown = ({ options, onSelect }) => {
 
   return (
     <div className="flex flex-col space-y-2 relative" ref={dropdownRef}>
-      <label className="text-gray-700 font-medium">Ini Label</label>
-
+      <Label>Status</Label>
       <button
         onClick={toggleDropdown}
-        className="px-4 py-2 border rounded-md hover:bg-blue-600 transition"
+        className="px-4 py-2 border rounded-md hover:bg-blue-100 transition"
       >
         {selected || "Select an option"}
       </button>
