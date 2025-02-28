@@ -37,8 +37,9 @@ const QRCodeComponent = ({ qrCodeId }) => {
         <p className="text-red-500">{error}</p>
       ) : qrValue ? (
         <>
-          <QRCode size={256} value={qrValue} />
-          <p className="text-center mt-2 text-gray-600">Hashed Value: {qrValue}</p>
+          <div className="items-center justify-center">
+            <QRCode className="container" size={256} value={qrValue} />
+          </div>
         </>
       ) : (
         <p className="text-red-500">QR Code not found!</p>

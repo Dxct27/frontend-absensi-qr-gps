@@ -11,6 +11,8 @@ const QRCodePage = () => {
   const [qrCodes, setQrCodes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const fetchQRCodes = async () => {
@@ -20,17 +22,52 @@ const QRCodePage = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        // Sort from latest to oldest (assuming response.data is an array of objects with a 'created_at' field)
-        const sortedQRCodes = response.data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        setQrCodes(sortedQRCodes);
+        const now = new Date();
+        const updatedQRCodes = response.data
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by newest first
+          .map((qr) => ({
+            ...qr,
+            isExpired: new Date(qr.waktu_akhir) <= now, // Flag expired QR codes
+          }));
+
+        setQrCodes(updatedQRCodes);
       } catch (err) {
         setError("Failed to fetch QR codes");
       }
       setLoading(false);
     };
 
-    fetchQRCodes();
+    fetchQRCodes(); // Initial fetch
+
+    const interval = setInterval(() => {
+      fetchQRCodes(); // Refresh QR codes every 30 seconds
+    }, 30000);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
+
+  const formatDateTime = (dateString) => {
+    if (!dateString) return "Invalid Date";
+    const date = new Date(dateString);
+
+    const time = date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const formattedDate = date.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+
+    return `${time} ${formattedDate}`; // Time first, then date
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = qrCodes.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(qrCodes.length / itemsPerPage);
 
   return (
     <LayoutAdmin>
@@ -45,21 +82,53 @@ const QRCodePage = () => {
       {error && <p className="text-red-500">{error}</p>}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {qrCodes.length > 0 ? (
-          qrCodes.map((qr) => (
+        {currentItems.length > 0 ? (
+          currentItems.map((qr) => (
             <div key={qr.id} className="border p-4 bg-white rounded-lg shadow">
               <h3 className="text-lg font-bold">{qr.name}</h3>
-              <QRCodeComponent qrCodeId={qr.id} />
-              <p className="text-sm text-gray-600">Radius: {qr.radius} meters</p>
+              {!qr.isExpired && <QRCodeComponent qrCodeId={qr.id} />}
               <p className="text-sm text-gray-600">
-                Valid: {qr.waktu_awal} - {qr.waktu_akhir}
+                Lokasi: {qr.latitude}, {qr.longitude}{" "}
               </p>
+              <p className="text-sm text-gray-600">
+                Radius: {qr.radius} meters
+              </p>
+              <p className="text-sm text-gray-600">
+                Valid: {formatDateTime(qr.waktu_awal)} -{" "}
+                {formatDateTime(qr.waktu_akhir)}
+              </p>
+              {qr.isExpired && <p className="text-red-500">Expired</p>}
             </div>
           ))
         ) : (
           <p>No QR Codes found.</p>
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {qrCodes.length > itemsPerPage && (
+        <div className="flex justify-center mt-5 space-x-2">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+          >
+            Prev
+          </button>
+          <span className="px-4 py-2">
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </LayoutAdmin>
   );
 };

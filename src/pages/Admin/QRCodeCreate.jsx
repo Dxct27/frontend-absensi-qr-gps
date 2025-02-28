@@ -13,7 +13,7 @@ const QRCodeCreate = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    radius: "",
+    radius: "50",
     waktuMulai: "",
     waktuAkhir: "",
     latitude: null,
@@ -44,6 +44,13 @@ const QRCodeCreate = () => {
     setLoading(true);
     setError(null);
 
+    // Validation: waktuMulai & waktuAkhir cannot be empty
+    if (!formData.waktuMulai || !formData.waktuAkhir) {
+      setError("Waktu Mulai dan Waktu Akhir harus diisi!");
+      setLoading(false);
+      return;
+    }
+
     const currentDate = new Date().toISOString().split("T")[0];
 
     const payload = {
@@ -52,8 +59,8 @@ const QRCodeCreate = () => {
       latitude: formData.latitude,
       longitude: formData.longitude,
       radius: formData.radius,
-      waktu_awal: formData.waktuMulai ? `${currentDate} ${formData.waktuMulai}:00` : null,
-      waktu_akhir: formData.waktuAkhir ? `${currentDate} ${formData.waktuAkhir}:00` : null,
+      waktu_awal: `${currentDate} ${formData.waktuMulai}:00`,
+      waktu_akhir: `${currentDate} ${formData.waktuAkhir}:00`,
     };
 
     console.log("Payload being sent:", payload);
@@ -79,18 +86,18 @@ const QRCodeCreate = () => {
       <div className="flex flex-col py-5">
         <div className="md:grid md:grid-cols-2 gap-5">
           <InputLabeled label="Nama Kode QR" name="name" value={formData.name} onChange={handleChange} />
-          <InputLabeled label="Radius valid absen" name="radius" value={formData.radius} onChange={handleChange} />
-          <InputLabeled label="Waktu Mulai" name="waktuMulai" type="time" value={formData.waktuMulai || ""} onChange={handleChange} />
-          <InputLabeled label="Waktu Akhir" name="waktuAkhir" type="time" value={formData.waktuAkhir || ""} onChange={handleChange} />
+          <InputLabeled label="Radius valid absen (meter)" name="radius" value={formData.radius} onChange={handleChange} />
+          <InputLabeled label="Waktu Mulai" name="waktuMulai" type="time" value={formData.waktuMulai} onChange={handleChange} required />
+          <InputLabeled label="Waktu Akhir" name="waktuAkhir" type="time" value={formData.waktuAkhir} onChange={handleChange} required />
         </div>
 
         <LeafletAdmin onLocationChange={handleLocationChange} />
 
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+
         <RectangleButton onClick={handleSubmit} disabled={loading}>
           {loading ? "Generating..." : "Buat Kode QR"}
         </RectangleButton>
-
-        {error && <p className="text-red-500">{error}</p>}
 
         {qrValue && (
           <div className="mt-5">
