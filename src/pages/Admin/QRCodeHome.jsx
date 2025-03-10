@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import LayoutAdmin from "../../components/Layout/Admin";
 import RectangleButton from "../../components/RectangleButton";
 import QRCodeComponent from "../../components/QRCodeComponent";
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_BASE_URL_API;
+import {fetchAPI} from "../../utils/api";
 
 const QRCodePage = () => {
   const [qrCodes, setQrCodes] = useState([]);
@@ -17,34 +15,33 @@ const QRCodePage = () => {
   useEffect(() => {
     const fetchQRCodes = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(`${API_URL}/qrcodes`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
+        const response = await fetchAPI("/qrcodes");
+  
         const now = new Date();
-        const updatedQRCodes = response.data
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by newest first
+        const updatedQRCodes = response
+          .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)) // ✅ Sort by latest update
           .map((qr) => ({
             ...qr,
             isExpired: new Date(qr.waktu_akhir) <= now, // Flag expired QR codes
           }));
-
+  
         setQrCodes(updatedQRCodes);
+        setCurrentPage(1); // ✅ Reset to first page when new data is fetched
       } catch (err) {
+        console.error("Error fetching QR codes:", err);
         setError("Failed to fetch QR codes");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
-
+  
     fetchQRCodes(); // Initial fetch
-
-    const interval = setInterval(() => {
-      fetchQRCodes(); // Refresh QR codes every 30 seconds
-    }, 30000);
-
+  
+    const interval = setInterval(fetchQRCodes, 30000); // Refresh every 30s
+  
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
+  
 
   const formatDateTime = (dateString) => {
     if (!dateString) return "Invalid Date";
@@ -64,6 +61,23 @@ const QRCodePage = () => {
     return `${time} ${formattedDate}`; // Time first, then date
   };
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this QR code?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await fetchAPI(`/qrcodes/${id}`, { method: "DELETE" });
+
+      // Update state to remove the deleted QR code
+      setQrCodes(qrCodes.filter((qr) => qr.id !== id));
+    } catch (err) {
+      console.error("Error deleting QR code:", err);
+      alert("Failed to delete QR code");
+    }
+  };
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = qrCodes.slice(indexOfFirstItem, indexOfLastItem);
@@ -73,7 +87,7 @@ const QRCodePage = () => {
     <LayoutAdmin>
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-2xl font-bold">QR Codes</h2>
-        <Link to="/qrcodecreate">
+        <Link to="/qrcode/create">
           <RectangleButton>Buat kode QR baru</RectangleButton>
         </Link>
       </div>
@@ -98,6 +112,20 @@ const QRCodePage = () => {
                 {formatDateTime(qr.waktu_akhir)}
               </p>
               {qr.isExpired && <p className="text-red-500">Expired</p>}
+              {/* Edit & Delete Buttons */}
+              <div className="flex gap-2 mt-3">
+                <Link to={`/qrcode/edit/${qr.id}`}>
+                  <button className="px-3 py-1 bg-blue-500 text-white rounded">
+                    Edit
+                  </button>
+                </Link>
+                <button
+                  onClick={() => handleDelete(qr.id)}
+                  className="px-3 py-1 bg-red-500 text-white rounded"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))
         ) : (
@@ -111,7 +139,9 @@ const QRCodePage = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+            className={`px-4 py-2 rounded ${
+              currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"
+            }`}
           >
             Prev
           </button>
@@ -123,7 +153,9 @@ const QRCodePage = () => {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+            className={`px-4 py-2 rounded ${
+              currentPage === totalPages ? "bg-gray-300" : "bg-blue-500 text-white"
+            }`}
           >
             Next
           </button>

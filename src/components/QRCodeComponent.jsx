@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_BASE_URL_API;
+import { fetchAPI } from "../utils/api";
 
 const QRCodeComponent = ({ qrCodeId }) => {
   const [qrValue, setQrValue] = useState("");
@@ -11,13 +9,19 @@ const QRCodeComponent = ({ qrCodeId }) => {
 
   useEffect(() => {
     const fetchQRCode = async () => {
+      console.log("Fetching QR Code for ID:", qrCodeId);
+
       try {
-        console.log("Fetching QR Code for ID:", qrCodeId);
-        const response = await axios.get(`${API_URL}/qrcodes/${qrCodeId}`);
-        console.log("API Response:", response.data);
-        setQrValue(response.data.value);
-      } catch (error) {
-        console.error("Error fetching QR code:", error);
+        const data = await fetchAPI(`/qrcodes/${qrCodeId}`, "GET" );
+        console.log("API Response:", data);
+
+        if (data?.value) {
+          setQrValue(data.value);
+        } else {
+          setError(data.message || "QR Code not found!");
+        }
+      } catch (err) {
+        console.error("Error fetching QR code:", err);
         setError("Failed to load QR code");
       } finally {
         setLoading(false);
@@ -36,11 +40,9 @@ const QRCodeComponent = ({ qrCodeId }) => {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : qrValue ? (
-        <>
-          <div className="items-center justify-center">
-            <QRCode className="container" size={256} value={qrValue} />
-          </div>
-        </>
+        <div className="flex items-center justify-center">
+          <QRCode size={256} value={qrValue} />
+        </div>
       ) : (
         <p className="text-red-500">QR Code not found!</p>
       )}

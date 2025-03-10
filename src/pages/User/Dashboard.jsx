@@ -5,7 +5,7 @@ import QrReader from "../../components/QrReader";
 import LeafletUser from "../../components/Leaflet/User";
 import RectangleButton from "../../components/RectangleButton";
 import { AuthContext } from "../../context/AuthContext";
-import { apiFetch } from "../../utils/api";
+import { fetchAPI } from "../../utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -62,7 +62,7 @@ const DashboardUser = () => {
       const now = new Date();
       const formattedTime = now.toLocaleTimeString("en-GB");
 
-      const response = await apiFetch("attendance", "POST", {
+      const response = await fetchAPI("/attendance", "POST", {
         user_id: user.id,
         opd_id: user.opd_id,
         qrcode_value: qrCode,

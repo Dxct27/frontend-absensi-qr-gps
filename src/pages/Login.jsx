@@ -1,6 +1,7 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
+import { loginUser, googleLogin } from "../utils/api"; // ✅ Correct
 import InputLabeled from "../components/InputLabeled";
 import OvalButton from "../components/OvalButton";
 import LogoKominfo from "../assets/logo-kominfo.jpg";
@@ -9,43 +10,25 @@ import LogoGoogle from "../assets/logo-google.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
-
-  const API_BASE_URL = import.meta.env.VITE_BASE_URL_API;
 
   // Handle standard email/password login
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("token", data.token); // Store token in local storage
-        login(data.user, data.token); // Store user session
-        navigate(data.user.group === "admin" ? "/adminPanel" : "/dashboard");
-      } else {
-        alert("Login failed: " + data.message);
-      }
+      const data = await loginUser({ email, password });
+      localStorage.setItem("token", data.token);
+      login(data.user, data.token);
+      navigate(data.user.group === "admin" ? "/adminPanel" : "/dashboard");
     } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred. Please try again.");
+      alert("Login failed: " + error.message);
     }
   };
 
-  // Handle Google OAuth login
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
+    googleLogin();
   };
 
   return (
@@ -58,9 +41,7 @@ const Login = () => {
           <InputLabeled
             label="Email"
             placeholder="Email"
-            name="email"
             type="email"
-            id="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -68,16 +49,14 @@ const Login = () => {
           <InputLabeled
             label="Password"
             placeholder="Password"
-            name="password"
             type="password"
-            id="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className="w-full flex justify-between">
             <div className="flex items-center gap-2">
-              <input type="checkbox" name="rememberMe" id="rememberMe" />
+              <input type="checkbox" id="rememberMe" />
               <label htmlFor="rememberMe" className="font-semibold">
                 Remember me
               </label>
@@ -90,12 +69,12 @@ const Login = () => {
             </a>
           </div>
 
-          <OvalButton type="submit" className="bg-white">
-            Login
+          <OvalButton type="submit" className="bg-white" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </OvalButton>
         </form>
 
-        <hr className="h=-1 w-full border border-gray-400" />
+        <hr className="w-full border border-gray-400" />
 
         <OvalButton onClick={handleGoogleLogin}>
           <img

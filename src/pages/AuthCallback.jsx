@@ -6,7 +6,7 @@ import axios from "axios";
 axios.defaults.headers.common["ngrok-skip-browser-warning"] = "420690";
 
 const AuthCallback = () => {
-  const { login } = useContext(AuthContext);
+  const { handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const AuthCallback = () => {
           console.log("User Data Retrieved:", data);
 
           if (data.group) {
-            login(data, token);
+            handleLogin({ user: data, token });
             navigate(data.group === "admin" ? "/adminPanel" : "/dashboard");
           } else {
             console.error("Invalid user data format:", data);

@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import QRCodeComponent from "../../components/QRCodeComponent";
 import LayoutAdmin from "../../components/Layout/Admin";
 import InputLabeled from "../../components/InputLabeled";
 import LeafletAdmin from "../../components/Leaflet/Admin";
 import RectangleButton from "../../components/RectangleButton";
-import axios from "axios";
-
-const API_URL = import.meta.env.VITE_BASE_URL_API;
+import { fetchAPI } from "../../utils/api";
 
 const QRCodeCreate = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [formData, setFormData] = useState({
@@ -16,13 +17,48 @@ const QRCodeCreate = () => {
     radius: "50",
     waktuMulai: "",
     waktuAkhir: "",
-    latitude: null,
-    longitude: null,
+    latitude: "",
+    longitude: "",
   });
 
   const [qrValue, setQrValue] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false); // 🔥 Force UI re-render
+
+  useEffect(() => {
+    if (id) {
+      const fetchQRCode = async () => {
+        try {
+          console.log("Fetching QR Code with ID:", id);
+          const data = await fetchAPI(`/qrcodes/${id}`);
+          console.log("Fetched Data:", data);
+
+          if (!data || Object.keys(data).length === 0) {
+            throw new Error("Empty response received");
+          }
+
+          setFormData({
+            name: data.name || "",
+            radius: data.radius ? data.radius.toString() : "50",
+            waktuMulai: data.waktu_awal ? data.waktu_awal.split("T")[1].slice(0, 5) : "",
+            waktuAkhir: data.waktu_akhir ? data.waktu_akhir.split("T")[1].slice(0, 5) : "",
+            latitude: data.latitude ?? "",
+            longitude: data.longitude ?? "",
+          });
+
+          console.log("Updated Form Data:", formData);
+          setQrValue(data.value || null);
+          setIsLoaded(true); // 🔥 Trigger re-render
+        } catch (err) {
+          console.error("QR Fetch Error:", err);
+          setError("Failed to load QR code details");
+        }
+      };
+
+      fetchQRCode();
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +80,6 @@ const QRCodeCreate = () => {
     setLoading(true);
     setError(null);
 
-    // Validation: waktuMulai & waktuAkhir cannot be empty
     if (!formData.waktuMulai || !formData.waktuAkhir) {
       setError("Waktu Mulai dan Waktu Akhir harus diisi!");
       setLoading(false);
@@ -63,32 +98,60 @@ const QRCodeCreate = () => {
       waktu_akhir: `${currentDate} ${formData.waktuAkhir}:00`,
     };
 
-    console.log("Payload being sent:", payload);
-
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(`${API_URL}/qrcodes`, payload, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      if (id) {
+        await fetchAPI(`/qrcodes/${id}`, "PUT", payload);
+      } else {
+        const response = await fetchAPI("/qrcodes", "POST", payload);
+        setQrValue(response.value);
+      }
 
-      setQrValue(response.data.value);
-      window.location.href = "/qrcode";
+      navigate("/qrcode");
     } catch (err) {
-      console.error("Error response:", err.response);
-      setError("Failed to create QR code");
+      setError("Failed to save QR code");
     }
 
     setLoading(false);
   };
 
+  console.log("Rendering with formData:", formData); // Debug UI update
+
   return (
     <LayoutAdmin>
       <div className="flex flex-col py-5">
         <div className="md:grid md:grid-cols-2 gap-5">
-          <InputLabeled label="Nama Kode QR" name="name" value={formData.name} onChange={handleChange} />
-          <InputLabeled label="Radius valid absen (meter)" name="radius" value={formData.radius} onChange={handleChange} />
-          <InputLabeled label="Waktu Mulai" name="waktuMulai" type="time" value={formData.waktuMulai} onChange={handleChange} required />
-          <InputLabeled label="Waktu Akhir" name="waktuAkhir" type="time" value={formData.waktuAkhir} onChange={handleChange} required />
+          {isLoaded && (
+            <>
+              <InputLabeled
+                label="Nama Kode QR"
+                name="name"
+                value={formData.name || ""}
+                onChange={handleChange}
+              />
+              <InputLabeled
+                label="Radius valid absen (meter)"
+                name="radius"
+                value={formData.radius || ""}
+                onChange={handleChange}
+              />
+              <InputLabeled
+                label="Waktu Mulai"
+                name="waktuMulai"
+                type="time"
+                value={formData.waktuMulai || ""}
+                onChange={handleChange}
+                required
+              />
+              <InputLabeled
+                label="Waktu Akhir"
+                name="waktuAkhir"
+                type="time"
+                value={formData.waktuAkhir || ""}
+                onChange={handleChange}
+                required
+              />
+            </>
+          )}
         </div>
 
         <LeafletAdmin onLocationChange={handleLocationChange} />
@@ -96,13 +159,13 @@ const QRCodeCreate = () => {
         {error && <p className="text-red-500 mt-2">{error}</p>}
 
         <RectangleButton onClick={handleSubmit} disabled={loading}>
-          {loading ? "Generating..." : "Buat Kode QR"}
+          {loading ? "Processing..." : id ? "Update QR Code" : "Buat Kode QR"}
         </RectangleButton>
 
-        {qrValue && (
+        {qrValue && id && (
           <div className="mt-5">
-            <h3 className="text-lg font-bold">Generated QR Code:</h3>
-            <QRCodeComponent value={qrValue} />
+            <h3 className="text-lg font-bold">QR Code:</h3>
+            <QRCodeComponent qrCodeId={id} />
           </div>
         )}
       </div>

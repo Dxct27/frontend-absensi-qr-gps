@@ -17,11 +17,12 @@ const InputLabeled = forwardRef(
       type,
       id,
       required,
-      defaultValue,
+      value,
       paddingY,
     },
     ref
   ) => {
+    
     // `ref` diambil dari parameter kedua
     return (
       <div className="w-full flex flex-col mb-2">
@@ -31,7 +32,7 @@ const InputLabeled = forwardRef(
         <Input
           readOnly={readOnly}
           onChange={onChange}
-          defaultValue={defaultValue}
+          value={value}
           textSize={textSize}
           paddingY={paddingY}
           ref={ref}

@@ -1,48 +1,63 @@
-import { createContext, useState, useEffect } from "react";
-import axios from "axios";
+import { createContext, useContext, useState, useEffect } from "react";
+import { getUser, loginUser, logoutUser, googleLogin } from "../utils/api";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
+    const fetchUser = async () => {
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      try {
+        const userData = await getUser();
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData)); // ✅ Store user data
+        // console.log("User data:", userData);
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+        logout(); // ✅ Logout if token is invalid
+      }
+      setLoading(false);
+    };
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
-    }
-    setLoading(false);
-  }, []);
+    fetchUser();
+  }, [token]);
 
-  const login = (userData, authToken) => {
-    setUser(userData);
-    setToken(authToken);
-
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", authToken);
-
-    axios.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
+  const handleLogin = async ({ user, token }) => {
+    setToken(token);
+    setUser(user);
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user)); // ✅ Persist user data
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await logoutUser();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
     setUser(null);
     setToken(null);
-
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
-
-    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
-      {!loading && children}
+    <AuthContext.Provider value={{ user, token, loading, handleLogin, logout, googleLogin }}>
+      {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);

@@ -6,7 +6,6 @@ import { AuthContext } from "./context/AuthContext";
 import Login from "./pages/Login";
 import DashboardAdmin from "./pages/Admin/Dashboard";
 import QRCodePage from "./pages/Admin/QRCodeHome";
-import Attendance from "./pages/Admin/Attendance";
 import DashboardUser from "./pages/User/Dashboard";
 import LeavePermission from "./pages/User/LeavePermission";
 import AttendanceHistory from "./pages/User/AttendanceHistory";
@@ -27,8 +26,8 @@ function App() {
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/adminPanel" element={<DashboardAdmin />} />
         <Route path="/qrcode" element={<QRCodePage />} />
-        <Route path="/attendance" element={<Attendance />} />
-        <Route path="/qrcodecreate" element={<QRCodeCreate />} />
+        <Route path="/qrcode/create" element={<QRCodeCreate />} />
+        <Route path="/qrcode/edit/:id" element={<QRCodeCreate />} />
       </Route>
 
       {/* User Routes (Protected) */}

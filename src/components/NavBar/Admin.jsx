@@ -1,21 +1,18 @@
-import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"; // Use useAuth hook
 import LogoKominfo from "../../assets/logo-kominfo.png";
-import { apiFetch } from "../../utils/api";
 
 const NavBarAdmin = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const handleLogout = async () => {
     try {
-      await apiFetch("auth/logout", "POST"); // Use API helper function
-      localStorage.removeItem("token"); // Clear token
-      logout();
+      await logout(); // ✅ Standardized logout function
     } catch (error) {
-      alert("Logout failed!");
+      console.error("Logout failed!", error);
+      alert("Logout failed! Please try again.");
     }
   };
 
@@ -38,7 +35,7 @@ const NavBarAdmin = () => {
     <nav className="bg-gray-500 border-gray-200">
       <div className="w-full flex flex-wrap items-center justify-between p-4">
         {/* Logo & Title */}
-        <Link to="/admin" className="flex items-center space-x-3">
+        <Link to="#" className="flex items-center space-x-3">
           <img src={LogoKominfo} className="h-[5vh]" alt="Kominfo" />
           <span className="text-2xl font-semibold text-white">
             Absensi Admin
@@ -75,18 +72,13 @@ const NavBarAdmin = () => {
         >
           <ul className="flex flex-col md:flex-row md:space-x-6 bg-gray-600 text-white rounded-lg md:bg-gray-500 p-4 md:p-0">
             <li>
-              <Link to="/admin" className="hover:text-gray-300">
+              <Link to="/adminpanel" className="hover:text-gray-300">
                 Dashboard
               </Link>
             </li>
             <li>
               <Link to="/qrcode" className="hover:text-gray-300">
                 QR
-              </Link>
-            </li>
-            <li>
-              <Link to="/attendance" className="hover:text-gray-300">
-                Absensi
               </Link>
             </li>
 
@@ -100,7 +92,7 @@ const NavBarAdmin = () => {
             {/* Logout Button */}
             <li>
               <button
-                onClick={handleLogout}
+                onClick={handleLogout} // ✅ Call the function properly
                 className="text-white hover:text-red-400 transition"
               >
                 🚪 Log Out

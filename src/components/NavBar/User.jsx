@@ -1,21 +1,19 @@
-import { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import LogoKominfo from "../../assets/logo-kominfo.png";
-import { apiFetch } from "../../utils/api";
+import { useAuth } from "../../context/AuthContext"; // ✅ Import useAuth
 
 const NavBarUser = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const { user, logout } = useAuth(); // ✅ Use `handleLogout`
 
+  // ✅ Fix Logout Handler
   const handleLogout = async () => {
     try {
-      await apiFetch("auth/logout", "POST"); // Use API helper function
-      localStorage.removeItem("token"); // Clear token
-      logout();
+      await logout(); // ✅ Correct function name
     } catch (error) {
-      alert("Logout failed!");
+      console.error("Logout failed!", error);
+      alert("Logout failed! Please try again.");
     }
   };
 
@@ -82,7 +80,7 @@ const NavBarUser = () => {
             {/* Logout Button */}
             <li>
               <button
-                onClick={handleLogout}
+                onClick={handleLogout} // ✅ Call the function properly
                 className="text-white hover:text-red-400 transition"
               >
                 🚪 Log Out

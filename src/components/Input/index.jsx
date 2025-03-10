@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 
 const Input = forwardRef(
   (
@@ -8,6 +8,7 @@ const Input = forwardRef(
       placeholder,
       onChange = () => {},
       icon,
+      value, // Add value prop
       defaultValue = "",
       textSize = "",
       paddingY = "py-4",
@@ -18,13 +19,6 @@ const Input = forwardRef(
     },
     ref
   ) => {
-    const [inputValue, setInputValue] = useState(defaultValue);
-
-    const handleChange = (e) => {
-      setInputValue(e.target.value); // Update local state
-      onChange(e); // Call the passed-in onChange function
-    };
-
     return (
       <div className="relative items-center">
         {icon && (
@@ -33,8 +27,8 @@ const Input = forwardRef(
           </span>
         )}
         <input
-          value={inputValue}
-          onChange={handleChange} 
+          value={value !== undefined ? value : defaultValue} // Controlled input
+          onChange={onChange} // No need for local state
           ref={ref}
           readOnly={readOnly}
           name={name}
