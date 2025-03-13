@@ -10,6 +10,7 @@ import Label from "../../components/Label";
 import RectangleButton from "../../components/RectangleButton";
 import { fetchAPI } from "../../utils/api";
 import { useAuth } from "../../context/AuthContext"; // Import AuthContext
+import { useNavigate } from "react-router-dom"; // Import for redirection
 
 registerLocale("id", id);
 
@@ -23,6 +24,7 @@ const LeavePermission = () => {
   const [notes, setNotes] = useState("");
   const [attachment, setAttachment] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate function
 
   const handleSubmit = async () => {
     if (!leaveType) {
@@ -36,22 +38,35 @@ const LeavePermission = () => {
 
     setLoading(true);
     try {
-      const requestData = {
-        user_id: user.id,
-        opd_id: user.opd_id,
-        date: startDate.toISOString().split("T")[0],
-        timestamp: "00:00:00",
-        status: leaveType.toLowerCase(),
-        notes,
-      };
+      const formData = new FormData();
+      formData.append("user_id", user.id);
+      formData.append("opd_id", user.opd_id);
+      formData.append("date", startDate.toISOString().split("T")[0]);
+      formData.append("status", leaveType.toLowerCase());
+      formData.append("notes", notes);
+      const currentTimestamp = new Date().toLocaleTimeString("id-ID", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      formData.append("timestamp", currentTimestamp);
+      if (attachment) {
+        formData.append("attachment", attachment);
+      }
+      console.log("Form data:", formData);
 
-      const response = await fetchAPI("/attendance", "POST", requestData);
+      const response = await fetchAPI("/leave-request", "POST", formData, true); // true for FormData support
 
       toast.success("Izin berhasil diajukan!");
+      setTimeout(() => {
+        navigate("/dashboard"); // Adjust the path as needed
+      }, 2000);
       console.log(response);
     } catch (error) {
       console.error("Error submitting leave request:", error);
-      const errorMessage = error.response?.data?.message || "Gagal mengajukan izin. Coba lagi.";
+      const errorMessage =
+        error.response?.data?.message || "Gagal mengajukan izin. Coba lagi.";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -63,10 +78,10 @@ const LeavePermission = () => {
       <ToastContainer /> {/* Add this to enable toast notifications */}
       <h2>Pengajuan Ijin Baru</h2>
       <div className="md:grid md:grid-cols-2 gap-4">
-        <div className="col-span-1">
+        <div className="col-span-1 flex flex-col gap-4">
           <Dropdown options={options} onSelect={setLeaveType} />
           <div className="flex flex-col">
-            <Label>Tanggal Awal</Label>
+            <Label>Tanggal</Label>
             <DatePicker
               className="border px-2 py-1"
               showIcon
@@ -76,23 +91,19 @@ const LeavePermission = () => {
               onChange={(date) => setStartDate(date)}
             />
           </div>
-          <div className="flex flex-col">
-            <Label>Tanggal Akhir (Opsional)</Label>
-            <DatePicker
-              className="border px-2 py-1"
-              showIcon
-              locale="id"
-              dateFormat={"dd/MM/yyyy"}
-              placeholderText="dd/mm/yyyy"
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
+            <InputLabeled
+              className="h-screen"
+              label="Keterangan"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
             />
-          </div>
         </div>
         <div className="cols-span-1 flex flex-col gap-4">
-          <InputLabeled label="Keterangan" value={notes} onChange={(e) => setNotes(e.target.value)} />
-          <Label>Lampiran (Belum Dikirim)</Label>
-          <input type="file" onChange={(e) => setAttachment(e.target.files[0])} />
+          <Label>Lampiran</Label>
+          <input
+            type="file"
+            onChange={(e) => setAttachment(e.target.files[0])}
+          />
           <RectangleButton
             className="w-fit bg-blue-500 text-white border-2 border-black px-5"
             onClick={handleSubmit}

@@ -10,14 +10,14 @@ const statusColors = {
   terlambat: "bg-yellow-200",
   izin: "bg-blue-200",
   sakit: "bg-purple-200",
-  absen: "bg-red-200",
+  A: "bg-red-200",
   empty: "bg-gray-100",
 };
 
 const daysOfWeek = ["S", "S", "R", "K", "J", "S", "M"];
 
-const UserHistory = ({ selectedDate, attendanceData }) => {
-  console.log("Rendering UserHistory with data:", attendanceData);
+const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
+  console.log("Rendering UserDailyAttendanceTable with data:", attendanceData);
 
   const tableData = useMemo(() => {
     const firstDay = new Date(
@@ -37,7 +37,7 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
     startDay = startDay === 0 ? 6 : startDay - 1;
 
     for (let i = 0; i < startDay; i++) {
-      currentWeek.push({ date: "", statuses: ["empty"] });
+      currentWeek.push({ date: "", statuses: [""] });
     }
 
     for (let day = 1; day <= lastDay.getDate(); day++) {
@@ -48,7 +48,19 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
         .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
 
       const attendance = attendanceData.filter((a) => a.date === dateStr);
-      const statuses = attendance.length > 0 ? attendance.map((a) => a.status) : ["-"];
+
+      const today = new Date().toISOString().split("T")[0];
+
+      const dayObj = new Date(dateStr);
+      const isWeekday = dayObj.getDay() !== 0 && dayObj.getDay() !== 6;
+      const isPast = dayObj < new Date(today);
+
+      const statuses =
+        attendance.length > 0
+          ? attendance.map((a) => a.status)
+          : isWeekday && isPast
+            ? ["A"]
+            : ["-"];
 
       currentWeek.push({ date: dateStr, statuses });
 
@@ -59,7 +71,7 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
     }
 
     while (currentWeek.length < 7) {
-      currentWeek.push({ date: "", statuses: ["empty"] });
+      currentWeek.push({ date: "", statuses: [""] });
     }
     weeks.push(currentWeek);
 
@@ -76,8 +88,8 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
               index === 5 || index === 6
                 ? "text-red-500"
                 : index === 4
-                ? "text-green-500"
-                : "text-gray-700"
+                  ? "text-green-500"
+                  : "text-gray-700"
             }`}
           >
             {day}
@@ -86,7 +98,7 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
         cell: ({ getValue }) => {
           const cellData = getValue();
           let textColor = "";
-          let bgColor = "";
+          let bgColor = cellData.date ? "bg-gray-200" : "";
 
           if (cellData.date) {
             if (index === 5 || index === 6) textColor = "text-red-500";
@@ -94,7 +106,7 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
           }
 
           return (
-            <div className="p-2 text-center flex flex-col">
+            <div className={`p-2 text-center flex flex-col ${bgColor}`}>
               {cellData.date && (
                 <div className={`font-bold ${textColor}`}>
                   {new Date(cellData.date).getDate()}
@@ -105,7 +117,7 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
                   <div
                     key={i}
                     className={`px-2 py-1 text-xs rounded ${
-                      statusColors[status] || "bg-gray-100"
+                      statusColors[status]
                     }`}
                   >
                     {status.charAt(0).toUpperCase()}
@@ -162,4 +174,4 @@ const UserHistory = ({ selectedDate, attendanceData }) => {
   );
 };
 
-export default UserHistory;
+export default UserDailyAttendanceTable;

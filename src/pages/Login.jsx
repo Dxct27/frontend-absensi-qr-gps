@@ -1,34 +1,41 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { loginUser, googleLogin } from "../utils/api"; // ✅ Correct
+import { loginUser, googleLogin, yahooLogin } from "../utils/api";
 import InputLabeled from "../components/InputLabeled";
 import OvalButton from "../components/OvalButton";
 import LogoKominfo from "../assets/logo-kominfo.jpg";
 import LogoGoogle from "../assets/logo-google.png";
+import LogoYahoo from "../assets/logo-yahoo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { handleLogin } = useAuth();
   const navigate = useNavigate();
 
   // Handle standard email/password login
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const data = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
-      login(data.user, data.token);
+      handleLogin({ user: data.user, token: data.token });
       navigate(data.user.group === "admin" ? "/adminPanel" : "/dashboard");
     } catch (error) {
       alert("Login failed: " + error.message);
     }
+    setLoading(false);
   };
 
   const handleGoogleLogin = () => {
     googleLogin();
+  };
+
+  const handleYahooLogin = () => {
+    yahooLogin();
   };
 
   return (
@@ -83,6 +90,15 @@ const Login = () => {
             alt="Google"
           />
           Login with Google
+        </OvalButton>
+
+        <OvalButton onClick={handleYahooLogin}>
+          <img
+            src={LogoYahoo}
+            style={{ height: 24, paddingRight: 5 }}
+            alt="Yahoo"
+          />
+          Login with Yahoo
         </OvalButton>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getUser, loginUser, logoutUser, googleLogin } from "../utils/api";
+import { getUserData, logoutUser, googleLogin } from "../utils/api";
 
 export const AuthContext = createContext();
 
@@ -20,9 +20,9 @@ export const AuthProvider = ({ children }) => {
         return;
       }
       try {
-        const userData = await getUser();
-        setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData)); // ✅ Store user data
+        const Data = await getUserData();
+        setUser(Data.user);
+        localStorage.setItem("user", JSON.stringify(Data));
         // console.log("User data:", userData);
       } catch (error) {
         console.error("Failed to fetch user:", error);
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     setToken(token);
     setUser(user);
     localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user)); // ✅ Persist user data
+    localStorage.setItem("user", JSON.stringify(user));
   };
 
   const logout = async () => {

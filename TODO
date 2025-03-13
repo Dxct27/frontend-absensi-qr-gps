@@ -1,0 +1,35 @@
+DONE: 
+yahoo oauth 
+excel export 
+set user password after oauth login
+
+TODO:
+
+auto create?
+
+handle file upload done --view file belom
+docs
+
+User Dashboard --when already scan and waiting for api req add loading munyer? UI/UX
+
+no such thing as leave permission on daily shit on weekend
+
+handle lokasi --wajib "pastikan lokasi Anda sesuai/tepat/something else"
+
+qrpage admin show current active qr and add history (page?) for previous
+
+admin detail can see where barcode scanned (?)
+
+MIGRATION ATTENDANCE TABLE ADD COLUMN
+
+qrhistorypageee --list
+in this page, add filter for daily and event
+
+event --dinas penyelenggara, peserta dari dinas mana.
+
+user history add for event (list saja buat event).
+
+MODALLL
+QRFormModal
+userleavepermissionmodal
+crud qr modalll

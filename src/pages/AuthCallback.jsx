@@ -22,12 +22,15 @@ const AuthCallback = () => {
         })
         .then(({ data }) => {
           console.log("User Data Retrieved:", data);
+          if (!data.has_password) {
+            localStorage.setItem("showSetPasswordModal", "true");
+          }
 
-          if (data.group) {
-            handleLogin({ user: data, token });
+          if (data.user.group) {
+            handleLogin({ user: data.user, token });
             navigate(data.group === "admin" ? "/adminPanel" : "/dashboard");
           } else {
-            console.error("Invalid user data format:", data);
+            console.error("Invalid user data format:", data.user);
             navigate("/");
           }
         })

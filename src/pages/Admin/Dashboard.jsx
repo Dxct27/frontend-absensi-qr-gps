@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LayoutAdmin from "../../components/Layout/Admin";
-import AttendanceHistoryTable from "../../components/Table/AttendanceHistory";
+import AdminDailyAttendance from "../../components/Table/AdminDailyAttendance";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { id } from "date-fns/locale/id";
 import "react-datepicker/dist/react-datepicker.css";
@@ -39,8 +39,6 @@ const DashboardAdmin = () => {
     }
 
     setFilterType(newFilterType);
-
-    // Determine the range of dates for the selected filter
     const startDate =
       newFilterType === "weekly"
         ? startOfWeek(dateToSend, { weekStartsOn: 1 })
@@ -98,10 +96,11 @@ const DashboardAdmin = () => {
         <p className="font-semibold">Filter:</p>
         <div className="flex flex-col md:flex-row gap-2 mb-4">
           <div>
-            <p>Daily (Default)</p>
+            <p>Hari</p>
             <DatePicker
               className="border px-2 py-1"
               selected={selectedDate}
+              placeholderText="Pilih Tanggal"
               onChange={(date) => {
                 setSelectedDate(date);
                 setMonthDate(null);
@@ -112,12 +111,13 @@ const DashboardAdmin = () => {
             />
           </div>
           <div>
-            <p>Per Week</p>
+            <p>Minggu</p>
             <DatePicker
               className="border px-2 py-1"
               showWeekPicker
               showWeekNumbers
               selected={weekDate}
+              placeholderText="Pilih Minggu"
               onChange={(date) => {
                 setWeekDate(date);
                 setMonthDate(null);
@@ -128,11 +128,12 @@ const DashboardAdmin = () => {
             />
           </div>
           <div>
-            <p>Per Month</p>
+            <p>Bulan</p>
             <DatePicker
               className="border px-2 py-1"
               showMonthYearPicker
               selected={monthDate}
+              placeholderText="Pilih Bulan"
               onChange={(date) => {
                 setMonthDate(date);
                 setWeekDate(null);
@@ -147,7 +148,7 @@ const DashboardAdmin = () => {
         {loading ? (
           <p>Loading attendance data...</p>
         ) : (
-          <AttendanceHistoryTable
+          <AdminDailyAttendance
             attendanceData={attendanceData}
             users={users}
             days={days}

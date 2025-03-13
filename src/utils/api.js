@@ -1,17 +1,17 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL; // Raw backend URL
-const API_BASE_URL = `${BASE_URL}/api`; // Append "/api" for API requests
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const API_BASE_URL = `${BASE_URL}/api`;
 
-export const fetchAPI = async (endpoint, method = "GET", body = null) => {
+export const fetchAPI = async (endpoint, method = "GET", body = null, isFormData = false) => {
   const token = localStorage.getItem("token");
 
   const options = {
     method,
     headers: {
       "ngrok-skip-browser-warning": "42046",
-      "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
+      ...(!isFormData && { "Content-Type": "application/json" }),
     },
-    ...(body && { body: JSON.stringify(body) }),
+    ...(body && { body: isFormData ? body : JSON.stringify(body) }),
   };
 
   try {
@@ -21,7 +21,7 @@ export const fetchAPI = async (endpoint, method = "GET", body = null) => {
     if (!response.ok) {
       if (response.status === 401) {
         localStorage.removeItem("token");
-        window.location.href = "/"; // Redirect on unauthorized
+        window.location.href = "/";
       }
       throw new Error(data.message || "Something went wrong");
     }
@@ -33,14 +33,17 @@ export const fetchAPI = async (endpoint, method = "GET", body = null) => {
   }
 };
 
-// Authentication API calls
+
 export const loginUser = (credentials) => fetchAPI("/auth/login", "POST", credentials);
-export const getUser = () => fetchAPI("/user");
+export const getUserData = () => fetchAPI("/user");
 export const logoutUser = () => fetchAPI("/auth/logout", "POST");
 
-// Google OAuth redirection
 export const googleLogin = () => {
-  window.location.href = `${BASE_URL}/auth/google`; // Use raw BASE_URL (no "/api")
+  window.location.href = `${BASE_URL}/auth/google`;
+};
+
+export const yahooLogin = () => {
+  window.location.href = `${BASE_URL}/auth/yahoo`;
 };
 
 export const exchangeToken = async () => {

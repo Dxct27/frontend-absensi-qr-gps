@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchAPI } from "../../utils/api";
-import UserHistory from "../../components/Table/UserHistory";
+import UserDailyAttendanceTable from "../../components/Table/UserDailyAttendance";
 import { AuthContext } from "../../context/AuthContext";
 import LayoutUser from "../../components/Layout/User";
 import Card from "../../components/Card"; // Import Card component
@@ -76,7 +76,7 @@ const AttendanceHistory = () => {
         {loading ? (
           <p>Loading data...</p>
         ) : (
-          <UserHistory
+          <UserDailyAttendanceTable
             selectedDate={selectedDate}
             attendanceData={attendanceData}
           />

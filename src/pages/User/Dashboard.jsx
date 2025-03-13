@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { fetchAPI } from "../../utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SetPasswordModal from "../../components/Modal/SetPasswordModal";
 
 const DashboardUser = () => {
   const { user } = useContext(AuthContext);
@@ -16,8 +17,13 @@ const DashboardUser = () => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const hasSubmitted = useRef(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    const shouldShowModal = localStorage.getItem("showSetPasswordModal");
+    if (shouldShowModal === "true") {
+      setIsModalOpen(true);
+    }
     const today = new Date();
     const formattedDate = today.toLocaleDateString("id-ID", {
       weekday: "long",
@@ -34,6 +40,21 @@ const DashboardUser = () => {
       submitAttendance(scannedQr, location);
     }
   }, [scannedQr, location]);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    localStorage.removeItem("showSetPasswordModal");
+  };
+
+  // DELETE LATER: for debugging modal only also delete Modal button
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleSuccessModal = () => {
+    toast.success("Password berhasil disimpan");
+    setIsModalOpen(false);
+  };
 
   const handleQrScan = (qrValue) => {
     if (!hasSubmitted.current) {
@@ -96,6 +117,9 @@ const DashboardUser = () => {
 
   return (
     <LayoutUser>
+      {isModalOpen && (
+        <SetPasswordModal isOpen={isModalOpen} onClose={handleCloseModal} onSuccess={handleSuccessModal} />
+      )}
       <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-md">
         <h2 className="text-lg font-semibold">
           Halo, {user?.name || "User"} 👋
@@ -112,6 +136,8 @@ const DashboardUser = () => {
           <Link to="/attendanceHistory">
             <RectangleButton>Riwayat Absen</RectangleButton>
           </Link>
+          {/* Modal Button */}
+          <RectangleButton onClick={handleOpenModal}>Modal</RectangleButton>
         </div>
 
         <div className="col-span-2 px-5">

@@ -14,7 +14,7 @@ const LeafletUser = ({ onLocationUpdate }) => {
             lng: location.coords.longitude,
           };
           setPosition([coords.lat, coords.lng]);
-          onLocationUpdate(coords); // Send location to parent component
+          onLocationUpdate(coords);
         },
         (error) => {
           console.error("Error fetching location:", error);

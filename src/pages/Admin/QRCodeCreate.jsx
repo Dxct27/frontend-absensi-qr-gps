@@ -14,7 +14,7 @@ const QRCodeCreate = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    radius: "50",
+    radius: "",
     waktuMulai: "",
     waktuAkhir: "",
     latitude: "",
@@ -49,7 +49,7 @@ const QRCodeCreate = () => {
 
           console.log("Updated Form Data:", formData);
           setQrValue(data.value || null);
-          setIsLoaded(true); // 🔥 Trigger re-render
+          setIsLoaded(true);
         } catch (err) {
           console.error("QR Fetch Error:", err);
           setError("Failed to load QR code details");
@@ -57,6 +57,8 @@ const QRCodeCreate = () => {
       };
 
       fetchQRCode();
+    } else {
+      setIsLoaded(true);
     }
   }, [id]);
 
@@ -125,12 +127,14 @@ const QRCodeCreate = () => {
               <InputLabeled
                 label="Nama Kode QR"
                 name="name"
+                placeholder="Misal: Absen Pagi"
                 value={formData.name || ""}
                 onChange={handleChange}
               />
               <InputLabeled
                 label="Radius valid absen (meter)"
                 name="radius"
+                placeholder="Misal: 50"
                 value={formData.radius || ""}
                 onChange={handleChange}
               />
