@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LayoutUser from "../../components/Layout/User";
 import QrReader from "../../components/QrReader";
 import LeafletUser from "../../components/Leaflet/User";
@@ -9,6 +9,7 @@ import { fetchAPI } from "../../utils/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SetPasswordModal from "../../components/Modal/SetPasswordModal";
+import LeavePermissionModal from "../../components/Modal/LeavePermissionModal";
 
 const DashboardUser = () => {
   const { user } = useContext(AuthContext);
@@ -17,12 +18,14 @@ const DashboardUser = () => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const hasSubmitted = useRef(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const shouldShowModal = localStorage.getItem("showSetPasswordModal");
     if (shouldShowModal === "true") {
-      setIsModalOpen(true);
+      setIsPasswordModalOpen(true);
     }
     const today = new Date();
     const formattedDate = today.toLocaleDateString("id-ID", {
@@ -41,19 +44,14 @@ const DashboardUser = () => {
     }
   }, [scannedQr, location]);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleClosePasswordModal = () => {
+    setIsPasswordModalOpen(false);
     localStorage.removeItem("showSetPasswordModal");
   };
 
-  // DELETE LATER: for debugging modal only also delete Modal button
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleSuccessModal = () => {
+  const handleSuccessPasswordModal = () => {
     toast.success("Password berhasil disimpan");
-    setIsModalOpen(false);
+    setIsPasswordModalOpen(false);
   };
 
   const handleQrScan = (qrValue) => {
@@ -93,20 +91,26 @@ const DashboardUser = () => {
         longitude: coords?.lng,
       });
 
-      console.log("Attendance Submitted:", response);
       toast.success("Absen berhasil!");
     } catch (error) {
       console.error("Attendance Error:", error);
 
-      if (error.response?.status === 400) {
-        const message = error.response.data?.message;
-        if (message && message.includes("Anda sudah absen sebelumnya")) {
-          toast.warning("Anda sudah absen sebelumnya!");
+      if (error.response) {
+        const errorData = error.response.data;
+
+        if (errorData.message) {
+          toast.error(errorData.message);
+        } else if (errorData.error) {
+          toast.error(errorData.error);
+        } else if (errorData.errors) {
+          Object.values(errorData.errors).forEach((msg) => {
+            toast.error(msg[0]); // Show the first validation error message
+          });
         } else {
-          toast.error("Absen gagal! " + message);
+          toast.error("Terjadi kesalahan saat absen.");
         }
       } else {
-        toast.error("Absen gagal! " + (error.message || "Terjadi kesalahan."));
+        toast.error("Gagal menghubungi server.");
       }
 
       hasSubmitted.current = false;
@@ -117,9 +121,21 @@ const DashboardUser = () => {
 
   return (
     <LayoutUser>
-      {isModalOpen && (
-        <SetPasswordModal isOpen={isModalOpen} onClose={handleCloseModal} onSuccess={handleSuccessModal} />
+      {isPasswordModalOpen && (
+        <SetPasswordModal
+          isOpen={isPasswordModalOpen}
+          onClose={handleClosePasswordModal}
+          onSuccess={handleSuccessPasswordModal}
+        />
       )}
+
+      {isLeaveModalOpen && (
+        <LeavePermissionModal
+          isOpen={isLeaveModalOpen}
+          onClose={() => setIsLeaveModalOpen(false)}
+        />
+      )}
+
       <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-md">
         <h2 className="text-lg font-semibold">
           Halo, {user?.name || "User"} 👋
@@ -130,14 +146,12 @@ const DashboardUser = () => {
       <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
         <div className="col-span-1 flex flex-col px-5 gap-4">
           <QrReader onScan={handleQrScan} />
-          <Link to="/leavePermission">
-            <RectangleButton>Ajukan Ijin</RectangleButton>
-          </Link>
-          <Link to="/attendanceHistory">
-            <RectangleButton>Riwayat Absen</RectangleButton>
-          </Link>
-          {/* Modal Button */}
-          <RectangleButton onClick={handleOpenModal}>Modal</RectangleButton>
+          <RectangleButton onClick={() => setIsLeaveModalOpen(true)}>
+            Ajukan Ijin
+          </RectangleButton>
+          <RectangleButton onClick={() => navigate("/attendanceHistory")}>
+            Riwayat Absen
+          </RectangleButton>
         </div>
 
         <div className="col-span-2 px-5">

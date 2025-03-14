@@ -4,10 +4,9 @@ import "./index.css";
 import Login from "./pages/Login";
 import DashboardAdmin from "./pages/Admin/Dashboard";
 import QRCodePage from "./pages/Admin/QRCodeHome";
+import QRCodeList from "./pages/Admin/QRCodeList";
 import DashboardUser from "./pages/User/Dashboard";
-import LeavePermission from "./pages/User/LeavePermission";
 import AttendanceHistory from "./pages/User/AttendanceHistory";
-import QRCodeCreate from "./pages/Admin/QRCodeCreate";
 import Clipboard from "./pages/Clipboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AuthCallback from "./pages/AuthCallback";
@@ -23,13 +22,11 @@ function App() {
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/adminPanel" element={<DashboardAdmin />} />
         <Route path="/qrcode" element={<QRCodePage />} />
-        <Route path="/qrcode/create" element={<QRCodeCreate />} />
-        <Route path="/qrcode/edit/:id" element={<QRCodeCreate />} />
+        <Route path="/qrcode/list" element={<QRCodeList />} />
       </Route>
 
       <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
         <Route path="/dashboard" element={<DashboardUser />} />
-        <Route path="/leavePermission" element={<LeavePermission />} />
         <Route path="/attendanceHistory" element={<AttendanceHistory />} />
       </Route>
     </Routes>

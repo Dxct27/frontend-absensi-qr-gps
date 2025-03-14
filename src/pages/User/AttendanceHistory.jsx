@@ -5,7 +5,7 @@ import { fetchAPI } from "../../utils/api";
 import UserDailyAttendanceTable from "../../components/Table/UserDailyAttendance";
 import { AuthContext } from "../../context/AuthContext";
 import LayoutUser from "../../components/Layout/User";
-import Card from "../../components/Card"; // Import Card component
+import Card from "../../components/Card";
 
 const AttendanceHistory = () => {
   const { user } = useContext(AuthContext);
@@ -24,7 +24,7 @@ const AttendanceHistory = () => {
     try {
       const formattedDate = selectedDate.toISOString().split("T")[0];
       const response = await fetchAPI(
-        `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly`
+        `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly&type=daily`
       );
 
       if (response && response.data) {
@@ -42,7 +42,6 @@ const AttendanceHistory = () => {
     }
   };
 
-  // 🔢 Calculate summary
   const summary = attendanceData.reduce(
     (acc, { status }) => {
       if (status === "hadir") acc.Hadir++;
@@ -60,7 +59,6 @@ const AttendanceHistory = () => {
       <div className="">
         <h2 className="text-xl font-semibold mb-4">Riwayat Absensi</h2>
 
-        {/* 📅 Date Picker */}
         <div className="mb-4">
           <label className="block text-gray-700">Pilih Tanggal:</label>
           <DatePicker
@@ -72,7 +70,6 @@ const AttendanceHistory = () => {
           />
         </div>
 
-        {/* 📊 Attendance Table */}
         {loading ? (
           <p>Loading data...</p>
         ) : (
@@ -83,7 +80,7 @@ const AttendanceHistory = () => {
         )}
       </div>
 
-      {/* 🔹 Summary Cards */}
+      {/* 
       <div className="flex flex-col md:grid md:grid-cols-4 gap-4 mb-4">
         <Card title="Hadir" subTitle="Total Kehadiran" sum={summary.Hadir} />
         <Card title="Izin" subTitle="Total Izin" sum={summary.Izin} />
@@ -94,7 +91,9 @@ const AttendanceHistory = () => {
           subTitle="Total Absen"
           sum={summary["Tidak Hadir"]}
         />
-      </div>
+      </div> 
+      */}
+
     </LayoutUser>
   );
 };

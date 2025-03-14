@@ -29,7 +29,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     >
       <div
         ref={modalRef}
-        className="relative bg-white p-6 rounded-lg shadow-lg w-96"
+        className="relative bg-white p-6 rounded-lg shadow-lg w-2/3 h-7/8 overflow-y-auto"
         style={{ zIndex: 1002 }}
       >
         <div className="flex justify-between items-center mb-4">

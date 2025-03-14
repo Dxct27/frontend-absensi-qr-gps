@@ -22,7 +22,7 @@ const Login = () => {
     try {
       const data = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
-      handleLogin({ user: data.user, token: data.token });
+      handleLogin({ user: data.user.user, token: data.token });
       navigate(data.user.group === "admin" ? "/adminPanel" : "/dashboard");
     } catch (error) {
       alert("Login failed: " + error.message);

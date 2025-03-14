@@ -1,7 +1,12 @@
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const API_BASE_URL = `${BASE_URL}/api`;
 
-export const fetchAPI = async (endpoint, method = "GET", body = null, isFormData = false) => {
+export const fetchAPI = async (
+  endpoint,
+  method = "GET",
+  body = null,
+  isFormData = false
+) => {
   const token = localStorage.getItem("token");
 
   const options = {
@@ -33,8 +38,31 @@ export const fetchAPI = async (endpoint, method = "GET", body = null, isFormData
   }
 };
 
+export const fetchQRCodes = async (endpoint = "/qrcodes", filters = {}) => {
+  try {
+    const queryParams = new URLSearchParams(filters).toString();
+    const url = queryParams ? `${endpoint}?${queryParams}` : endpoint;
 
-export const loginUser = (credentials) => fetchAPI("/auth/login", "POST", credentials);
+    const response = await fetchAPI(url);
+    console.log("Raw response:", response);
+    let qrCodes = [...response];
+
+    if (filters.onlyValid) {
+      const now = new Date();
+      qrCodes = qrCodes.filter((qr) => new Date(qr.waktu_akhir) > now);
+    }
+
+    qrCodes.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+    return qrCodes;
+  } catch (err) {
+    console.error("Error fetching QR codes:", err);
+    throw new Error("Failed to fetch QR codes");
+  }
+};
+
+export const loginUser = (credentials) =>
+  fetchAPI("/auth/login", "POST", credentials);
 export const getUserData = () => fetchAPI("/user");
 export const logoutUser = () => fetchAPI("/auth/logout", "POST");
 

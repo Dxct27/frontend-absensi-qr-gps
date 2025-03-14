@@ -1,19 +1,20 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const ProtectedRoute = ({ allowedRoles }) => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
 
-  useEffect(() => {
-  }, [user, allowedRoles]);
+  if (loading) {
+    return <div>Loading...</div>; // Prevent redirection while user data is still loading
+  }
 
   if (!user) {
     return <Navigate to="/" replace />;
   }
 
   if (allowedRoles && !allowedRoles.includes(user.group)) {
-    return <Navigate to={user.group === "admin" ? "/adminPanel" : "/dashboard"} replace />;
+    return <div>Access Denied</div>;
   }
 
   return <Outlet />;
