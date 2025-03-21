@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import LogoKominfo from "../../assets/logo-kominfo.png";
-import { useAuth } from "../../context/AuthContext"; 
 import { toast } from "react-toastify";
 
-const NavBarUser = () => {
+const NavBarSuperAdmin = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuth();
@@ -35,12 +35,14 @@ const NavBarUser = () => {
   }, []);
 
   return (
-    <nav className="bg-gray-500 border-gray-200">
+    <nav className="bg-gray-700 border-gray-200">
       <div className="w-full flex flex-wrap items-center justify-between p-4">
         {/* Logo & Title */}
-        <Link to="/" className="flex items-center space-x-3">
+        <Link to="#" className="flex items-center space-x-3">
           <img src={LogoKominfo} className="h-[5vh]" alt="Kominfo" />
-          <span className="text-2xl font-semibold text-white">Absensi</span>
+          <span className="text-2xl font-semibold text-white">
+            Super Admin Panel
+          </span>
         </Link>
 
         {/* Mobile Menu Button */}
@@ -71,7 +73,28 @@ const NavBarUser = () => {
           className={`${isOpen ? "block" : "hidden"} md:block w-full md:w-auto`}
           id="navbar-default"
         >
-          <ul className="flex flex-col md:flex-row md:space-x-6 bg-gray-600 text-white rounded-lg md:bg-gray-500 p-4 md:p-0">
+          <ul className="flex flex-col md:flex-row md:space-x-6 bg-gray-800 text-white rounded-lg md:bg-gray-700 p-4 md:p-0">
+            <li>
+              <Link to="/superadmin" className="hover:text-gray-300">
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link to="/superadmin/users" className="hover:text-gray-300">
+                Manage Users
+              </Link>
+            {/* </li>
+            <li>
+              <Link to="/superadmin/attendance" className="hover:text-gray-300">
+                Manage Attendance
+              </Link>
+            </li>
+            <li>
+              <Link to="/superadmin/qrcodes" className="hover:text-gray-300">
+                Manage QR Codes
+              </Link> */}
+            </li>
+
             {/* Profile Dropdown */}
             {user && (
               <li className="relative">
@@ -86,7 +109,9 @@ const NavBarUser = () => {
                 {/* Dropdown Menu */}
                 {profileOpen && (
                   <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg text-gray-700">
-                    <span className="block px-4 py-2 font-semibold">{user.name}</span>
+                    <span className="block px-4 py-2 font-semibold">
+                      {user.name}
+                    </span>
                     <hr />
                     <button
                       onClick={handleLogout}
@@ -105,4 +130,4 @@ const NavBarUser = () => {
   );
 };
 
-export default NavBarUser;
+export default NavBarSuperAdmin;

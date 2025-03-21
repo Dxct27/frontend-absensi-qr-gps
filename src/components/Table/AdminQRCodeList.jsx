@@ -8,6 +8,11 @@ import {
 import { fetchQRCodes, fetchAPI } from "../../utils/api";
 import QRFormModal from "../../components/Modal/QRFormModal";
 import QRCodeModal from "../../components/Modal/QRCodeModal";
+import {
+  downloadSingleQRAsPDF,
+  downloadMultipleQRsAsPDF,
+} from "../../utils/qrcodeDownload";
+import { toast } from "react-toastify";
 
 const formatDate = (dateString) => {
   if (!dateString) return "-";
@@ -26,9 +31,10 @@ const formatDate = (dateString) => {
   );
 };
 
-const QRCodeListTable = () => {
+const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
   const [qrCodes, setQrCodes] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isShowQRModalOpen, setIsShowQRModalOpen] = useState(false);
   const [selectedQrId, setSelectedQrId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -51,15 +57,10 @@ const QRCodeListTable = () => {
     }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedQrId(null);
-    loadQRCodes();
-  };
-
   const handleShowQR = (qr) => {
     setSelectedQrId(qr.id);
-    setIsModalOpen(true);
+    console.log("qr data", qr);
+    setIsShowQRModalOpen(true);
   };
 
   const handleUpdate = (qr) => {
@@ -69,7 +70,7 @@ const QRCodeListTable = () => {
     }
     console.log("Selected QR Data:", qr);
     setSelectedQrId(qr.id);
-    setIsModalOpen(true);
+    setIsFormModalOpen(true);
   };
 
   const handleDelete = async (id) => {
@@ -79,12 +80,45 @@ const QRCodeListTable = () => {
       setQrCodes(qrCodes.filter((qr) => qr.id !== id));
     } catch (err) {
       console.error("Error deleting QR code:", err);
-      alert("Failed to delete QR code");
+      toast.err("Failed to delete QR code");
     }
     loadQRCodes();
   };
 
+  const handleSelectQR = (qr) => {
+    setSelectedQRs((prevSelected) =>
+      prevSelected.some((q) => q.id === qr.id)
+        ? prevSelected.filter((q) => q.id !== qr.id)
+        : [...prevSelected, qr]
+    );
+  };
+
+  const handleDownloadSingle = (qr) => {
+    console.log("handleDownloadSingle called with:", qr);
+    downloadSingleQRAsPDF(qr);
+  };
+
+  const handleDownloadMultiple = () => {
+    console.log("All selected QR ", selectedQRs);
+    downloadMultipleQRsAsPDF(selectedQRs, "Your OPD Name");
+  };
+
   const columns = [
+    ...(showCheckbox
+      ? [
+          {
+            id: "select",
+            header: "Select",
+            cell: ({ row }) => (
+              <input
+                type="checkbox"
+                checked={selectedQRs.some((qr) => qr.id === row.original.id)}
+                onChange={() => handleSelectQR(row.original)}
+              />
+            ),
+          },
+        ]
+      : []),
     { accessorKey: "name", header: "Nama" },
     { accessorKey: "latitude", header: "Latitude" },
     { accessorKey: "longitude", header: "Longitude" },
@@ -100,35 +134,46 @@ const QRCodeListTable = () => {
       cell: ({ getValue }) => formatDate(getValue()),
     },
     {
-      header: "Show QR",
+      header: "Download",
+      cell: ({ row }) => (
+        <button
+          onClick={() => handleDownloadSingle(row.original)}
+          className="px-2 py-1 bg-blue-500 text-white rounded"
+        >
+          Download
+        </button>
+      ),
+    },
+    {
+      header: "Tampilkan QR",
       cell: ({ row }) => (
         <button
           onClick={() => handleShowQR(row.original)}
           className="px-2 py-1 bg-green-500 text-white rounded"
         >
-          Show QR
+          Tampilkan
         </button>
       ),
     },
     {
-      header: "Update",
+      header: "Edit",
       cell: ({ row }) => (
         <button
           onClick={() => handleUpdate(row.original)}
           className="px-2 py-1 bg-yellow-500 text-white rounded"
         >
-          Update
+          Edit
         </button>
       ),
     },
     {
-      header: "Delete",
+      header: "Hapus",
       cell: ({ row }) => (
         <button
           onClick={() => handleDelete(row.original.id)}
           className="px-2 py-1 bg-red-500 text-white rounded"
         >
-          Delete
+          Hapus
         </button>
       ),
     },
@@ -144,13 +189,21 @@ const QRCodeListTable = () => {
   return (
     <>
       <QRFormModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
+        isOpen={isFormModalOpen}
+        onClose={() => {
+          setIsFormModalOpen(false);
+          setSelectedQrId(null);
+          loadQRCodes();
+        }}
         qrId={selectedQrId}
       />
       <QRCodeModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
+        isOpen={isShowQRModalOpen}
+        onClose={() => {
+          setIsShowQRModalOpen(false);
+          setSelectedQrId(null);
+          loadQRCodes();
+        }}
         qrCodeId={selectedQrId}
       />
 

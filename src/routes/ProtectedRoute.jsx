@@ -5,16 +5,15 @@ import { AuthContext } from "../context/AuthContext";
 const ProtectedRoute = ({ allowedRoles }) => {
   const { user, loading } = useContext(AuthContext);
 
-  if (loading) {
-    return <div>Loading...</div>; // Prevent redirection while user data is still loading
-  }
-
-  if (!user) {
-    return <Navigate to="/" replace />;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <Navigate to="/" replace />;
 
   if (allowedRoles && !allowedRoles.includes(user.group)) {
-    return <div>Access Denied</div>;
+    const redirectPath =
+      user.group === "admin" || user.group === "superadmin"
+        ? "/adminpanel"
+        : "/dashboard";
+    return <Navigate to={redirectPath} replace />;
   }
 
   return <Outlet />;

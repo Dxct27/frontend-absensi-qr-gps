@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
+import AttendanceDetailModal from "../Modal/AttendanceDetailModal";
 
 const AdminDailyAttendanceTable = ({
   attendanceData,
@@ -9,12 +10,27 @@ const AdminDailyAttendanceTable = ({
   days,
   filterType,
 }) => {
-  const statusTypes = ["hadir", "izin", "sakit", "absen"];
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDateClick = (date) => {
+    setSelectedDate(date);
+    console.log("date: ", date);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedDate(null);
+  };
+
+  const statusTypes = ["hadir", "dinas luar", "izin", "sakit", "absen"];
 
   const statusColors = {
     hadir: "bg-green-200",
-    izin: "bg-blue-200",
-    sakit: "bg-purple-200",
+    "dinas luar": "bg-blue-200",
+    izin: "bg-purple-200",
+    sakit: "bg-yellow-200",
     absen: "bg-red-200",
     empty: "bg-gray-100",
   };
@@ -29,16 +45,16 @@ const AdminDailyAttendanceTable = ({
       ...days.map((day) => day.toISOString().split("T")[0]),
     ];
     if (filterType !== "daily") {
-      headers.push("Hadir", "Izin", "Sakit", "Absen");
+      headers.push("Hadir", "Dinas Luar", "Izin", "Sakit", "Absen");
     }
-
     worksheet.addRow(headers);
 
     const statusColors = {
-      H: "FF90EE90", // Light Green for Hadir
-      I: "FFADD8E6", // Light Blue for Izin
-      S: "FFDDA0DD", // Plum for Sakit
-      A: "FFFFA07A", // Light Red for Absen
+      H: "FF90EE90", 
+      D: "FF87CEEB", 
+      I: "FFADD8E6", 
+      S: "FFDDA0DD", 
+      A: "FFFFA07A", 
     };
 
     mergedData.forEach((row) => {
@@ -47,7 +63,13 @@ const AdminDailyAttendanceTable = ({
       days.forEach((day) => {
         const dateKey = day.toISOString().split("T")[0];
         let status = row.attendance[dateKey] || "-";
-        let formattedStatus = status.charAt(0).toUpperCase();
+
+        let formattedStatus = status
+          .split(",")
+          .map((s) =>
+            s.trim() === "dinas luar" ? "D" : s.trim().charAt(0).toUpperCase()
+          )
+          .join(",");
 
         rowData.push(formattedStatus);
       });
@@ -55,6 +77,8 @@ const AdminDailyAttendanceTable = ({
       if (filterType !== "daily") {
         rowData.push(
           Object.values(row.attendance).filter((s) => s.includes("hadir"))
+            .length,
+          Object.values(row.attendance).filter((s) => s.includes("dinas luar"))
             .length,
           Object.values(row.attendance).filter((s) => s.includes("izin"))
             .length,
@@ -88,9 +112,7 @@ const AdminDailyAttendanceTable = ({
     const dateString =
       filterType === "daily"
         ? days[0].toISOString().split("T")[0]
-        : `${days[0].toISOString().split("T")[0]}_to_${
-            days[days.length - 1].toISOString().split("T")[0]
-          }`;
+        : `${days[0].toISOString().split("T")[0]}_to_${days[days.length - 1].toISOString().split("T")[0]}`;
 
     const fileName = `Data Absen ${filterType} ${dateString}.xlsx`;
 
@@ -120,7 +142,11 @@ const AdminDailyAttendanceTable = ({
         const attendance = attendanceMap.get(user.id)?.attendance || {};
 
         days.forEach((day) => {
-          const dateKey = day.toISOString().split("T")[0];
+          const dateKey = day.toLocaleDateString("en-CA", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
           if (
             !attendance[dateKey] &&
             day.getDay() !== 0 &&
@@ -183,11 +209,18 @@ const AdminDailyAttendanceTable = ({
             </span>
           ),
           cell: ({ row }) => {
-            const dateKey = day.toISOString().split("T")[0];
+            const dateKey = day.toLocaleDateString("en-CA", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            });
             let status = row.original.attendance[dateKey] || "-";
 
             return (
-              <div className="flex flex-wrap justify-center gap-1">
+              <div
+                className="flex flex-wrap justify-center gap-1 cursor-pointer"
+                onClick={() => handleDateClick(dateKey)}
+              >
                 {status.split(",").map((s, i) => {
                   let trimmedStatus = s.trim().toLowerCase();
                   let displayStatus =
@@ -265,6 +298,11 @@ const AdminDailyAttendanceTable = ({
 
   return (
     <div className="w-full overflow-auto">
+      {/* <AttendanceDetailModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        selectedDate={selectedDate}
+      /> */}
       <button
         onClick={exportToExcel}
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

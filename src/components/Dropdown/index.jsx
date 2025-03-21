@@ -31,7 +31,7 @@ const Dropdown = ({ options, onSelect }) => {
         onClick={toggleDropdown}
         className="px-4 py-2 border rounded-md hover:bg-blue-100 transition"
       >
-        {selected || "Select an option"}
+        {selected || "Pilih Status Izin"}
       </button>
 
       {isOpen && (

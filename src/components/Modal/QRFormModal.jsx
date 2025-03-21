@@ -3,55 +3,57 @@ import QRCodeComponent from "../QRCodeComponent";
 import InputLabeled from "../InputLabeled";
 import LeafletAdmin from "../Leaflet/Admin";
 import RectangleButton from "../RectangleButton";
-import { fetchAPI } from "../../utils/api"; // Use fetchAPI
+import { fetchAPI } from "../../utils/api";
 import Modal from "../Modal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parse } from "date-fns";
+import Label from "../Label";
 
 const QRFormModal = ({ isOpen, onClose, qrId }) => {
-  useEffect(() => {
-    console.log("QRFormModal received qrId:", qrId);
-  }, [qrId]);
-
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const [formData, setFormData] = useState({
+  const defaultFormData = {
     name: "",
     radius: "250",
+    tanggal: new Date(),
     waktuMulai: "",
     waktuAkhir: "",
     latitude: "",
     longitude: "",
-  });
+  };
 
+  const [formData, setFormData] = useState(defaultFormData);
   const [qrValue, setQrValue] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (qrId) {
       const fetchQRCode = async (qrId) => {
         try {
-          console.log("Fetching QR Code with ID:", qrId);
-          const data = await fetchAPI(`/qrcodes/${qrId}`); // Use fetchAPI
-          console.log("Fetched Data:", data);
-
+          const data = await fetchAPI(`/qrcodes/${qrId}`);
           if (!data || Object.keys(data).length === 0) {
             throw new Error("Empty response received");
           }
 
           const toLocalTime = (utcString) => {
             const date = new Date(utcString);
-            return date
-              .toLocaleTimeString("id-ID", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-              .replace(".", ":");
+            return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+          };
+
+          const extractDate = (dateTimeString) => {
+            return dateTimeString
+              ? new Date(dateTimeString)
+              : defaultFormData.tanggal;
           };
 
           setFormData({
             name: data.name || "",
             radius: data.radius ? data.radius.toString() : "250",
+            tanggal: extractDate(data.waktu_awal),
             waktuMulai: data.waktu_awal ? toLocalTime(data.waktu_awal) : "",
             waktuAkhir: data.waktu_akhir ? toLocalTime(data.waktu_akhir) : "",
             latitude: data.latitude ?? "",
@@ -62,7 +64,7 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
           setIsLoaded(true);
         } catch (err) {
           console.error("QR Fetch Error:", err);
-          setError("Failed to load QR code details");
+          toast.error("Failed to load QR code details");
         }
       };
 
@@ -80,6 +82,13 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
     }));
   };
 
+  const handleDateChange = (date) => {
+    setFormData((prev) => ({
+      ...prev,
+      tanggal: date,
+    }));
+  };
+
   const handleLocationChange = (coords) => {
     setFormData((prev) => ({
       ...prev,
@@ -90,47 +99,60 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    setError(null);
 
     if (!formData.waktuMulai || !formData.waktuAkhir) {
-      setError("Waktu Mulai dan Waktu Akhir harus diisi!");
+      toast.error("Waktu Mulai dan Waktu Akhir harus diisi!");
       setLoading(false);
       return;
     }
 
-    const currentDate = new Date().toISOString().split("T")[0];
+    if (!formData.name) {
+      toast.error("Nama QR Code harus diisi!");
+      setLoading(false);
+      return;
+    }
+
+    const formattedDate = format(formData.tanggal, "yyyy-MM-dd");
 
     const payload = {
-      opd_id: user?.user?.opd_id || "",
+      opd_id: user?.opd_id || "",
       name: formData.name,
       latitude: formData.latitude,
       longitude: formData.longitude,
       radius: formData.radius,
-      waktu_awal: `${currentDate} ${formData.waktuMulai}:00`,
-      waktu_akhir: `${currentDate} ${formData.waktuAkhir}:00`,
+      waktu_awal: `${formattedDate} ${formData.waktuMulai}:00`,
+      waktu_akhir: `${formattedDate} ${formData.waktuAkhir}:00`,
       type: "daily",
     };
 
     try {
       if (qrId) {
         await fetchAPI(`/qrcodes/${qrId}`, "PUT", payload);
+        toast.success("QR Code berhasil diperbarui!");
       } else {
         const response = await fetchAPI("/qrcodes", "POST", payload);
         setQrValue(response.value);
+        toast.success("QR Code berhasil dibuat!");
       }
-
+      setFormData(defaultFormData);
       onClose();
     } catch (err) {
-      setError("Failed to save QR code");
+      toast.error("Failed to save QR code");
     }
 
     setLoading(false);
   };
 
+  const handleClose = () => {
+    setFormData(defaultFormData);
+    setQrValue(null);
+    onClose();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={handleClose}
       title={qrId ? "Edit QR Code" : "Buat QR Code"}
     >
       <div className="space-y-4">
@@ -150,6 +172,15 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
               value={formData.radius || ""}
               onChange={handleChange}
             />
+            <div className="flex flex-col">
+              <Label className="mb-1 font-medium">Tanggal</Label>
+              <DatePicker
+                selected={formData.tanggal}
+                onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
+                className="opacity-70 border-2 transform transition ease-in-out duration-100 rounded-lg border-gray-100 focus:border-primary500 py-4 px-3 w-full focus:outline-none"
+              />
+            </div>
             <InputLabeled
               label="Waktu Mulai"
               name="waktuMulai"
@@ -157,6 +188,7 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
               value={formData.waktuMulai || ""}
               onChange={handleChange}
               required
+              lang="id-ID"
             />
             <InputLabeled
               label="Waktu Akhir"
@@ -165,13 +197,12 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
               value={formData.waktuAkhir || ""}
               onChange={handleChange}
               required
+              lang="id-ID"
             />
           </>
         )}
 
         <LeafletAdmin onLocationChange={handleLocationChange} />
-
-        {error && <p className="text-red-500">{error}</p>}
 
         <RectangleButton onClick={handleSubmit} disabled={loading}>
           {loading ? "Processing..." : qrId ? "Update QR Code" : "Buat Kode QR"}

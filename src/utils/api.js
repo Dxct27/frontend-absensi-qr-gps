@@ -28,7 +28,7 @@ export const fetchAPI = async (
         localStorage.removeItem("token");
         window.location.href = "/";
       }
-      throw new Error(data.message || "Something went wrong");
+      throw { status: response.status, data };
     }
 
     return data;
@@ -89,4 +89,8 @@ export const exchangeToken = async () => {
     console.error("API Error:", error);
     return null;
   }
+};
+
+export const updateUserOpd = (userId, opdId) => {
+  return fetchAPI(`/superadmin/users/${userId}/opd`, "PUT", { opd_id: opdId });
 };

@@ -1,30 +1,30 @@
-DONE: 
-yahoo oauth 
-excel export 
-set user password after oauth login
-userleavepermissionmodal
-QRFormModal
-crud qr modalll
-qr time format -- utc jakarta mismatch try yourself
-
-fix attendance status. no such thing terlambat, H, I, S, A, DL, log time stamp and loc
-(add column ? lokasi di luar radius?) ga soale lek ga ada di tempat tidak bisa dibilang "hadir"
-
-MIGRATION ATTENDANCE TABLE ADD COLUMN (cancel, it was qrcodes (types and event_id), add special_events table)
-
-admin QRcodepage -- fetch and show all active qr
-new page for qr history
-
 TODO:
 
-!!! qrcode list show all attendance and qrcodecomponent
+show file lee
+
+opsional tambah refresh lokasi
+
+BUGSSS:
+
+PROFILE NAVBAR:
+ADD CHANGE PASSWORD
+LOGOUT, MOVE LOGOUT BUTTON --done
+
+USER:
+
+SUPERADMIN:
+PAGE, need more page
+
+ADMIN:
+
+QR AUTO CREATION, 
+
+LEAVE FILE!!!
 handle view leave request file.
 
 fix styling 
 
 MODALLL
-
-auto create?
 
 handle file upload done --view file belom
 
@@ -35,8 +35,6 @@ User Dashboard --when already scan and waiting for api req add loading munyer? U
 no such thing as leave permission on daily shit on weekend
 
 handle lokasi --wajib "pastikan lokasi Anda sesuai/tepat/something else"
-
-qrpage admin show current active qr and add history (page?) for previous
 
 admin detail can see where barcode scanned (?)
 

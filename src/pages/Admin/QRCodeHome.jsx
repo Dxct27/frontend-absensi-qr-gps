@@ -4,7 +4,9 @@ import LayoutAdmin from "../../components/Layout/Admin";
 import RectangleButton from "../../components/RectangleButton";
 import QRCodeComponent from "../../components/QRCodeComponent";
 import QRFormModal from "../../components/Modal/QRFormModal";
+import ConfirmModal from "../../components/Modal/ConfirmModal"; // Import ConfirmModal
 import { fetchQRCodes, fetchAPI } from "../../utils/api";
+import { toast } from "react-toastify";
 
 const QRCodePage = () => {
   const [qrCodes, setQrCodes] = useState([]);
@@ -13,6 +15,10 @@ const QRCodePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedQrId, setSelectedQrId] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false); // State for confirm modal
+  const [qrToDelete, setQrToDelete] = useState(null); // Store the QR ID to delete
+
   const itemsPerPage = 3;
   const navigate = useNavigate();
 
@@ -51,23 +57,30 @@ const QRCodePage = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setIsModalOpen(false);
     setSelectedQrId(null);
-    loadQRCodes();
+    await loadQRCodes();
+    setRefreshTrigger((prev) => prev + 1);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this QR code?"))
-      return;
+  const openConfirmDelete = (id) => {
+    setQrToDelete(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!qrToDelete) return;
     try {
-      await fetchAPI(`/qrcodes/${id}`, "DELETE");
-      setQrCodes(qrCodes.filter((qr) => qr.id !== id));
+      await fetchAPI(`/qrcodes/${qrToDelete}`, "DELETE");
+      setQrCodes(qrCodes.filter((qr) => qr.id !== qrToDelete));
     } catch (err) {
       console.error("Error deleting QR code:", err);
-      alert("Failed to delete QR code");
+      toast.error("Failed to delete QR code");
     }
     loadQRCodes();
+    setIsConfirmOpen(false);
+    setQrToDelete(null);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -81,6 +94,16 @@ const QRCodePage = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         qrId={selectedQrId}
+      />
+
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this QR code?"
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDelete}
       />
 
       <div className="flex justify-between items-center mb-5">
@@ -106,7 +129,10 @@ const QRCodePage = () => {
           currentItems.map((qr) => (
             <div key={qr.id} className="border p-4 bg-white rounded-lg shadow">
               <h3 className="text-lg font-bold">{qr.name}</h3>
-              <QRCodeComponent qrCodeId={qr.id} />
+              <QRCodeComponent
+                qrCodeId={qr.id}
+                refreshTrigger={refreshTrigger}
+              />
               <p className="text-sm text-gray-600">
                 Lokasi: {qr.latitude}, {qr.longitude}
               </p>
@@ -126,7 +152,7 @@ const QRCodePage = () => {
                   Edit
                 </RectangleButton>
                 <button
-                  onClick={() => handleDelete(qr.id)}
+                  onClick={() => openConfirmDelete(qr.id)}
                   className="px-3 py-1 bg-red-500 text-white rounded"
                 >
                   Delete

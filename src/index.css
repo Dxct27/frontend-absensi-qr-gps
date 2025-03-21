@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "react-datepicker/dist/react-datepicker.css";
 
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}
+
 #root {
   @apply mx-auto min-h-screen w-full items-center justify-center;
   /* max-width: 1280px;

@@ -7,6 +7,7 @@ import OvalButton from "../components/OvalButton";
 import LogoKominfo from "../assets/logo-kominfo.jpg";
 import LogoGoogle from "../assets/logo-google.png";
 import LogoYahoo from "../assets/logo-yahoo.png";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,10 +23,10 @@ const Login = () => {
     try {
       const data = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
-      handleLogin({ user: data.user.user, token: data.token });
+      handleLogin({ user: data.user, token: data.token });
       navigate(data.user.group === "admin" ? "/adminPanel" : "/dashboard");
     } catch (error) {
-      alert("Login failed: " + error.message);
+      toast.error("Login failed: " + error.message);
     }
     setLoading(false);
   };

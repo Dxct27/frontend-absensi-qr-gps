@@ -1,29 +1,32 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext"; // Use useAuth hook
+import { useAuth } from "../../context/AuthContext";
 import LogoKominfo from "../../assets/logo-kominfo.png";
+import { toast } from "react-toastify";
 
 const NavBarAdmin = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuth();
 
   const handleLogout = async () => {
     try {
-      await logout(); // ✅ Standardized logout function
+      await logout();
     } catch (error) {
       console.error("Logout failed!", error);
-      alert("Logout failed! Please try again.");
+      toast.error("Logout failed! Please try again.");
     }
   };
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         !event.target.closest("#navbar-default") &&
-        !event.target.closest("#menu-button")
+        !event.target.closest("#menu-button") &&
+        !event.target.closest("#profile-button")
       ) {
         setIsOpen(false);
+        setProfileOpen(false);
       }
     };
 
@@ -78,26 +81,43 @@ const NavBarAdmin = () => {
             </li>
             <li>
               <Link to="/qrcode" className="hover:text-gray-300">
-                QR
+                Kelola QR
+              </Link>
+            </li>
+            <li>
+              <Link to="/qrcode/scan" className="hover:text-gray-300">
+                Scan QR
               </Link>
             </li>
 
-            {/* User Info */}
+            {/* Profile Dropdown */}
             {user && (
-              <li className="font-semibold">
-                <span className="text-white">👤 {user.name}</span>
+              <li className="relative">
+                <button
+                  id="profile-button"
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center space-x-2 text-white hover:text-gray-300"
+                >
+                  Profile
+                </button>
+
+                {/* Dropdown Menu */}
+                {profileOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg text-gray-700">
+                    <span className="block px-4 py-2 font-semibold">
+                      {user.name}
+                    </span>
+                    <hr />
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                )}
               </li>
             )}
-
-            {/* Logout Button */}
-            <li>
-              <button
-                onClick={handleLogout} // ✅ Call the function properly
-                className="text-white hover:text-red-400 transition"
-              >
-                🚪 Log Out
-              </button>
-            </li>
           </ul>
         </div>
       </div>

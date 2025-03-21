@@ -5,6 +5,7 @@ import { fetchAPI } from "../../utils/api";
 import UserDailyAttendanceTable from "../../components/Table/UserDailyAttendance";
 import { AuthContext } from "../../context/AuthContext";
 import LayoutUser from "../../components/Layout/User";
+import LayoutAdmin from "../../components/Layout/Admin";
 import Card from "../../components/Card";
 
 const AttendanceHistory = () => {
@@ -12,11 +13,13 @@ const AttendanceHistory = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [attendanceData, setAttendanceData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const Layout = user?.group === "admin" ? LayoutAdmin : LayoutUser;
 
   useEffect(() => {
     if (user) {
       fetchAttendance();
     }
+    console.log("pppp", user);
   }, [selectedDate, user]);
 
   const fetchAttendance = async () => {
@@ -26,6 +29,8 @@ const AttendanceHistory = () => {
       const response = await fetchAPI(
         `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly&type=daily`
       );
+
+      console.log("user data being send ", user, formattedDate);
 
       if (response && response.data) {
         setAttendanceData(response.data);
@@ -55,7 +60,7 @@ const AttendanceHistory = () => {
   );
 
   return (
-    <LayoutUser>
+    <Layout>
       <div className="">
         <h2 className="text-xl font-semibold mb-4">Riwayat Absensi</h2>
 
@@ -94,7 +99,7 @@ const AttendanceHistory = () => {
       </div> 
       */}
 
-    </LayoutUser>
+    </Layout>
   );
 };
 

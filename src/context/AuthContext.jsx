@@ -22,11 +22,11 @@ export const AuthProvider = ({ children }) => {
       try {
         const Data = await getUserData();
         setUser(Data.user);
-        localStorage.setItem("user", JSON.stringify(Data));
-        // console.log("User data:", userData);
+        localStorage.setItem("user", JSON.stringify(Data.user));
+        console.log("User data:", Data.user);
       } catch (error) {
         console.error("Failed to fetch user:", error);
-        logout(); // ✅ Logout if token is invalid
+        logout();
       }
       setLoading(false);
     };
