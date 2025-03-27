@@ -10,18 +10,19 @@ const AdminDailyAttendanceTable = ({
   days,
   filterType,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedAttendanceData, setSelectedAttendanceData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    console.log("date: ", date);
+  const handleDateClick = (date, selectedAttendanceData) => {
+    console.log("rowData", selectedAttendanceData);
+    console.log("date", date);
+    setSelectedAttendanceData(selectedAttendanceData);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedDate(null);
+    setSelectedAttendanceData(null);
   };
 
   const statusTypes = ["hadir", "dinas luar", "izin", "sakit", "absen"];
@@ -50,11 +51,11 @@ const AdminDailyAttendanceTable = ({
     worksheet.addRow(headers);
 
     const statusColors = {
-      H: "FF90EE90", 
-      D: "FF87CEEB", 
-      I: "FFADD8E6", 
-      S: "FFDDA0DD", 
-      A: "FFFFA07A", 
+      H: "FF90EE90",
+      D: "FF87CEEB",
+      I: "FFADD8E6",
+      S: "FFDDA0DD",
+      A: "FFFFA07A",
     };
 
     mergedData.forEach((row) => {
@@ -112,7 +113,9 @@ const AdminDailyAttendanceTable = ({
     const dateString =
       filterType === "daily"
         ? days[0].toISOString().split("T")[0]
-        : `${days[0].toISOString().split("T")[0]}_to_${days[days.length - 1].toISOString().split("T")[0]}`;
+        : `${days[0].toISOString().split("T")[0]}_to_${
+            days[days.length - 1].toISOString().split("T")[0]
+          }`;
 
     const fileName = `Data Absen ${filterType} ${dateString}.xlsx`;
 
@@ -131,8 +134,12 @@ const AdminDailyAttendanceTable = ({
       }
 
       const existing = attendanceMap.get(record.user.id);
-      const formattedDate = record.date;
-      existing.attendance[formattedDate] = record.status || "-";
+      const formattedDate = new Date(record.date).toISOString().split("T")[0];
+
+      existing.attendance[formattedDate] = {
+        status: record.status || "-",
+        fullDetails: record, // Store full attendance details
+      };
     });
 
     const today = new Date().toISOString().split("T")[0];
@@ -142,18 +149,18 @@ const AdminDailyAttendanceTable = ({
         const attendance = attendanceMap.get(user.id)?.attendance || {};
 
         days.forEach((day) => {
-          const dateKey = day.toLocaleDateString("en-CA", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          });
+          const dateKey = day.toISOString().split("T")[0];
+
           if (
             !attendance[dateKey] &&
             day.getDay() !== 0 &&
             day.getDay() !== 6 &&
             dateKey < today
           ) {
-            attendance[dateKey] = "absen";
+            attendance[dateKey] = {
+              status: "absen",
+              fullDetails: null,
+            };
           }
         });
 
@@ -178,10 +185,15 @@ const AdminDailyAttendanceTable = ({
         accessorKey: "attendance",
         header: "Status",
         cell: ({ row }) => {
-          const status = Object.values(row.original.attendance)[0] || "-";
+          const attendanceRecord =
+            Object.values(row.original.attendance)[0] || {};
+          const status = attendanceRecord.status || "-";
+
           return (
             <div
-              className={`px-2 py-1 text-xs rounded ${statusColors[status] || "bg-gray-100"}`}
+              className={`px-2 py-1 text-xs rounded ${
+                statusColors[status] || "bg-gray-100"
+              }`}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </div>
@@ -198,8 +210,8 @@ const AdminDailyAttendanceTable = ({
                 day.getDay() === 0 || day.getDay() === 6
                   ? "text-red-500"
                   : day.getDay() === 5
-                    ? "text-green-500"
-                    : "text-gray-700"
+                  ? "text-green-500"
+                  : "text-gray-700"
               }`}
             >
               {day.toLocaleDateString("id-ID", {
@@ -209,67 +221,48 @@ const AdminDailyAttendanceTable = ({
             </span>
           ),
           cell: ({ row }) => {
-            const dateKey = day.toLocaleDateString("en-CA", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            });
-            let status = row.original.attendance[dateKey] || "-";
+            const dateKey = day.toLocaleDateString("en-CA"); // Keeps it in local time
+            const attendanceRecord = row.original.attendance[dateKey] || {};
+            const status = attendanceRecord.status || "-";
 
             return (
               <div
                 className="flex flex-wrap justify-center gap-1 cursor-pointer"
-                onClick={() => handleDateClick(dateKey)}
+                onClick={() =>
+                  handleDateClick(dateKey, attendanceRecord.fullDetails)
+                }
               >
-                {status.split(",").map((s, i) => {
-                  let trimmedStatus = s.trim().toLowerCase();
-                  let displayStatus =
-                    trimmedStatus === "absen"
-                      ? "A"
-                      : trimmedStatus.charAt(0).toUpperCase();
-
-                  return (
-                    <div
-                      key={i}
-                      className={`px-2 py-1 text-xs rounded ${statusColors[trimmedStatus] || "bg-gray-100"}`}
-                    >
-                      {displayStatus}
-                    </div>
-                  );
-                })}
+                <div
+                  className={`px-2 py-1 text-xs rounded ${
+                    statusColors[status] || "bg-gray-100"
+                  }`}
+                >
+                  {status === "absen" ? "A" : status.charAt(0).toUpperCase()}
+                </div>
               </div>
             );
           },
         }))
       );
 
-      // Summary columns
+      // ✅ **Restored Summary Columns**
       statusTypes.forEach((status) => {
         baseColumns.push({
           accessorKey: `summary_${status}`,
           header: status.charAt(0).toUpperCase(),
           cell: ({ row }) => {
             let count = 0;
-            Object.entries(row.original.attendance).forEach(([dateKey, s]) => {
-              const day = new Date(dateKey);
-              const today = new Date().toISOString().split("T")[0];
-              let adjustedStatus = s;
-              if (
-                s === "-" &&
-                day.getDay() !== 0 &&
-                day.getDay() !== 6 &&
-                dateKey < today
-              ) {
-                adjustedStatus = "absen";
-              }
-              adjustedStatus.split(",").forEach((item) => {
-                if (item.trim() === status) count++;
-              });
+
+            Object.values(row.original.attendance).forEach(({ status: s }) => {
+              if (s && s.split(",").some((item) => item.trim() === status))
+                count++;
             });
 
             return (
               <div
-                className={`px-2 py-1 text-xs rounded ${statusColors[status] || "bg-gray-100"}`}
+                className={`px-2 py-1 text-xs rounded ${
+                  statusColors[status] || "bg-gray-100"
+                }`}
               >
                 {count}
               </div>
@@ -298,11 +291,11 @@ const AdminDailyAttendanceTable = ({
 
   return (
     <div className="w-full overflow-auto">
-      {/* <AttendanceDetailModal
+      <AttendanceDetailModal
         isOpen={isModalOpen}
         onClose={closeModal}
-        selectedDate={selectedDate}
-      /> */}
+        attendanceData={selectedAttendanceData}
+      />
       <button
         onClick={exportToExcel}
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

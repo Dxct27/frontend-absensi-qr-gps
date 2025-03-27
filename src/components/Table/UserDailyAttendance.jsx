@@ -1,23 +1,36 @@
-import React, { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
+import AttendanceDetailModal from "../Modal/AttendanceDetailModal";
 
 const statusColors = {
   hadir: "bg-green-200",
-  terlambat: "bg-yellow-200",
-  izin: "bg-blue-200",
-  sakit: "bg-purple-200",
-  A: "bg-red-200",
+  "dinas luar": "bg-blue-200",
+  izin: "bg-purple-200",
+  sakit: "bg-yellow-200",
+  absen: "bg-red-200",
   empty: "bg-gray-100",
 };
 
 const daysOfWeek = ["S", "S", "R", "K", "J", "S", "M"];
 
 const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
+  const [selectedAttendance, setSelectedAttendance] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   console.log("Rendering UserDailyAttendanceTable with data:", attendanceData);
+
+  const handleClick = (attendance) => {
+    setSelectedAttendance(attendance);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedAttendance(null);
+  };
 
   const tableData = useMemo(() => {
     const firstDay = new Date(
@@ -59,8 +72,8 @@ const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
         attendance.length > 0
           ? attendance.map((a) => a.status)
           : isWeekday && isPast
-            ? ["A"]
-            : ["-"];
+          ? ["absen"]
+          : ["-"];
 
       currentWeek.push({ date: dateStr, statuses });
 
@@ -88,8 +101,8 @@ const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
               index === 5 || index === 6
                 ? "text-red-500"
                 : index === 4
-                  ? "text-green-500"
-                  : "text-gray-700"
+                ? "text-green-500"
+                : "text-gray-700"
             }`}
           >
             {day}
@@ -116,9 +129,12 @@ const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
                 {cellData.statuses.map((status, i) => (
                   <div
                     key={i}
-                    className={`px-2 py-1 text-xs rounded ${
-                      statusColors[status]
-                    }`}
+                    className={`px-2 py-1 text-xs rounded ${statusColors[status]} cursor-pointer`}
+                    onClick={() =>
+                      handleClick(
+                        attendanceData.find((a) => a.date === cellData.date)
+                      )
+                    }
                   >
                     {status.charAt(0).toUpperCase()}
                   </div>
@@ -139,6 +155,11 @@ const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
 
   return (
     <div className="bg-white rounded-md mb-6">
+      <AttendanceDetailModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        attendanceData={selectedAttendance}
+      />
       <h2 className="text-lg font-semibold mb-2">Data Absensi</h2>
 
       <div className="overflow-x-auto">
