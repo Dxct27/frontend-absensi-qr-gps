@@ -26,7 +26,7 @@ const SetPasswordModal = ({ isOpen, onClose, onSuccess }) => {
         setError("Failed to set password. Please try again.");
       }
     } catch (err) {
-      console.error("Error setting password:", err);
+      ("Error setting password:", err);
       setError("Failed to set password.");
     } finally {
       setLoading(false);

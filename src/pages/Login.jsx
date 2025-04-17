@@ -24,7 +24,13 @@ const Login = () => {
       const data = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
       handleLogin({ user: data.user, token: data.token });
-      navigate(data.user.group === "admin" ? "/adminPanel" : "/dashboard");
+      navigate(
+        data.user.group === "superadmin"
+          ? "/superadmin"
+          : data.user.group === "admin"
+          ? "/adminPanel"
+          : "/dashboard"
+      );
     } catch (error) {
       toast.error("Login failed: " + error.message);
     }

@@ -65,23 +65,16 @@ const DashboardAdmin = () => {
         setLoading(true);
 
         const formattedDate = format(dateToSend, "yyyy-MM-dd");
-        console.log(
-          "Requesting:",
-          `/attendance?date=${formattedDate}&filter=${newFilterType}`
-        );
 
         const [attendanceRes, usersRes] = await Promise.all([
           fetchAPI(`/attendance?date=${formattedDate}&filter=${newFilterType}`),
           fetchAPI("/users"),
         ]);
 
-        console.log("Fetched Attendance Data:", attendanceRes);
-        console.log("Fetched Users Response:", usersRes);
-
         setAttendanceData(attendanceRes.data || []);
         setUsers(Array.isArray(usersRes) ? usersRes : []);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        ("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -144,7 +137,6 @@ const DashboardAdmin = () => {
             />
           </div>
         </div>
-        {console.log("filter:", filterType)}
         {loading ? (
           <p>Loading attendance data...</p>
         ) : (

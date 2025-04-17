@@ -15,7 +15,7 @@ const QRCodeModal = ({ isOpen, onClose, qrCodeId }) => {
           const data = await fetchAPI(`/qrcodes/${qrCodeId}/attendances`);
           setAttendances(data);
         } catch (err) {
-          console.error("Error fetching attendance:", err);
+          ("Error fetching attendance:", err);
         }
         setLoading(false);
       };

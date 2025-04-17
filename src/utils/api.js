@@ -33,7 +33,7 @@ export const fetchAPI = async (
 
     return data;
   } catch (error) {
-    console.error("API Error:", error);
+    ("API Error:", error);
     throw error;
   }
 };
@@ -44,7 +44,7 @@ export const fetchQRCodes = async (endpoint = "/qrcodes", filters = {}) => {
     const url = queryParams ? `${endpoint}?${queryParams}` : endpoint;
 
     const response = await fetchAPI(url);
-    console.log("Raw response:", response);
+    // console.log("Raw response:", response);
     let qrCodes = [...response];
 
     if (filters.onlyValid) {
@@ -56,7 +56,7 @@ export const fetchQRCodes = async (endpoint = "/qrcodes", filters = {}) => {
 
     return qrCodes;
   } catch (err) {
-    console.error("Error fetching QR codes:", err);
+    ("Error fetching QR codes:", err);
     throw new Error("Failed to fetch QR codes");
   }
 };
@@ -86,7 +86,7 @@ export const exchangeToken = async () => {
 
     return await response.json();
   } catch (error) {
-    console.error("API Error:", error);
+    ("API Error:", error);
     return null;
   }
 };

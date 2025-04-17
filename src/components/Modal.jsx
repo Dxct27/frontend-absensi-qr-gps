@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 
-const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
+const Modal = ({ isOpen, onClose, title, children, sizeClasses = "max-w-md" }) => {
   const modalRef = useRef(null);
 
   useEffect(() => {
@@ -22,12 +22,12 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
 
   if (!isOpen) return null;
 
-  const sizeClasses = {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
-    xl: "max-w-2xl",
-  };
+  // const sizeClasses = {
+  //   sm: "max-w-sm",
+  //   md: "max-w-md",
+  //   lg: "max-w-lg",
+  //   xl: "max-w-2xl",
+  // };
 
   return (
     <div
@@ -36,10 +36,10 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
     >
       <div
         ref={modalRef}
-        className={`relative bg-white rounded-lg shadow-lg w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto`}
+        className={`relative bg-white rounded-lg shadow-lg w-full ${sizeClasses} max-h-[90vh] overflow-y-auto flex flex-col`}
         style={{ zIndex: 1002 }}
       >
-        <div className="flex justify-between items-center p-4 border-b">
+        <div className="sticky top-0 z-1001 bg-inherit flex justify-between items-center p-4 border-b">
           <h2 className="text-lg font-semibold">{title}</h2>
           <button
             onClick={onClose}
@@ -50,6 +50,7 @@ const Modal = ({ isOpen, onClose, title, children, size = "md" }) => {
         </div>
 
         <div className="p-4">{children}</div>
+
       </div>
     </div>
   );

@@ -12,14 +12,13 @@ const SuperAdminDashboard = () => {
   useEffect(() => {
     fetchAPI("/superadmin/summary")
       .then((data) => {
-        console.log("API Response:", data);
         setSummary({
           totalUsers: data.total_users || 0,
           totalAttendance: data.total_attendance || 0,
           totalQRCodes: data.total_qrcodes || 0,
         });
       })
-      .catch((error) => console.error("Error fetching summary:", error));
+      .catch((error) => ("Error fetching summary:", error));
   }, []);
 
   return (

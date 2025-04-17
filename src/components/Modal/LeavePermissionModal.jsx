@@ -80,7 +80,7 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
         );
       }
     } catch (error) {
-      console.error("Error submitting leave request:", error);
+      ("Error submitting leave request:", error);
 
       if (error.data?.error) {
         toast.error(error.data.error);
@@ -95,10 +95,6 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleTestDate = () => {
-    console.log("Date: ", startDate);
   };
 
   return (
@@ -166,10 +162,8 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* <button onClick={handleTestDate}>test date</button> */}
-
         <RectangleButton
-          className="w-fit bg-blue-500 text-white border-2 border-black px-5"
+          className="w-fit !bg-blue-500 text-white border-2 border-black px-5"
           onClick={handleSubmit}
           disabled={loading}
         >

@@ -20,7 +20,6 @@ const daysOfWeek = ["S", "S", "R", "K", "J", "S", "M"];
 const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
   const [selectedAttendance, setSelectedAttendance] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log("Rendering UserDailyAttendanceTable with data:", attendanceData);
 
   const handleClick = (attendance) => {
     setSelectedAttendance(attendance);

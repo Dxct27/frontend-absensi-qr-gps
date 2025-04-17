@@ -17,7 +17,6 @@ const AuthCallback = () => {
 
       getUserData()
         .then((userData) => {
-          console.log("User Data Retrieved:", userData);
 
           // if (!userData.has_password) {
           //   localStorage.setItem("showSetPasswordModal", "true");
@@ -39,12 +38,12 @@ const AuthCallback = () => {
                 navigate("/dashboard");
             }
           } else {
-            console.error("Invalid user userData format:", userData.user);
+            ("Invalid user userData format:", userData.user);
             navigate("/");
           }
         })
         .catch((error) => {
-          console.error("Error fetching user:", error);
+          ("Error fetching user:", error);
           navigate("/");
         });
     } else {

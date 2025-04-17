@@ -9,10 +9,13 @@ const ProtectedRoute = ({ allowedRoles }) => {
   if (!user) return <Navigate to="/" replace />;
 
   if (allowedRoles && !allowedRoles.includes(user.group)) {
-    const redirectPath =
-      user.group === "admin" || user.group === "superadmin"
-        ? "/adminpanel"
-        : "/dashboard";
+    const redirectPath = user
+      ? user.group === "admin"
+        ? "/adminPanel"
+        : user.group === "superadmin"
+        ? "/superadmin"
+        : "/dashboard"
+      : "/";
     return <Navigate to={redirectPath} replace />;
   }
 

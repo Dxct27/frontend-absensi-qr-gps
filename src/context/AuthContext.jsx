@@ -23,9 +23,8 @@ export const AuthProvider = ({ children }) => {
         const Data = await getUserData();
         setUser(Data.user);
         localStorage.setItem("user", JSON.stringify(Data.user));
-        console.log("User data:", Data.user);
       } catch (error) {
-        console.error("Failed to fetch user:", error);
+        ("Failed to fetch user:", error);
         logout();
       }
       setLoading(false);
@@ -45,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await logoutUser();
     } catch (error) {
-      console.error("Logout failed:", error);
+      ("Logout failed:", error);
     }
     setUser(null);
     setToken(null);

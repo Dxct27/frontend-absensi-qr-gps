@@ -16,6 +16,7 @@ import SuperAdminDashboard from "./pages/Superadmin/Dashboard";
 import SuperAdminUsers from "./pages/Superadmin/Users";
 import ScanHandler from "./pages/ScanHandler";
 import { ToastContainer } from "react-toastify";
+import SuperAdminAttendance from "./pages/Superadmin/Attendance";
 
 const NotFoundRedirect = () => {
   const { user } = useContext(AuthContext);
@@ -38,6 +39,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/clipboard" element={<Clipboard />} />
+        <Route path="/test-dashboard" element={<DashboardUser />} />
         <Route path="/auth/google/callback" element={<AuthCallback />} />
         <Route path="/auth/yahoo/callback" element={<AuthCallback />} />
 
@@ -46,6 +48,7 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
           <Route path="/superadmin" element={<SuperAdminDashboard />} />
           <Route path="/superadmin/users" element={<SuperAdminUsers />} />
+          <Route path="/superadmin/attendance" element={<SuperAdminAttendance />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>

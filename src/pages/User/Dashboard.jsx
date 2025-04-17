@@ -12,12 +12,14 @@ import "react-toastify/dist/ReactToastify.css";
 import SetPasswordModal from "../../components/Modal/SetPasswordModal";
 import LeavePermissionModal from "../../components/Modal/LeavePermissionModal";
 import ConfirmModal from "../../components/Modal/ConfirmModal"; // Import your modal
+import { ClipLoader } from "react-spinners";
 
 const DashboardUser = () => {
   const { user } = useContext(AuthContext);
   const [currentDate, setCurrentDate] = useState("");
   const [scannedQr, setScannedQr] = useState(null);
   const [location, setLocation] = useState(null);
+  const [isLocating, setIsLocating] = useState(true);
   const [loading, setLoading] = useState(false);
   const hasSubmitted = useRef(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -28,7 +30,8 @@ const DashboardUser = () => {
     message: "",
   });
   const navigate = useNavigate();
-  const Layout = user?.group === "admin" ? LayoutAdmin : LayoutUser;
+  if (!user) return null;
+  const Layout = user.group === "admin" ? LayoutAdmin : LayoutUser;
   const attendanceLink =
     user?.group === "admin" ? "/admin/attendanceHistory" : "/attendanceHistory";
 
@@ -42,9 +45,13 @@ const DashboardUser = () => {
     if (pendingScan) {
       setConfirmModal({
         isOpen: true,
-        message: "Terdapat absen tertunda. Apakah Anda ingin mengirimnya sekarang?",
+        message:
+          "Terdapat absen tertunda. Apakah Anda ingin mengirimnya sekarang?",
         onConfirm: () => {
           setScannedQr(pendingScan);
+          localStorage.removeItem("pending_scan");
+        },
+        onClose: () => {
           localStorage.removeItem("pending_scan");
           setConfirmModal({ isOpen: false });
         },
@@ -61,6 +68,7 @@ const DashboardUser = () => {
     setCurrentDate(formattedDate);
   }, []);
 
+  // Automatically submit attendance when QR code and location are available
   useEffect(() => {
     if (scannedQr && location && !hasSubmitted.current) {
       hasSubmitted.current = true;
@@ -84,13 +92,6 @@ const DashboardUser = () => {
         const scannedUrl = new URL(qrValue);
         const code = scannedUrl.searchParams.get("code") || qrValue;
         setScannedQr(code);
-        console.log("Scanned QR:", code);
-        if (!location) {
-          localStorage.setItem(
-            "pending_scan",
-            JSON.stringify({ qrCode: code })
-          );
-        }
       } catch (error) {
         setScannedQr(qrValue);
       }
@@ -100,51 +101,39 @@ const DashboardUser = () => {
   const handleLocationUpdate = (coords) => {
     if (!location) {
       setLocation(coords);
-      console.log("User Location:", coords);
-
-      const pendingScan = localStorage.getItem("pending_scan");
-      if (pendingScan) {
-        setConfirmModal({
-          isOpen: true,
-          message: "Lokasi sudah tersedia. Apakah Anda ingin mengirim absen sekarang?",
-          onConfirm: () => {
-            setScannedQr(pendingScan);
-            localStorage.removeItem("pending_scan");
-            setConfirmModal({ isOpen: false });
-          },
-        });
-      }
+      setIsLocating(false);
     }
   };
 
   const handleLocationError = (error) => {
-    console.error("Location Error:", error);
-
+    setIsLocating(false);
     if (error.code === 1) {
-      toast.error("Izin lokasi ditolak! Harap aktifkan GPS.");
+      toast.error(
+        "Izin lokasi ditolak! Harap aktifkan GPS, lalu refresh halaman."
+      );
     } else if (error.code === 2) {
       toast.error("Lokasi tidak tersedia. Periksa koneksi GPS Anda.");
     } else if (error.code === 3) {
-      toast.error("Pengambilan lokasi terlalu lama. Coba lagi.");
+      toast.error("Permintaan lokasi timeout. Harap refresh halaman.");
     } else {
       toast.error("Terjadi kesalahan dalam mengambil lokasi.");
     }
   };
 
   const submitAttendance = async (qrCode, coords) => {
-    if (!qrCode) {
-      toast.error("QR code belum terdeteksi!");
-      hasSubmitted.current = false;
-      return;
-    }
+    // if (!qrCode) {
+    //   toast.error("QR code belum terdeteksi!");
+    //   hasSubmitted.current = false;
+    //   return;
+    // }
 
-    if (!coords) {
-      toast.error("Lokasi tidak ditemukan! Pastikan GPS aktif.");
-      hasSubmitted.current = false;
-      return;
-    }
+    // if (!coords) {
+    //   toast.error("Lokasi tidak ditemukan! Pastikan GPS aktif.");
+    //   hasSubmitted.current = false;
+    //   return;
+    // }
 
-    setLoading(true);
+    // setLoading(true);
 
     try {
       const now = new Date();
@@ -164,7 +153,6 @@ const DashboardUser = () => {
         user_id: user.id,
         opd_id: user.opd_id,
         qrcode_value: qrCode,
-        date: formattedDate,
         timestamp: formattedTime,
         latitude: coords?.lat,
         longitude: coords?.lng,
@@ -173,17 +161,16 @@ const DashboardUser = () => {
       toast.success(response?.message || "Absen berhasil!");
 
       const redirectPath =
-        user.group === "admin" ? "/admin/attendancehistory" : "/attendancehistory";
+        user.group === "admin"
+          ? "/admin/attendancehistory"
+          : "/attendancehistory";
       navigate(redirectPath);
     } catch (error) {
-      console.error("Full error response:", error);
-
       if (error.data?.error) {
         toast.error(error.data.error);
       } else {
         toast.error("Absen gagal! Terjadi kesalahan.");
       }
-
       hasSubmitted.current = false;
     } finally {
       setLoading(false);
@@ -232,6 +219,11 @@ const DashboardUser = () => {
             onLocationUpdate={handleLocationUpdate}
             onLocationError={handleLocationError}
           />
+          {isLocating && (
+            <div className="flex justify-center mt-4">
+              <ClipLoader size={35} color="#3B82F6" />
+            </div>
+          )}
         </div>
       </div>
 

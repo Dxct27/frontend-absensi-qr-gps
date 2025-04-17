@@ -13,7 +13,7 @@ const NavBarAdmin = () => {
     try {
       await logout();
     } catch (error) {
-      console.error("Logout failed!", error);
+      ("Logout failed!", error);
       toast.error("Logout failed! Please try again.");
     }
   };
@@ -38,7 +38,7 @@ const NavBarAdmin = () => {
     <nav className="bg-gray-500 border-gray-200">
       <div className="w-full flex flex-wrap items-center justify-between p-4">
         {/* Logo & Title */}
-        <Link to="#" className="flex items-center space-x-3">
+        <Link to="/adminpanel" className="flex items-center space-x-3">
           <img src={LogoKominfo} className="h-[5vh]" alt="Kominfo" />
           <span className="text-2xl font-semibold text-white">
             Absensi Admin
@@ -50,7 +50,7 @@ const NavBarAdmin = () => {
           id="menu-button"
           onClick={() => setIsOpen(!isOpen)}
           type="button"
-          className="md:hidden p-2 w-10 h-10 text-white rounded-lg hover:bg-gray-600 focus:outline-none"
+          className="md:hidden p-2 w-10 h-10 text-white rounded-lg hover:bg-gray-600 focus:outline-none !bg-inherit"
         >
           <svg
             className="w-6 h-6"
@@ -96,7 +96,7 @@ const NavBarAdmin = () => {
                 <button
                   id="profile-button"
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center space-x-2 text-white hover:text-gray-300"
+                  className="flex items-center space-x-2 text-white hover:text-gray-300 !bg-inherit focus:outline-none"
                 >
                   Profile
                 </button>

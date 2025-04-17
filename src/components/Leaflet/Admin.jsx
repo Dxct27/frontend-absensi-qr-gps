@@ -3,31 +3,47 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-const DEFAULT_POSITION = [-6.200000, 106.816666]; // Default: Jakarta, Indonesia
+const DEFAULT_POSITION = [-6.2, 106.816666];
 
-const LeafletAdmin = ({ onLocationChange }) => {
-  const [position, setPosition] = useState(null); // Start as null to avoid issues
+const LeafletAdmin = ({ onLocationChange, initialLat, initialLng }) => {
+  const [position, setPosition] = useState(null);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (location) => {
-          const newPosition = [location.coords.latitude, location.coords.longitude];
-          setPosition(newPosition);
-          onLocationChange(newPosition); // Set initial location to parent
-        },
-        (error) => {
-          console.error("Error fetching location:", error);
-          setPosition(DEFAULT_POSITION);
-          onLocationChange(DEFAULT_POSITION); // Fallback location
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-      setPosition(DEFAULT_POSITION);
-      onLocationChange(DEFAULT_POSITION);
+    let geoTimeout;
+
+    if (initialLat && initialLng) {
+      const newPosition = [parseFloat(initialLat), parseFloat(initialLng)];
+      setPosition(newPosition);
+      onLocationChange(newPosition);
+      return; 
     }
-  }, []);
+
+    geoTimeout = setTimeout(() => {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (location) => {
+            const newPosition = [
+              location.coords.latitude,
+              location.coords.longitude,
+            ];
+            setPosition(newPosition);
+            onLocationChange(newPosition);
+          },
+          (error) => {
+            console.warn("Geolocation error:", error);
+            setPosition(DEFAULT_POSITION);
+            onLocationChange(DEFAULT_POSITION);
+          }
+        );
+      } else {
+        console.warn("Geolocation not supported");
+        setPosition(DEFAULT_POSITION);
+        onLocationChange(DEFAULT_POSITION);
+      }
+    }, 300); 
+
+    return () => clearTimeout(geoTimeout); 
+  }, [initialLat, initialLng]);
 
   const markerIcon = new L.Icon({
     iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
@@ -44,7 +60,12 @@ const LeafletAdmin = ({ onLocationChange }) => {
             <strong>Selected Location: </strong> {position[0]}, {position[1]}
           </p>
           <div className="h-[45vh] w-full md:h-[70vh] border-2">
-            <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
+            <MapContainer
+              center={position}
+              zoom={13}
+              scrollWheelZoom={false}
+              style={{ height: "100%", width: "100%" }}
+            >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marker
                 position={position}
@@ -55,7 +76,7 @@ const LeafletAdmin = ({ onLocationChange }) => {
                     const newPos = e.target.getLatLng();
                     const newCoords = [newPos.lat, newPos.lng];
                     setPosition(newCoords);
-                    onLocationChange(newCoords); // Update parent when moved
+                    onLocationChange(newCoords);
                   },
                 }}
               >

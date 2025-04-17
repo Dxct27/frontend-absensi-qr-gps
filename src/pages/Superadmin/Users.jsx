@@ -29,7 +29,7 @@ const SuperAdminUsers = () => {
       setOpds(opdData);
       setTotalPages(response.last_page || 1);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      ("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
@@ -45,7 +45,7 @@ const SuperAdminUsers = () => {
       await fetchAPI(url, method, body);
       await fetchData();
     } catch (error) {
-      console.error("Error updating data:", error);
+      ("Error updating data:", error);
     } finally {
       setUpdating(false);
     }
@@ -76,10 +76,11 @@ const SuperAdminUsers = () => {
       <ConfirmModal
         isOpen={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
-        title="Confirm Delete"
-        message="Are you sure you want to delete this user?"
-        confirmText="Delete"
-        cancelText="Cancel"
+        title="Konfirmasi Hapus"
+        message="Apakah Anda yakin ingin menghapus pengguna ini?"
+        confirmButtonStyles="bg-red-500 hover:bg-red-600"
+        confirmText="Hapus"
+        cancelText="Batal"
         onConfirm={handleDelete}
       />
 

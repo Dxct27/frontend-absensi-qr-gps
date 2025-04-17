@@ -12,12 +12,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { format, parse } from "date-fns";
 import Label from "../Label";
 
-const QRFormModal = ({ isOpen, onClose, qrId }) => {
+const QRFormModal = ({ isOpen, onClose, qrId, clonedData }) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const defaultFormData = {
     name: "",
-    radius: "250",
+    radius: "50",
     tanggal: new Date(),
     waktuMulai: "",
     waktuAkhir: "",
@@ -31,24 +31,43 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (qrId) {
-      const fetchQRCode = async (qrId) => {
+    
+    const toLocalTime = (utcString) => {
+      const date = new Date(utcString);
+      return `${String(date.getHours()).padStart(2, "0")}:${String(
+        date.getMinutes()
+      ).padStart(2, "0")}`;
+    };
+
+    const extractDate = (dateTimeString) => {
+      return dateTimeString
+        ? new Date(dateTimeString)
+        : defaultFormData.tanggal;
+    };
+
+    if (clonedData) {
+      setFormData({
+        name: clonedData.name || "",
+        radius: clonedData.radius?.toString() || "250",
+        tanggal: extractDate(clonedData.waktu_awal),
+        waktuMulai: clonedData.waktu_awal
+          ? toLocalTime(clonedData.waktu_awal)
+          : "",
+        waktuAkhir: clonedData.waktu_akhir
+          ? toLocalTime(clonedData.waktu_akhir)
+          : "",
+        latitude: clonedData.latitude ?? "",
+        longitude: clonedData.longitude ?? "",
+      });
+      setQrValue(null);
+      setIsLoaded(true);
+    } else if (qrId) {
+      const fetchQRCode = async () => {
         try {
           const data = await fetchAPI(`/qrcodes/${qrId}`);
           if (!data || Object.keys(data).length === 0) {
             throw new Error("Empty response received");
           }
-
-          const toLocalTime = (utcString) => {
-            const date = new Date(utcString);
-            return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-          };
-
-          const extractDate = (dateTimeString) => {
-            return dateTimeString
-              ? new Date(dateTimeString)
-              : defaultFormData.tanggal;
-          };
 
           setFormData({
             name: data.name || "",
@@ -68,11 +87,11 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
         }
       };
 
-      fetchQRCode(qrId);
+      fetchQRCode();
     } else {
       setIsLoaded(true);
     }
-  }, [qrId]);
+  }, [qrId, clonedData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -154,6 +173,7 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
       isOpen={isOpen}
       onClose={handleClose}
       title={qrId ? "Edit QR Code" : "Buat QR Code"}
+      sizeClasses="w-full md:w-2/3"
     >
       <div className="space-y-4">
         {isLoaded && (
@@ -202,7 +222,11 @@ const QRFormModal = ({ isOpen, onClose, qrId }) => {
           </>
         )}
 
-        <LeafletAdmin onLocationChange={handleLocationChange} />
+        <LeafletAdmin
+          onLocationChange={handleLocationChange}
+          initialLat={formData.latitude}
+          initialLng={formData.longitude}
+        />
 
         <RectangleButton onClick={handleSubmit} disabled={loading}>
           {loading ? "Processing..." : qrId ? "Update QR Code" : "Buat Kode QR"}

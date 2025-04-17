@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -8,11 +8,9 @@ import {
 import { fetchQRCodes, fetchAPI } from "../../utils/api";
 import QRFormModal from "../../components/Modal/QRFormModal";
 import QRCodeModal from "../../components/Modal/QRCodeModal";
-import {
-  downloadSingleQRAsPDF,
-  downloadMultipleQRsAsPDF,
-} from "../../utils/qrcodeDownload";
+import { downloadSingleQRAsPDF } from "../../utils/qrcodeDownload";
 import { toast } from "react-toastify";
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 
 const formatDate = (dateString) => {
   if (!dateString) return "-";
@@ -31,13 +29,40 @@ const formatDate = (dateString) => {
   );
 };
 
-const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
+const QRCodeListTable = ({
+  showCheckbox,
+  selectedQRs,
+  setSelectedQRs,
+  setVisibleQRs,
+  refreshKey,
+}) => {
   const [qrCodes, setQrCodes] = useState([]);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isShowQRModalOpen, setIsShowQRModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedQrId, setSelectedQrId] = useState(null);
+  const [qrToDelete, setQrToDelete] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".group")) {
+        setOpenDropdownId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleDropdownToggle = (rowId) => {
+    setOpenDropdownId(openDropdownId === rowId ? null : rowId);
+  };
 
   useEffect(() => {
     loadQRCodes();
@@ -59,30 +84,33 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
 
   const handleShowQR = (qr) => {
     setSelectedQrId(qr.id);
-    console.log("qr data", qr);
     setIsShowQRModalOpen(true);
   };
 
   const handleUpdate = (qr) => {
-    if (!qr || !qr.id) {
-      console.error("QR ID is undefined:", qr);
-      return;
-    }
-    console.log("Selected QR Data:", qr);
+    if (!qr || !qr.id) return;
     setSelectedQrId(qr.id);
     setIsFormModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to delete this QR Code?")) return;
+  const handleDelete = async () => {
+    if (!qrToDelete) return;
     try {
-      await fetchAPI(`/qrcodes/${id}`, "DELETE");
-      setQrCodes(qrCodes.filter((qr) => qr.id !== id));
+      await fetchAPI(`/qrcodes/${qrToDelete}`, "DELETE");
+      setQrCodes((prev) => prev.filter((qr) => qr.id !== qrToDelete));
+      toast.success("QR code deleted successfully");
     } catch (err) {
       console.error("Error deleting QR code:", err);
-      toast.err("Failed to delete QR code");
+      toast.error("Failed to delete QR code");
     }
+    setQrToDelete(null);
+    setIsConfirmModalOpen(false);
     loadQRCodes();
+  };
+
+  const openConfirmDelete = (id) => {
+    setQrToDelete(id);
+    setIsConfirmModalOpen(true);
   };
 
   const handleSelectQR = (qr) => {
@@ -94,13 +122,7 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
   };
 
   const handleDownloadSingle = (qr) => {
-    console.log("handleDownloadSingle called with:", qr);
     downloadSingleQRAsPDF(qr);
-  };
-
-  const handleDownloadMultiple = () => {
-    console.log("All selected QR ", selectedQRs);
-    downloadMultipleQRsAsPDF(selectedQRs, "Your OPD Name");
   };
 
   const columns = [
@@ -134,47 +156,47 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
       cell: ({ getValue }) => formatDate(getValue()),
     },
     {
-      header: "Download",
+      header: "Actions",
       cell: ({ row }) => (
-        <button
-          onClick={() => handleDownloadSingle(row.original)}
-          className="px-2 py-1 bg-blue-500 text-white rounded"
+        <details
+          ref={dropdownRef}
+          className="relative group"
+          open={openDropdownId === row.original.id}
+          onClick={() => handleDropdownToggle(row.original.id)}
         >
-          Download
-        </button>
-      ),
-    },
-    {
-      header: "Tampilkan QR",
-      cell: ({ row }) => (
-        <button
-          onClick={() => handleShowQR(row.original)}
-          className="px-2 py-1 bg-green-500 text-white rounded"
-        >
-          Tampilkan
-        </button>
-      ),
-    },
-    {
-      header: "Edit",
-      cell: ({ row }) => (
-        <button
-          onClick={() => handleUpdate(row.original)}
-          className="px-2 py-1 bg-yellow-500 text-white rounded"
-        >
-          Edit
-        </button>
-      ),
-    },
-    {
-      header: "Hapus",
-      cell: ({ row }) => (
-        <button
-          onClick={() => handleDelete(row.original.id)}
-          className="px-2 py-1 bg-red-500 text-white rounded"
-        >
-          Hapus
-        </button>
+          <summary className="flex justify-between items-center px-2 py-1 bg-gray-200 rounded cursor-pointer list-none">
+            Actions
+            <span className="ml-2 transform group-open:rotate-180 transition-transform">
+              ▼
+            </span>
+          </summary>
+          <div className="relative z-10 mt-1 bg-white border shadow-lg rounded w-40">
+            <button
+              onClick={() => handleDownloadSingle(row.original)}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Download
+            </button>
+            <button
+              onClick={() => handleShowQR(row.original)}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Tampilkan QR
+            </button>
+            <button
+              onClick={() => handleUpdate(row.original)}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => openConfirmDelete(row.original.id)}
+              className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+            >
+              Hapus
+            </button>
+          </div>
+        </details>
       ),
     },
   ];
@@ -186,8 +208,31 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  useEffect(() => {
+    const visibleRows = table.getRowModel().rows.map((row) => row.original);
+    setVisibleQRs?.(visibleRows);
+  }, [table.getRowModel().rows]);
+
+  useEffect(() => {
+    loadQRCodes();
+  }, [refreshKey]);
+
   return (
     <>
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => {
+          setIsConfirmModalOpen(false);
+          setQrToDelete(null);
+        }}
+        title="Konfirmasi Hapus"
+        message="Apakah Anda yakin ingin menghapus QR code ini?"
+        confirmText="Hapus"
+        confirmButtonStyles="bg-red-500 hover:bg-red-600"
+        cancelText="Batal"
+        onConfirm={handleDelete}
+      />
+
       <QRFormModal
         isOpen={isFormModalOpen}
         onClose={() => {
@@ -197,12 +242,12 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
         }}
         qrId={selectedQrId}
       />
+
       <QRCodeModal
         isOpen={isShowQRModalOpen}
         onClose={() => {
           setIsShowQRModalOpen(false);
           setSelectedQrId(null);
-          loadQRCodes();
         }}
         qrCodeId={selectedQrId}
       />
@@ -246,7 +291,6 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
         </div>
       )}
 
-      {/* Pagination Controls */}
       <div className="flex justify-between items-center mt-4">
         <button
           onClick={() => table.previousPage()}
@@ -255,12 +299,10 @@ const QRCodeListTable = ({ showCheckbox, selectedQRs, setSelectedQRs }) => {
         >
           Prev
         </button>
-
         <span>
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </span>
-
         <button
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}

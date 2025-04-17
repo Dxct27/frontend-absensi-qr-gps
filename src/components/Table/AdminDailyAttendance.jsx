@@ -14,8 +14,6 @@ const AdminDailyAttendanceTable = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDateClick = (date, selectedAttendanceData) => {
-    console.log("rowData", selectedAttendanceData);
-    console.log("date", date);
     setSelectedAttendanceData(selectedAttendanceData);
     setIsModalOpen(true);
   };
@@ -135,11 +133,11 @@ const AdminDailyAttendanceTable = ({
 
       const existing = attendanceMap.get(record.user.id);
       const formattedDate = new Date(record.date).toISOString().split("T")[0];
-
+      
       existing.attendance[formattedDate] = {
         status: record.status || "-",
-        fullDetails: record, // Store full attendance details
-      };
+        fullDetails: record,
+      };return
     });
 
     const today = new Date().toISOString().split("T")[0];
@@ -149,8 +147,8 @@ const AdminDailyAttendanceTable = ({
         const attendance = attendanceMap.get(user.id)?.attendance || {};
 
         days.forEach((day) => {
-          const dateKey = day.toISOString().split("T")[0];
-
+          const dateKey = day.toLocaleDateString("en-CA"); 
+          
           if (
             !attendance[dateKey] &&
             day.getDay() !== 0 &&
@@ -221,7 +219,7 @@ const AdminDailyAttendanceTable = ({
             </span>
           ),
           cell: ({ row }) => {
-            const dateKey = day.toLocaleDateString("en-CA"); // Keeps it in local time
+            const dateKey = day.toLocaleDateString("en-CA");
             const attendanceRecord = row.original.attendance[dateKey] || {};
             const status = attendanceRecord.status || "-";
 
@@ -244,8 +242,7 @@ const AdminDailyAttendanceTable = ({
           },
         }))
       );
-
-      // ✅ **Restored Summary Columns**
+      
       statusTypes.forEach((status) => {
         baseColumns.push({
           accessorKey: `summary_${status}`,

@@ -19,7 +19,6 @@ const AttendanceHistory = () => {
     if (user) {
       fetchAttendance();
     }
-    console.log("pppp", user);
   }, [selectedDate, user]);
 
   const fetchAttendance = async () => {
@@ -30,17 +29,14 @@ const AttendanceHistory = () => {
         `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly&type=daily`
       );
 
-      console.log("user data being send ", user, formattedDate);
-
       if (response && response.data) {
         setAttendanceData(response.data);
-        console.log("Fetched Attendance Data:", response.data);
       } else {
         setAttendanceData([]);
         console.warn("No attendance data received");
       }
     } catch (error) {
-      console.error("Error fetching attendance:", error);
+      ("Error fetching attendance:", error);
       setAttendanceData([]);
     } finally {
       setLoading(false);

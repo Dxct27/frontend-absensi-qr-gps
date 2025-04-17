@@ -8,6 +8,8 @@ const ConfirmModal = ({
   confirmText = "Ya",
   cancelText = "Tidak",
   onConfirm,
+  confirmButtonStyles = "",
+  cancelButtonStyles = "",
   size
 }) => {
   return (
@@ -16,7 +18,7 @@ const ConfirmModal = ({
       <div className="flex justify-end space-x-3">
         <button
           onClick={onClose}
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          className={`px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 ${cancelButtonStyles}`}
         >
           {cancelText}
         </button>
@@ -25,7 +27,7 @@ const ConfirmModal = ({
             onConfirm();
             onClose();
           }}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 ${confirmButtonStyles}`}
         >
           {confirmText}
         </button>

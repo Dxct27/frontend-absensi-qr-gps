@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 const LeafletUser = ({ onLocationUpdate, onLocationError }) => {
   const [position, setPosition] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const intervalDuration = 5000; 
+  const intervalDuration = 5000;
 
   useEffect(() => {
     if (!("geolocation" in navigator)) {
@@ -16,7 +16,7 @@ const LeafletUser = ({ onLocationUpdate, onLocationError }) => {
 
     const geoOptions = {
       enableHighAccuracy: true,
-      timeout: 10000,
+      timeout: 20000,
       maximumAge: 0,
     };
 
@@ -33,9 +33,9 @@ const LeafletUser = ({ onLocationUpdate, onLocationError }) => {
         (err) => {
           let message = "Gagal mendapatkan lokasi.";
           if (err.code === 1)
-            message = "Izin lokasi ditolak! Harap aktifkan GPS.";
+            message = "Izin lokasi ditolak! Harap aktifkan GPS, lalu refresh halaman.";
           else if (err.code === 2) message = "Lokasi tidak tersedia.";
-          else if (err.code === 3) message = "Permintaan lokasi timeout.";
+          else if (err.code === 3) message = "Permintaan lokasi timeout. Harap refresh halaman.";
 
           setErrorMsg(message);
           onLocationError && onLocationError(message);
@@ -44,11 +44,18 @@ const LeafletUser = ({ onLocationUpdate, onLocationError }) => {
       );
     };
 
-    getLocation(); 
+    getLocation();
     const intervalId = setInterval(getLocation, intervalDuration);
 
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, [onLocationUpdate, onLocationError]);
+
+  const markerIcon = new L.Icon({
+    iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+  });
 
   return (
     <div className="w-full my-10">
@@ -67,7 +74,7 @@ const LeafletUser = ({ onLocationUpdate, onLocationError }) => {
               style={{ height: "100%", width: "100%" }}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={position}>
+              <Marker position={position} icon={markerIcon}>
                 <Popup>Anda di sini! 📍</Popup>
               </Marker>
             </MapContainer>

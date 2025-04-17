@@ -4,7 +4,7 @@ import LayoutAdmin from "../../components/Layout/Admin";
 import RectangleButton from "../../components/RectangleButton";
 import QRCodeComponent from "../../components/QRCodeComponent";
 import QRFormModal from "../../components/Modal/QRFormModal";
-import ConfirmModal from "../../components/Modal/ConfirmModal"; // Import ConfirmModal
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { fetchQRCodes, fetchAPI } from "../../utils/api";
 import { toast } from "react-toastify";
 
@@ -16,8 +16,9 @@ const QRCodePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedQrId, setSelectedQrId] = useState(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false); // State for confirm modal
-  const [qrToDelete, setQrToDelete] = useState(null); // Store the QR ID to delete
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [qrToDelete, setQrToDelete] = useState(null);
+  const [clonedData, setClonedData] = useState(null); // New state
 
   const itemsPerPage = 3;
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const QRCodePage = () => {
       setQrCodes(response);
       setCurrentPage(1);
     } catch (err) {
-      console.error("Error fetching QR codes:", err);
+      "Error fetching QR codes:", err;
       setError("Failed to fetch QR codes");
     } finally {
       setLoading(false);
@@ -43,8 +44,15 @@ const QRCodePage = () => {
   const formatDateTime = (dateString) => {
     if (!dateString) return "Invalid Date";
     const date = new Date(dateString);
-    return `${date.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })} 
-            ${date.toLocaleDateString("id-ID", { day: "2-digit", month: "2-digit", year: "numeric" })}`;
+    return `${date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })} 
+            ${date.toLocaleDateString("id-ID", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })}`;
   };
 
   const openCreateModal = () => {
@@ -54,6 +62,12 @@ const QRCodePage = () => {
 
   const openEditModal = (qrId) => {
     setSelectedQrId(qrId);
+    setIsModalOpen(true);
+  };
+
+  const openCloneModal = (qrData) => {
+    setClonedData(qrData);
+    setSelectedQrId(null);
     setIsModalOpen(true);
   };
 
@@ -75,13 +89,21 @@ const QRCodePage = () => {
       await fetchAPI(`/qrcodes/${qrToDelete}`, "DELETE");
       setQrCodes(qrCodes.filter((qr) => qr.id !== qrToDelete));
     } catch (err) {
-      console.error("Error deleting QR code:", err);
+      "Error deleting QR code:", err;
       toast.error("Failed to delete QR code");
     }
     loadQRCodes();
     setIsConfirmOpen(false);
     setQrToDelete(null);
   };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast.success("Copied to clipboard!");
+    }).catch(() => {
+      toast.error("Failed to copy.");
+    });
+  };  
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -94,14 +116,16 @@ const QRCodePage = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         qrId={selectedQrId}
+        clonedData={clonedData}
       />
 
       <ConfirmModal
         isOpen={isConfirmOpen}
         onClose={() => setIsConfirmOpen(false)}
-        title="Confirm Delete"
-        message="Are you sure you want to delete this QR code?"
-        confirmText="Delete"
+        title="Konfirmasi Hapus"
+        message="Apakah Anda yakin ingin menghapus QR Code ini?"
+        confirmText="Hapus"
+        confirmButtonStyles="bg-red-500 hover:bg-red-600"
         cancelText="Cancel"
         onConfirm={handleDelete}
       />
@@ -145,18 +169,30 @@ const QRCodePage = () => {
               </p>
 
               <div className="flex gap-2 mt-3">
-                <RectangleButton
+                {/* <RectangleButton
                   onClick={() => openEditModal(qr.id)}
                   className="px-3 py-1 bg-blue-500 text-white rounded"
                 >
                   Edit
+                </RectangleButton> */}
+                <RectangleButton
+                  onClick={() => copyToClipboard(`${window.location.origin}${qr.url}`)}
+                  className="px-3 py-1 bg-blue-500 text-white rounded"
+                >
+                  Salin Link QR
                 </RectangleButton>
-                <button
+                <RectangleButton
+                  onClick={() => openCloneModal(qr)}
+                  className="px-3 py-1 bg-green-500 text-white rounded"
+                >
+                  Duplikat QR
+                </RectangleButton>
+                {/* <button
                   onClick={() => openConfirmDelete(qr.id)}
                   className="px-3 py-1 bg-red-500 text-white rounded"
                 >
                   Delete
-                </button>
+                </button> */}
               </div>
             </div>
           ))
@@ -170,7 +206,9 @@ const QRCodePage = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded ${currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+            className={`px-4 py-2 rounded ${
+              currentPage === 1 ? "bg-gray-300" : "bg-blue-500 text-white"
+            }`}
           >
             Prev
           </button>
@@ -182,7 +220,11 @@ const QRCodePage = () => {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded ${currentPage === totalPages ? "bg-gray-300" : "bg-blue-500 text-white"}`}
+            className={`px-4 py-2 rounded ${
+              currentPage === totalPages
+                ? "bg-gray-300"
+                : "bg-blue-500 text-white"
+            }`}
           >
             Next
           </button>

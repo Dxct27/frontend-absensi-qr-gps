@@ -18,7 +18,7 @@ const QrReader = ({ onScan, loading }) => {
           setScannedResult(result.data);
           onScan(result.data);
 
-          setTimeout(() => setScannedResult(""), 3000); // Reset scanned result after 3 seconds
+          setTimeout(() => setScannedResult(""), 3000);
         },
         {
           preferredCamera: "environment",
@@ -32,7 +32,7 @@ const QrReader = ({ onScan, loading }) => {
         .start()
         .then(() => setQrOn(true))
         .catch((err) => {
-          console.error("QR Scanner failed to start:", err);
+          ("QR Scanner failed to start:", err);
           setQrOn(false);
         });
     }
