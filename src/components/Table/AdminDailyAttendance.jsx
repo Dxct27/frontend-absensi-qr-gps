@@ -3,6 +3,9 @@ import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import AttendanceDetailModal from "../Modal/AttendanceDetailModal";
+import { formattedDate, formattedDateEnCa } from "../../utils/date";
+import { IoExitOutline } from "react-icons/io5";
+import RectangleButton from "../RectangleButton";
 
 const AdminDailyAttendanceTable = ({
   attendanceData,
@@ -12,8 +15,9 @@ const AdminDailyAttendanceTable = ({
 }) => {
   const [selectedAttendanceData, setSelectedAttendanceData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleDateClick = (date, selectedAttendanceData) => {
+  const handleAttendanceDetailModal = (selectedAttendanceData) => {
     setSelectedAttendanceData(selectedAttendanceData);
     setIsModalOpen(true);
   };
@@ -34,15 +38,20 @@ const AdminDailyAttendanceTable = ({
     empty: "bg-gray-100",
   };
 
+  const hoverColor = {
+    hadir: "hover:bg-green-300",
+    "dinas luar": "hover:bg-blue-300",
+    izin: "hover:bg-purple-300",
+    sakit: "hover:bg-yellow-300",
+    absen: "hover:bg-red-300",
+    empty: "hover:bg-gray-200",
+  };
+
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Attendance");
 
-    let headers = [
-      "Name",
-      "NIP",
-      ...days.map((day) => day.toISOString().split("T")[0]),
-    ];
+    let headers = ["Name", "NIP", ...days.map((day) => formattedDate(day))];
     if (filterType !== "daily") {
       headers.push("Hadir", "Dinas Luar", "Izin", "Sakit", "Absen");
     }
@@ -51,45 +60,58 @@ const AdminDailyAttendanceTable = ({
     const statusColors = {
       H: "FF90EE90",
       D: "FF87CEEB",
-      I: "FFADD8E6",
-      S: "FFDDA0DD",
+      I: "FFDDA0DD",
+      S: "FFADD8E6",
       A: "FFFFA07A",
     };
 
+    // Iterate over merged data
     mergedData.forEach((row) => {
       let rowData = [row.name, row.nip];
 
       days.forEach((day) => {
-        const dateKey = day.toISOString().split("T")[0];
-        let status = row.attendance[dateKey] || "-";
+        const dateKey = formattedDate(day);
+        let status = row.attendance[dateKey]?.status || "-";
 
-        let formattedStatus = status
-          .split(",")
-          .map((s) =>
-            s.trim() === "dinas luar" ? "D" : s.trim().charAt(0).toUpperCase()
-          )
-          .join(",");
+        // Ensure status is a string before splitting
+        let formattedStatus =
+          typeof status === "string"
+            ? status
+                .split(",")
+                .map((s) =>
+                  s.trim() === "dinas luar"
+                    ? "D"
+                    : s.trim().charAt(0).toUpperCase()
+                )
+                .join(",")
+            : "-";
 
         rowData.push(formattedStatus);
       });
 
       if (filterType !== "daily") {
         rowData.push(
-          Object.values(row.attendance).filter((s) => s.includes("hadir"))
-            .length,
-          Object.values(row.attendance).filter((s) => s.includes("dinas luar"))
-            .length,
-          Object.values(row.attendance).filter((s) => s.includes("izin"))
-            .length,
-          Object.values(row.attendance).filter((s) => s.includes("sakit"))
-            .length,
-          Object.values(row.attendance).filter((s) => s.includes("absen"))
-            .length
+          Object.values(row.attendance).filter((s) =>
+            s.status?.includes("hadir")
+          ).length,
+          Object.values(row.attendance).filter((s) =>
+            s.status?.includes("dinas luar")
+          ).length,
+          Object.values(row.attendance).filter((s) =>
+            s.status?.includes("izin")
+          ).length,
+          Object.values(row.attendance).filter((s) =>
+            s.status?.includes("sakit")
+          ).length,
+          Object.values(row.attendance).filter((s) =>
+            s.status?.includes("absen")
+          ).length
         );
       }
 
       let excelRow = worksheet.addRow(rowData);
 
+      // Apply colors to cells
       excelRow.eachCell((cell, colNumber) => {
         if (colNumber > 2) {
           let cellStatus = cell.value;
@@ -104,19 +126,22 @@ const AdminDailyAttendanceTable = ({
       });
     });
 
+    // Adjust column widths
     worksheet.columns.forEach((column) => {
       column.width = 15;
     });
 
+    // Generate file name
     const dateString =
       filterType === "daily"
-        ? days[0].toISOString().split("T")[0]
-        : `${days[0].toISOString().split("T")[0]}_to_${
-            days[days.length - 1].toISOString().split("T")[0]
-          }`;
+        ? formattedDate(days[0])
+        : `${formattedDate(days[0])}_to_${formattedDate(
+            days[days.length - 1]
+          )}`;
 
     const fileName = `Data Absen ${filterType} ${dateString}.xlsx`;
 
+    // Save the file
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), fileName);
   };
@@ -132,30 +157,32 @@ const AdminDailyAttendanceTable = ({
       }
 
       const existing = attendanceMap.get(record.user.id);
-      const formattedDate = new Date(record.date).toISOString().split("T")[0];
-      
-      existing.attendance[formattedDate] = {
+
+      existing.attendance[formattedDate(new Date(record.date))] = {
         status: record.status || "-",
         fullDetails: record,
-      };return
+      };
+      return;
     });
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = formattedDateEnCa(new Date());
 
     return users
       .map((user) => {
         const attendance = attendanceMap.get(user.id)?.attendance || {};
 
         days.forEach((day) => {
-          const dateKey = day.toLocaleDateString("en-CA"); 
-          
+          const dateKey = formattedDate(day);
+          const formattedDay = formattedDateEnCa(day);
+
           if (
             !attendance[dateKey] &&
             day.getDay() !== 0 &&
             day.getDay() !== 6 &&
-            dateKey < today
+            formattedDay < today
           ) {
             attendance[dateKey] = {
+              // for this to work properly, the datestring must yyyy-mm-dd (en-CA) no id-ID, or
               status: "absen",
               fullDetails: null,
             };
@@ -189,19 +216,22 @@ const AdminDailyAttendanceTable = ({
 
           return (
             <div
-              className={`px-2 py-1 text-xs rounded ${
+              className={`px-2 py-1 text-xs rounded cursor-pointer ${
                 statusColors[status] || "bg-gray-100"
-              }`}
+              } ${hoverColor[status] || "hover:bg-gray-200"}`}
+              onClick={() =>
+                handleAttendanceDetailModal(attendanceRecord.fullDetails)
+              }
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
             </div>
           );
         },
       });
-    } else {
+    } else if (filterType === "weekly" || filterType === "monthly") {
       baseColumns.push(
         ...days.map((day) => ({
-          accessorKey: day.toISOString().split("T")[0],
+          accessorKey: formattedDate(day),
           header: (
             <span
               className={`font-bold ${
@@ -219,30 +249,34 @@ const AdminDailyAttendanceTable = ({
             </span>
           ),
           cell: ({ row }) => {
-            const dateKey = day.toLocaleDateString("en-CA");
+            const dateKey = formattedDate(day);
             const attendanceRecord = row.original.attendance[dateKey] || {};
             const status = attendanceRecord.status || "-";
 
             return (
               <div
                 className="flex flex-wrap justify-center gap-1 cursor-pointer"
-                onClick={() =>
-                  handleDateClick(dateKey, attendanceRecord.fullDetails)
-                }
+                onClick={() => {
+                  handleAttendanceDetailModal(attendanceRecord.fullDetails);
+                  console.log("dateKey: ", dateKey);
+                }}
               >
                 <div
                   className={`px-2 py-1 text-xs rounded ${
                     statusColors[status] || "bg-gray-100"
-                  }`}
+                  } ${hoverColor[status] || "hover:bg-gray-200"}`}
                 >
                   {status === "absen" ? "A" : status.charAt(0).toUpperCase()}
+                  {/* {console.log("status:", status)} */}
                 </div>
               </div>
             );
           },
         }))
       );
-      
+    }
+
+    if (filterType !== "daily") {
       statusTypes.forEach((status) => {
         baseColumns.push({
           accessorKey: `summary_${status}`,
@@ -272,13 +306,23 @@ const AdminDailyAttendanceTable = ({
     return baseColumns;
   }, [days, filterType, attendanceData]);
 
+  const filteredData = useMemo(() => {
+    if (!searchQuery) return mergedData;
+    const lower = searchQuery.toLowerCase();
+    return mergedData.filter(
+      (row) =>
+        row.name.toLowerCase().includes(lower) ||
+        row.nip.toLowerCase().includes(lower)
+    );
+  }, [mergedData, searchQuery]);
+
   const pageSize = 15;
   const [pageIndex, setPageIndex] = useState(0);
   const totalPages = Math.ceil(mergedData.length / pageSize);
 
   const paginatedData = useMemo(() => {
-    return mergedData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
-  }, [mergedData, pageIndex, pageSize]);
+    return filteredData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+  }, [filteredData, pageIndex, pageSize]);
 
   const table = useReactTable({
     data: paginatedData,
@@ -293,12 +337,22 @@ const AdminDailyAttendanceTable = ({
         onClose={closeModal}
         attendanceData={selectedAttendanceData}
       />
-      <button
+      <RectangleButton
+        className="p-2 bg-green-500 text-white rounded hover:bg-green-600 mb-4"
         onClick={exportToExcel}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
+        <IoExitOutline className="mr-2" />
         Export to Excel
-      </button>
+      </RectangleButton>
+      <div className="mb-2">
+        <input
+          type="text"
+          className="border px-2 py-1 rounded w-full md:w-1/3"
+          placeholder="Cari nama atau NIP..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
       <table className="w-full border-collapse border whitespace-nowrap border-gray-300">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

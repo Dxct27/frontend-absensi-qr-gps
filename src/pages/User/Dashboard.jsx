@@ -13,6 +13,7 @@ import SetPasswordModal from "../../components/Modal/SetPasswordModal";
 import LeavePermissionModal from "../../components/Modal/LeavePermissionModal";
 import ConfirmModal from "../../components/Modal/ConfirmModal"; // Import your modal
 import { ClipLoader } from "react-spinners";
+import { formattedDate, formattedTime } from "../../utils/date";
 
 const DashboardUser = () => {
   const { user } = useContext(AuthContext);
@@ -33,7 +34,9 @@ const DashboardUser = () => {
   if (!user) return null;
   const Layout = user.group === "admin" ? LayoutAdmin : LayoutUser;
   const attendanceLink =
-    user?.group === "admin" ? "/admin/attendanceHistory" : "/attendanceHistory";
+    user?.group === "admin"
+      ? "/admin/attendance-history"
+      : "/attendance-history";
 
   useEffect(() => {
     const shouldShowModal = localStorage.getItem("showSetPasswordModal");
@@ -137,23 +140,14 @@ const DashboardUser = () => {
 
     try {
       const now = new Date();
-      const formattedDate = now
-        .toLocaleDateString("id-ID", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        })
-        .split("/")
-        .reverse()
-        .join("-");
-
-      const formattedTime = now.toLocaleTimeString("en-GB", { hour12: false });
+      const formatDate = formattedDate(now).split("/").reverse().join("-");
 
       const response = await fetchAPI("/attendance", "POST", {
         user_id: user.id,
         opd_id: user.opd_id,
         qrcode_value: qrCode,
-        timestamp: formattedTime,
+        date: formatDate,
+        timestamp: formattedTime(now),
         latitude: coords?.lat,
         longitude: coords?.lng,
       });
@@ -162,12 +156,20 @@ const DashboardUser = () => {
 
       const redirectPath =
         user.group === "admin"
-          ? "/admin/attendancehistory"
-          : "/attendancehistory";
+          ? "/admin/attendance-history"
+          : "/attendance-history";
       navigate(redirectPath);
     } catch (error) {
-      if (error.data?.error) {
+      if (typeof error.data?.error === "string") {
         toast.error(error.data.error);
+      } else if (
+        error.data?.error &&
+        typeof error.data.error === "object" &&
+        !Array.isArray(error.data.error)
+      ) {
+        const firstKey = Object.keys(error.data.error)[0];
+        const firstMsg = error.data.error[firstKey][0];
+        toast.error(firstMsg);
       } else {
         toast.error("Absen gagal! Terjadi kesalahan.");
       }
@@ -206,10 +208,16 @@ const DashboardUser = () => {
       <div className="flex flex-col md:grid md:grid-cols-3 gap-4 mt-5">
         <div className="col-span-1 flex flex-col px-5 gap-4">
           <QrReader onScan={handleQrScan} loading={loading} />
-          <RectangleButton onClick={() => setIsLeaveModalOpen(true)}>
+          <RectangleButton
+            className={"p-2"}
+            onClick={() => setIsLeaveModalOpen(true)}
+          >
             Ajukan Ijin
           </RectangleButton>
-          <RectangleButton onClick={() => navigate(attendanceLink)}>
+          <RectangleButton
+            className={"p-2"}
+            onClick={() => navigate(attendanceLink)}
+          >
             Riwayat Absen
           </RectangleButton>
         </div>

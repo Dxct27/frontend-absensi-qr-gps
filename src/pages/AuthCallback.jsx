@@ -17,33 +17,21 @@ const AuthCallback = () => {
 
       getUserData()
         .then((userData) => {
+          handleLogin({ user: userData.user, token });
 
-          // if (!userData.has_password) {
-          //   localStorage.setItem("showSetPasswordModal", "true");
-          // } else {
-          //   localStorage.removeItem("showSetPasswordModal");
-          // }
-
-          if (userData.user.group) {
-            handleLogin({ user: userData.user, token });
-
-            switch (userData.user.group) {
-              case "superadmin":
-                navigate("/superadmin");
-                break;
-              case "admin":
-                navigate("/adminpanel");
-                break;
-              default:
-                navigate("/dashboard");
-            }
-          } else {
-            ("Invalid user userData format:", userData.user);
-            navigate("/");
+          switch (userData.user.group) {
+            case "superadmin":
+              navigate("/superadmin");
+              break;
+            case "admin":
+              navigate("/adminpanel");
+              break;
+            default:
+              navigate("/dashboard");
           }
         })
         .catch((error) => {
-          ("Error fetching user:", error);
+          console.error("Error fetching user:", error);
           navigate("/");
         });
     } else {

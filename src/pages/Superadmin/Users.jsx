@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import SuperAdminLayout from "../../components/Layout/SuperAdmin";
 import SuperAdminUsersTable from "../../components/Table/SuperAdminUsers";
-import ConfirmModal from "../../components/Modal/ConfirmModal"; // Import ConfirmModal
+import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { fetchAPI } from "../../utils/api";
 import { ClipLoader } from "react-spinners";
 
@@ -125,7 +125,7 @@ const SuperAdminUsers = () => {
           opds={opds}
           handleGroupChange={handleGroupChange}
           handleOpdChange={handleOpdChange}
-          handleDelete={openConfirmDelete} // Use modal confirmation
+          handleDelete={openConfirmDelete}
           updating={updating}
         />
       )}

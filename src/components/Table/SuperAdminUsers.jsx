@@ -13,7 +13,7 @@ const SuperAdminUsersTable = ({
   handleOpdChange,
   handleDelete,
 }) => {
-  const [sorting, setSorting] = useState([{ id: "name", desc: false }]); // Default to ASC name sorting
+  const [sorting, setSorting] = useState([{ id: "name", desc: false }]);
 
   const columns = useMemo(
     () => [

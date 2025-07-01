@@ -5,13 +5,20 @@ export const fetchAPI = async (
   endpoint,
   method = "GET",
   body = null,
-  isFormData = false
+  isFormData = false,
+  skipAuth = false
 ) => {
   const token = localStorage.getItem("token");
+
+  if (!token && !skipAuth) {
+    console.warn("No token found, skipping API call.");
+    return Promise.reject("Unauthorized");
+  }
 
   const options = {
     method,
     headers: {
+      "Accept": "application/json",
       "ngrok-skip-browser-warning": "42046",
       ...(token && { Authorization: `Bearer ${token}` }),
       ...(!isFormData && { "Content-Type": "application/json" }),
@@ -25,15 +32,16 @@ export const fetchAPI = async (
 
     if (!response.ok) {
       if (response.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/";
+        console.error("Unauthorized request, refreshing token...");
+        await refreshToken();
+        return fetchAPI(endpoint, method, body, isFormData, skipAuth);
       }
       throw { status: response.status, data };
     }
 
     return data;
   } catch (error) {
-    ("API Error:", error);
+    console.error("API Error:", error);
     throw error;
   }
 };
@@ -56,13 +64,13 @@ export const fetchQRCodes = async (endpoint = "/qrcodes", filters = {}) => {
 
     return qrCodes;
   } catch (err) {
-    ("Error fetching QR codes:", err);
+    "Error fetching QR codes:", err;
     throw new Error("Failed to fetch QR codes");
   }
 };
 
 export const loginUser = (credentials) =>
-  fetchAPI("/auth/login", "POST", credentials);
+  fetchAPI("/auth/login", "POST", credentials, false, true); 
 export const getUserData = () => fetchAPI("/user");
 export const logoutUser = () => fetchAPI("/auth/logout", "POST");
 
@@ -86,7 +94,7 @@ export const exchangeToken = async () => {
 
     return await response.json();
   } catch (error) {
-    ("API Error:", error);
+    "API Error:", error;
     return null;
   }
 };

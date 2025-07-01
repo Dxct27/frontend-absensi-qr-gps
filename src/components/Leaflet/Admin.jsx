@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-const DEFAULT_POSITION = [-6.2, 106.816666];
+const DEFAULT_POSITION = [-8.04906123732842, 111.70924699668501]; // Alun-ALun Trenggalek
 
 const LeafletAdmin = ({ onLocationChange, initialLat, initialLng }) => {
   const [position, setPosition] = useState(null);

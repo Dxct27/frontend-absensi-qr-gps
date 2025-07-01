@@ -7,13 +7,21 @@ import { AuthContext } from "../../context/AuthContext";
 import LayoutUser from "../../components/Layout/User";
 import LayoutAdmin from "../../components/Layout/Admin";
 import Card from "../../components/Card";
+import RectangleButton from "../../components/RectangleButton";
+import { useNavigate } from "react-router-dom";
 
 const AttendanceHistory = () => {
   const { user } = useContext(AuthContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [attendanceData, setAttendanceData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const Layout = user?.group === "admin" ? LayoutAdmin : LayoutUser;
+  const specialEventLink =
+    user?.group === "admin"
+      ? "/admin/special-event-history"
+      : "/special-event-history";
+
 
   useEffect(() => {
     if (user) {
@@ -25,18 +33,24 @@ const AttendanceHistory = () => {
     setLoading(true);
     try {
       const formattedDate = selectedDate.toISOString().split("T")[0];
-      const response = await fetchAPI(
-        `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly&type=daily`
-      );
 
-      if (response && response.data) {
-        setAttendanceData(response.data);
-      } else {
-        setAttendanceData([]);
-        console.warn("No attendance data received");
-      }
+      const attendanceResponse = await fetchAPI(
+        `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly`
+      );
+      // const attendanceResponse = await fetchAPI(
+      //   `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly&qr_type=daily`
+      // );
+
+      // const leaveResponse = await fetchAPI(
+      //   `/attendance?user_id=${user.id}&date=${formattedDate}&filter=monthly&status=izin,sakit`
+      // );
+
+      // const attendance = attendanceResponse?.data || [];
+      // const leavePermissions = leaveResponse?.data || [];
+      // setAttendanceData([...attendance, ...leavePermissions]);
+      setAttendanceData(attendanceResponse?.data || []);
     } catch (error) {
-      ("Error fetching attendance:", error);
+      console.error("Error fetching attendance:", error);
       setAttendanceData([]);
     } finally {
       setLoading(false);
@@ -59,16 +73,20 @@ const AttendanceHistory = () => {
     <Layout>
       <div className="">
         <h2 className="text-xl font-semibold mb-4">Riwayat Absensi</h2>
-
-        <div className="mb-4">
-          <label className="block text-gray-700">Pilih Tanggal:</label>
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            dateFormat="MMMM yyyy"
-            showMonthYearPicker
-            className="border rounded px-3 py-1"
-          />
+        <div className="flex flex-col md:flex-row md:items-center mb-4 justify-between">
+          <div className="mb-4">
+            <label className="block text-gray-700">Pilih Tanggal:</label>
+            <DatePicker
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              dateFormat="MMMM yyyy"
+              showMonthYearPicker
+              className="border rounded p-2 w-full"
+            />
+          </div>
+          <RectangleButton className={"p-2"} onClick={() => navigate(specialEventLink)}>
+            Riwayat Event
+          </RectangleButton>
         </div>
 
         {loading ? (
@@ -94,7 +112,6 @@ const AttendanceHistory = () => {
         />
       </div> 
       */}
-
     </Layout>
   );
 };

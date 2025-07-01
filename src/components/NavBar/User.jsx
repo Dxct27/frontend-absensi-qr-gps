@@ -78,7 +78,7 @@ const NavBarUser = () => {
               </Link>
             </li>
             <li>
-              <Link to="/history" className="hover:text-gray-300">
+              <Link to="/attendance-history" className="hover:text-gray-300">
                 Riwayat
               </Link>
             </li>

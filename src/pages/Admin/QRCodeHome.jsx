@@ -7,6 +7,9 @@ import QRFormModal from "../../components/Modal/QRFormModal";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
 import { fetchQRCodes, fetchAPI } from "../../utils/api";
 import { toast } from "react-toastify";
+import QRCodeCard from "../../components/Card/QRCodeCard";
+import { formattedTimeDate } from "../../utils/date";
+import { IoAdd, IoList } from "react-icons/io5";
 
 const QRCodePage = () => {
   const [qrCodes, setQrCodes] = useState([]);
@@ -18,7 +21,7 @@ const QRCodePage = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [qrToDelete, setQrToDelete] = useState(null);
-  const [clonedData, setClonedData] = useState(null); // New state
+  const [clonedData, setClonedData] = useState(null);
 
   const itemsPerPage = 3;
   const navigate = useNavigate();
@@ -30,7 +33,10 @@ const QRCodePage = () => {
   const loadQRCodes = async () => {
     setLoading(true);
     try {
-      const response = await fetchQRCodes("/qrcodes", { onlyValid: true });
+      const response = await fetchQRCodes("/qrcodes", {
+        type: "daily",
+        onlyValid: true,
+      });
       setQrCodes(response);
       setCurrentPage(1);
     } catch (err) {
@@ -39,20 +45,6 @@ const QRCodePage = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatDateTime = (dateString) => {
-    if (!dateString) return "Invalid Date";
-    const date = new Date(dateString);
-    return `${date.toLocaleTimeString("id-ID", {
-      hour: "2-digit",
-      minute: "2-digit",
-    })} 
-            ${date.toLocaleDateString("id-ID", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}`;
   };
 
   const openCreateModal = () => {
@@ -98,12 +90,15 @@ const QRCodePage = () => {
   };
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast.success("Copied to clipboard!");
-    }).catch(() => {
-      toast.error("Failed to copy.");
-    });
-  };  
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        toast.success("Copied to clipboard!");
+      })
+      .catch(() => {
+        toast.error("Failed to copy.");
+      });
+  };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -117,6 +112,7 @@ const QRCodePage = () => {
         onClose={closeModal}
         qrId={selectedQrId}
         clonedData={clonedData}
+        type={"qrForm"}
       />
 
       <ConfirmModal
@@ -134,12 +130,14 @@ const QRCodePage = () => {
         <h2 className="text-2xl font-bold">QR Codes</h2>
         <div className="flex gap-2">
           <RectangleButton
-            className={"p-5"}
+            className={"p-2"}
             onClick={() => navigate("/qrcode/list")}
           >
+            <IoList className="mr-2" />
             List QR
           </RectangleButton>
-          <RectangleButton className={"p-5"} onClick={openCreateModal}>
+          <RectangleButton className={"p-2 bg-blue-500 text-white"} onClick={openCreateModal}>
+            <IoAdd className="mr-2" />
             Buat kode QR baru
           </RectangleButton>
         </div>
@@ -151,50 +149,14 @@ const QRCodePage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {currentItems.length > 0 ? (
           currentItems.map((qr) => (
-            <div key={qr.id} className="border p-4 bg-white rounded-lg shadow">
-              <h3 className="text-lg font-bold">{qr.name}</h3>
-              <QRCodeComponent
-                qrCodeId={qr.id}
-                refreshTrigger={refreshTrigger}
-              />
-              <p className="text-sm text-gray-600">
-                Lokasi: {qr.latitude}, {qr.longitude}
-              </p>
-              <p className="text-sm text-gray-600">
-                Radius: {qr.radius} meters
-              </p>
-              <p className="text-sm text-gray-600">
-                Valid: {formatDateTime(qr.waktu_awal)} -{" "}
-                {formatDateTime(qr.waktu_akhir)}
-              </p>
-
-              <div className="flex gap-2 mt-3">
-                {/* <RectangleButton
-                  onClick={() => openEditModal(qr.id)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded"
-                >
-                  Edit
-                </RectangleButton> */}
-                <RectangleButton
-                  onClick={() => copyToClipboard(`${window.location.origin}${qr.url}`)}
-                  className="px-3 py-1 bg-blue-500 text-white rounded"
-                >
-                  Salin Link QR
-                </RectangleButton>
-                <RectangleButton
-                  onClick={() => openCloneModal(qr)}
-                  className="px-3 py-1 bg-green-500 text-white rounded"
-                >
-                  Duplikat QR
-                </RectangleButton>
-                {/* <button
-                  onClick={() => openConfirmDelete(qr.id)}
-                  className="px-3 py-1 bg-red-500 text-white rounded"
-                >
-                  Delete
-                </button> */}
-              </div>
-            </div>
+            <QRCodeCard
+              key={qr.id}
+              qr={qr}
+              refreshTrigger={refreshTrigger}
+              formatDateTime={formattedTimeDate}
+              copyToClipboard={copyToClipboard}
+              openCloneModal={openCloneModal}
+            />
           ))
         ) : (
           <p>No valid QR Codes found.</p>

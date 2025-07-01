@@ -143,7 +143,7 @@ const QRCodeList = () => {
         selectedQRs={selectedQRs}
         setSelectedQRs={setSelectedQRs}
         setVisibleQRs={setVisibleQRs}
-        refreshKey={refreshKey} // 👈 tambahkan ini
+        refreshKey={refreshKey} 
       />
     </LayoutAdmin>
   );

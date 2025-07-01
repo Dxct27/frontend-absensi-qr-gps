@@ -85,6 +85,11 @@ const NavBarAdmin = () => {
               </Link>
             </li>
             <li>
+              <Link to="/special-event" className="hover:text-gray-300">
+                Special Event
+              </Link>
+            </li>
+            <li>
               <Link to="/qrcode/scan" className="hover:text-gray-300">
                 Scan QR
               </Link>

@@ -8,7 +8,7 @@ const Input = forwardRef(
       placeholder,
       onChange = () => {},
       icon,
-      value, // Add value prop
+      value,
       defaultValue = "",
       textSize = "",
       paddingY = "py-4",
@@ -16,6 +16,8 @@ const Input = forwardRef(
       type,
       id,
       required,
+      multiline = false, // Add this prop
+      rows = 3, // Default rows for textarea
     },
     ref
   ) => {
@@ -26,18 +28,35 @@ const Input = forwardRef(
             {icon}
           </span>
         )}
-        <input
-          value={value !== undefined ? value : defaultValue} // Controlled input
-          onChange={onChange} // No need for local state
-          ref={ref}
-          readOnly={readOnly}
-          name={name}
-          type={type}
-          id={id}
-          placeholder={placeholder}
-          className={`${icon && "pl-12"} ${textSize} opacity-70 border-2 transform transition ease-in-out duration-100 rounded-lg border-gray-100 focus:border-primary500 ${paddingY} px-3 w-full focus:outline-none`}
-          required={required}
-        />
+        {multiline ? (
+          <textarea
+            value={value !== undefined ? value : defaultValue}
+            onChange={onChange}
+            ref={ref}
+            readOnly={readOnly}
+            name={name}
+            id={id}
+            placeholder={placeholder}
+            className={`${icon && "pl-12"} ${textSize} opacity-70 border-2 transform transition ease-in-out duration-100 rounded-lg border-gray-100 focus:border-primary500 px-3 w-full focus:outline-none resize-y ${paddingY}`}
+            required={required}
+            rows={rows}
+            style={style}
+          />
+        ) : (
+          <input
+            value={value !== undefined ? value : defaultValue}
+            onChange={onChange}
+            ref={ref}
+            readOnly={readOnly}
+            name={name}
+            type={type}
+            id={id}
+            placeholder={placeholder}
+            className={`${icon && "pl-12"} ${textSize} opacity-70 border-2 transform transition ease-in-out duration-100 rounded-lg border-gray-100 focus:border-primary500 ${paddingY} px-3 w-full focus:outline-none`}
+            required={required}
+            style={style}
+          />
+        )}
       </div>
     );
   }

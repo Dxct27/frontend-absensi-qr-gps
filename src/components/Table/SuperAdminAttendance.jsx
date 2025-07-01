@@ -20,7 +20,7 @@ const SuperAdminAttendanceTable = ({ records, onDelete, deleting }) => {
         cell: (info) => info.getValue() || "-",
       },
       {
-        accessorKey: "type",
+        accessorKey: "qrcode.type",
         header: "Type",
         cell: (info) => info.getValue() === "special_event" ? "Special Event" : "Daily",
       },

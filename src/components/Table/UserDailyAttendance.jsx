@@ -15,6 +15,15 @@ const statusColors = {
   empty: "bg-gray-100",
 };
 
+const hoverColor = {
+  hadir: "hover:bg-green-300",
+  "dinas luar": "hover:bg-blue-300",
+  izin: "hover:bg-purple-300",
+  sakit: "hover:bg-yellow-300",
+  absen: "hover:bg-red-300",
+  empty: "hover:bg-gray-200",
+};
+
 const daysOfWeek = ["S", "S", "R", "K", "J", "S", "M"];
 
 const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
@@ -67,9 +76,13 @@ const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
       const isWeekday = dayObj.getDay() !== 0 && dayObj.getDay() !== 6;
       const isPast = dayObj < new Date(today);
 
+      // console.log("datekey:", dateStr);
+      // console.log("dayObj:", dayObj);
+      // console.log("today:", today);
+
       const statuses =
         attendance.length > 0
-          ? attendance.map((a) => a.status)
+          ? [...new Set(attendance.map((a) => a.status))]
           : isWeekday && isPast
           ? ["absen"]
           : ["-"];
@@ -128,7 +141,7 @@ const UserDailyAttendanceTable = ({ selectedDate, attendanceData }) => {
                 {cellData.statuses.map((status, i) => (
                   <div
                     key={i}
-                    className={`px-2 py-1 text-xs rounded ${statusColors[status]} cursor-pointer`}
+                    className={`px-2 py-1 text-xs rounded ${statusColors[status]} ${hoverColor[status]} cursor-pointer`}
                     onClick={() =>
                       handleClick(
                         attendanceData.find((a) => a.date === cellData.date)

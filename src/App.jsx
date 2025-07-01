@@ -17,6 +17,9 @@ import SuperAdminUsers from "./pages/Superadmin/Users";
 import ScanHandler from "./pages/ScanHandler";
 import { ToastContainer } from "react-toastify";
 import SuperAdminAttendance from "./pages/Superadmin/Attendance";
+import SpecialEvent from "./pages/Admin/SpecialEvent";
+import QRAttendance from "./pages/Admin/QRAttendance";
+import SpecialEventHistory from "./pages/User/SpecialEventHistory";
 
 const NotFoundRedirect = () => {
   const { user } = useContext(AuthContext);
@@ -25,8 +28,8 @@ const NotFoundRedirect = () => {
     ? user.group === "admin"
       ? "/adminPanel"
       : user.group === "superadmin"
-        ? "/superadmin"
-        : "/dashboard"
+      ? "/superadmin"
+      : "/dashboard"
     : "/";
 
   return <Navigate to={redirectPath} replace />;
@@ -39,7 +42,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/clipboard" element={<Clipboard />} />
-        <Route path="/test-dashboard" element={<DashboardUser />} />
         <Route path="/auth/google/callback" element={<AuthCallback />} />
         <Route path="/auth/yahoo/callback" element={<AuthCallback />} />
 
@@ -48,23 +50,36 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={["superadmin"]} />}>
           <Route path="/superadmin" element={<SuperAdminDashboard />} />
           <Route path="/superadmin/users" element={<SuperAdminUsers />} />
-          <Route path="/superadmin/attendance" element={<SuperAdminAttendance />} />
+          <Route
+            path="/superadmin/attendance"
+            element={<SuperAdminAttendance />}
+          />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path="/adminPanel" element={<DashboardAdmin />} />
           <Route
-            path="/admin/attendanceHistory"
+            path="/admin/attendance-history"
             element={<AttendanceHistory />}
           />
           <Route path="/qrcode/scan" element={<DashboardUser />} />
           <Route path="/qrcode" element={<QRCodePage />} />
           <Route path="/qrcode/list" element={<QRCodeList />} />
+          <Route path="/special-event" element={<SpecialEvent />} />
+          <Route path="/attendance/:qrCodeId" element={<QRAttendance />} />
+          <Route
+            path="/admin/special-event-history"
+            element={<SpecialEventHistory />}
+          />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
           <Route path="/dashboard" element={<DashboardUser />} />
-          <Route path="/attendanceHistory" element={<AttendanceHistory />} />
+          <Route path="/attendance-history" element={<AttendanceHistory />} />
+          <Route
+            path="/special-event-history"
+            element={<SpecialEventHistory />}
+          />
         </Route>
 
         {/* Catch-all route for invalid URLs */}

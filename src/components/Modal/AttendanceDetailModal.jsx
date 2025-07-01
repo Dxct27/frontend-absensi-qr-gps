@@ -1,5 +1,6 @@
 import Modal from "../Modal";
 import InputLabeled from "../InputLabeled";
+import { formattedDate } from "../../utils/date";
 
 const AttendanceDetailModal = ({ isOpen, onClose, attendanceData }) => {
   if (!attendanceData || !attendanceData.user) return null;
@@ -25,7 +26,7 @@ const AttendanceDetailModal = ({ isOpen, onClose, attendanceData }) => {
 
   // Format waktu: dd/mm/yyyy - hh:mm
   const formattedTime = date
-    ? `${new Date(date).toLocaleDateString("id-ID")} - ${timestamp || ""}`
+    ? `${formattedDate(new Date(date))} - ${timestamp || ""}`
     : "-";
 
   return (

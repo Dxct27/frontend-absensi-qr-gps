@@ -22,7 +22,6 @@ const Login = () => {
     setLoading(true);
     try {
       const data = await loginUser({ email, password });
-      localStorage.setItem("token", data.token);
       handleLogin({ user: data.user, token: data.token });
       navigate(
         data.user.group === "superadmin"

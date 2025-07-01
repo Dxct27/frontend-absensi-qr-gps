@@ -1,0 +1,914 @@
+[
+    {
+        "id": "01jq8mq8np8ppccq0rf9swfbgq",
+        "nip": "198005042023212025",
+        "name": "SULIKA HANDAYANI",
+        "email": "lika_maula@yahoo.com",
+        "google_id": null,
+        "yahoo_id": "3H37IFKUGNQNKUSKH3YYARS5VM",
+        "avatar": null,
+        "yahoo_avatar": "https://s.yimg.com/ag/images/default_user_profile_pic_192sq.jpg",
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-04-24T07:17:07.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8nva877bcarzpwr2ef9",
+        "nip": "199409112023211014",
+        "name": "NUR HADI",
+        "email": "nurhadi110994@gmail.com",
+        "google_id": null,
+        "yahoo_id": null,
+        "avatar": null,
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-03-26T07:12:29.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8nxep8wqvnqkyr5tezq",
+        "nip": "199204082023211025",
+        "name": "RADITYA ANGGATAMA",
+        "email": "raditya.anggatama@gmail.com",
+        "google_id": null,
+        "yahoo_id": null,
+        "avatar": null,
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-03-26T07:12:29.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8p1386x342kvxa6knyw",
+        "nip": "199601292023211008",
+        "name": "MUHAMMAD FIRMANA REYNALDI",
+        "email": "firmanareynaldi@gmail.com",
+        "google_id": "107513988298773043973",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocItOfkgFyt1G0iJbyu7bNN0oVNPfJB0GCsuagLk-jh8ryXtog=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:53:40.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8p3cmwn8b89e9krq8p7",
+        "nip": "199902222024211003",
+        "name": "AGUNG WAHYUDI, S.Kom",
+        "email": "agungwahyudis19@gmail.com",
+        "google_id": "115175397237468495992",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKJ06NQLYtaa7xcEpoxxu_n7QwEhIjllFII0Zxxa_Q_IXDaelhX=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T12:11:32.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8p5nsrqhcwehmyw2b0k",
+        "nip": "199207232023212044",
+        "name": "YESI RAHMADILA",
+        "email": "yesirahma7@gmail.com",
+        "google_id": "107930440602304783707",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI9KdO3GSFoNiCorT5dKpxSsO-Cil7C8N6TYCFX1tKhMyLlaN85=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T08:18:03.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8p76vpxb86dfknq7vj2",
+        "nip": "199009222024211007",
+        "name": "RINDRA USNADI, S.Kom.",
+        "email": "rindrausnadi@gmail.com",
+        "google_id": "108588839220098984879",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLBJd9RxMzaFHySxOJgrkKnuyn3FV8uFxs4Tp06Hrp2ijnmtXzU=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:54:57.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8p95qqe64jbv7z8r1rs",
+        "nip": "199604192023211011",
+        "name": "ANGGA SETYO APRIYONO",
+        "email": "anggasetyoapriyono@gmail.com",
+        "google_id": null,
+        "yahoo_id": null,
+        "avatar": null,
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-03-26T07:12:29.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pa7db1vc5941mznraq",
+        "nip": "197106091992011002",
+        "name": "EDIF HAYUNAN SISWANTO",
+        "email": "hayunan.siswanto@gmail.com",
+        "google_id": "104321858034072457955",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLU95yVp4scwJHHJrsh75vpDKLYcTGvBxU9TJ2-BLrnVMbdQD0N=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T00:52:27.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pc0nkx3n00zmz0fcet",
+        "nip": "197702171996021002",
+        "name": "IWAN KUKUH ARIFFIANTO",
+        "email": "iwankukuh@gmail.com",
+        "google_id": "100467108164426190608",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJk8Oz9R9l4mADJtr0Ms16XBR9MbjbFAUPdmcXCciUP2wfo0g=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-04-25T06:22:20.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pe88pswa20mvhbrndq",
+        "nip": "198206172006042020",
+        "name": "DWI YUNI HARTATI",
+        "email": "yunidwi25@gmail.com",
+        "google_id": "116601987778719100901",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIIcF0edjQQ--HTKAi902SOCnY_TLdjqzy_bSkYT4V6ztDhffHl=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:33:49.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pg4azsq6cdsw5jnp1q",
+        "nip": "196810041989031006",
+        "name": "MUDIONO",
+        "email": "onoibum1004@gmail.com",
+        "google_id": "108879951161782768637",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLnsYXcTH6tZmgRLigow-LYyStqdoyFO9wuFoS3SFj89Gw-gg=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:53:30.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8ph1wve0xv6ew8cyfvp",
+        "nip": "197401291994031004",
+        "name": "ISNAR WITOYO",
+        "email": "isnarwitoyo@gmail.com",
+        "google_id": "101596127107763044893",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocL4hlO71PwSiCex0Ha5gIFPwAVUJg0HfV4s6KDDq2fls6Z_6oX_=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:33:59.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pkbfrar1fhpgcmkfj8",
+        "nip": "198106272011011008",
+        "name": "IKHSANUDIN",
+        "email": "ikhsanudin502@gmail.com",
+        "google_id": "115214802890934516173",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIKW0VVAjnRlXfYSG3BYek_H7uWrvwEEmhYQIwLDdGwnRCoWhv5=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:53:20.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pnf8hxa6rej6abq66j",
+        "nip": "196706041992021003",
+        "name": "BAMBANG WAHYUONO",
+        "email": "wahyuono3bambang@gmail.com",
+        "google_id": null,
+        "yahoo_id": null,
+        "avatar": null,
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-03-26T07:12:29.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pqp3zq4z24g4xw2zx8",
+        "nip": "197806162010011021",
+        "name": "SUPRIYANTO",
+        "email": "ucubillah@gmail.com",
+        "google_id": "110771257740434617197",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLg7c_P3wLpXdoMW8uw2z7-N4I7Rq8pfyTdNNYmtISgZdfpyu7X=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:27:55.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8prfmsgj9gtfsvqt7x8",
+        "nip": "197207121999012001",
+        "name": "UMI HANIK",
+        "email": "umih7246@gmail.com",
+        "google_id": "111844895328938536848",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKq5b14OaWNsuMJS8nZWGXJPyc5AsF6rpH40CDeKh_ZGFcL4Q=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:52:18.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8ptyt6np6kv7bvcxezt",
+        "nip": "198107152010012011",
+        "name": "ANIK MASRUROH",
+        "email": "anikpaijah81@gmail.com",
+        "google_id": "110803691390453646001",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJh34Yj5GAA7SA-HUp_ELesmeGO0f49a3tHNV7Jo851gZG4ww=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T01:02:17.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pwmxw8fthq5jm335t6",
+        "nip": "198306102009032006",
+        "name": "MITA DWI JATMIKOWATI",
+        "email": "mitadwije@gmail.com",
+        "google_id": "100786430230513441666",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKdBqNJMXa_2tN1aI2NXQNA_TiEUC9QSjXDShlBTuox7nXC7A=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T08:13:23.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pynzkdyj1eydgetpar",
+        "nip": "198408212010012019",
+        "name": "HESTI IKAYANTI",
+        "email": "hesti21.hi@gmail.com",
+        "google_id": "102697426754420214058",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJqeaaCaG7EUTMYVaURtWEJsOMNf40LBIRRF0ug3waIljf9tc33=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:27:37.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8pzm7e7fbj72b6xdvtm",
+        "nip": "198306052011011005",
+        "name": "AGUS DWI SANTOSO",
+        "email": "agusagos93@gmail.com",
+        "google_id": "111604031756676601705",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKL8kWYAgWSl4jac4X-DJzfxHLTz7mEXgHeTgIvgjyDx9TEXGU=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:34:04.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8q1r27ypp6vajdvqbvs",
+        "nip": "197904062006042021",
+        "name": "TITIS NUR PITAKANINGTYAS",
+        "email": "titistiyus@gmail.com",
+        "google_id": "110260174267373569293",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocL7eI9nu6QtkDIjq-DbbVZ-aDK0JSVKlOqtvQEjK5Ihqy4m8Q=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T01:22:00.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8q3jfs1bw136208cezp",
+        "nip": "198910032009031002",
+        "name": "OKTA DHIRGA SUKRISDYANTO",
+        "email": "okta.dhirga@gmail.com",
+        "google_id": "108651205149897718336",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI6vJiq75oSGTnBSK8_o7t1VoHqOcEK0zUZYqp0HUeqz3mCMA=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-08T00:52:13.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8q54s24w5bn3fxvdcvz",
+        "nip": "198107252009032007",
+        "name": "NINING LESTARI",
+        "email": "saveronizam@gmail.com",
+        "google_id": "103104734317506942398",
+        "yahoo_id": "SWLPVQ2XDUMWBCRGGORNJKHCAM",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLJW9r2IwhB9VnsOmTOhpll_BP4pTC4UBs8UE3YvJbVLt7TEA=s96-c",
+        "yahoo_avatar": "https://s.yimg.com/ag/images/default_user_profile_pic_192sq.jpg",
+        "group": "admin",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T07:39:07.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8q6965xcj0fj2x4h2vp",
+        "nip": "199106232020121004",
+        "name": "DEVANDA ILHAM KURNIAWAN",
+        "email": "devan.ilham.k@gmail.com",
+        "google_id": "103772251246279535903",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJej9M8BUoc_oHCwVkeZ2u7nUDUUUth5MZB7OiHsGF31s-a518u=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:28:37.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8q82gtm4fh0pqenzj05",
+        "nip": "199011192009032001",
+        "name": "SILVANA HARWI",
+        "email": "silvanaharwi001@gmail.com",
+        "google_id": "116609032599498132308",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJBQH6CVFFnCzeNMq0OJCd0hCXRT9QxVm3JW1dCWwq2bQMLCA=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T08:09:17.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8q9hw5bmgv4p86tgkma",
+        "nip": "199307042020122005",
+        "name": "IRNA KUSUMANINGSIH",
+        "email": "irna.kusuma04@gmail.com",
+        "google_id": null,
+        "yahoo_id": null,
+        "avatar": null,
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-03-26T07:12:29.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qb57gnwpdhkg67088y",
+        "nip": "199706272020122003",
+        "name": "ALIFAH NUR SUCIANI",
+        "email": "alifah2706@gmail.com",
+        "google_id": "107626653818751563263",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKCVeiKk9q3K_V7CT5xdfQuDFQOaGSQBoQPnJUpndt8Z38vENnQ2Q=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-08T00:52:31.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qcvbwsexfja0xp5czh",
+        "nip": "199108032020121001",
+        "name": "MUHAMMAD SYAIFUL ARIFIN",
+        "email": "saifularifin91@gmail.com",
+        "google_id": "102224623040352134337",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJP77wIJ9QRrR9PF9OFi3KkWyduc6jF3Mmz9k9XjcfZ1s9fbQ=s96-c",
+        "yahoo_avatar": null,
+        "group": "admin",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-04-11T06:16:49.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qeq9yjys42w6gyd3hh",
+        "nip": "199705072020122004",
+        "name": "NAFA MEILANTU",
+        "email": "nafa.meilantu@gmail.com",
+        "google_id": null,
+        "yahoo_id": null,
+        "avatar": null,
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-03-26T07:12:29.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qfdb4tyzngj61twn25",
+        "nip": "198807202019031004",
+        "name": "DIAZ HENDRIANTO",
+        "email": "diaz.hendri@gmail.com",
+        "google_id": "116895964055490853334",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKzbGkNSRo_a4YnXDFS1-uBaCLwyvOeJfuT88-6VldWI3NVO0IKWA=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:48:46.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qhx6qgaa36qc3y5j54",
+        "nip": "199609282019032004",
+        "name": "HAPSARI CIPTANINGTYAS",
+        "email": "hapsarictyas@gmail.com",
+        "google_id": "101518659255875269044",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJJr8CPJOQmX-4RIrnK3fkYrziDmu9-UHkyIrJilHrSy24iVGg=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:49:07.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qj4fgp28mfbxfja8jd",
+        "nip": "199307102020121005",
+        "name": "DANANG ADE BAHRANI",
+        "email": "ringinseven@gmail.com",
+        "google_id": "102122875372714073151",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLZ3fO9LLKddLS7ugqH9mOOSHMOWr2CzgbhPk2odDZNOhDyuw=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:31:45.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qma9fn7pewg60mnbfq",
+        "nip": "199605302020122004",
+        "name": "ANITTABI' MILIATY",
+        "email": "abmiliaty.am@gmail.com",
+        "google_id": "107165612700044873751",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIe33PV9DYQcm2mwv4WeQF3A8LHLBSfndgjhC1WDs8JAT7UwMXo=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:28:10.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qntp9jgheyv21p37zn",
+        "nip": "199407302020122006",
+        "name": "ELYANA PUTRI BUDIANTI",
+        "email": "elyanapb@gmail.com",
+        "google_id": "104883323448683085303",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKbtl0fwkAcqQNcbQCHM7uyDm7vqf7ElxgrqKQf1Ovj2XmaGdQH=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:37:16.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qqcpdenncr3dew6qfr",
+        "nip": "199307062020121001",
+        "name": "ARISKA WAHYU INDRA PRATAMA",
+        "email": "ariska.wahyu67@gmail.com",
+        "google_id": "112068172047428164740",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK4HwVmbg9C_7bcrOrzveFKzgla-dRg28BV9sbTHe-C0SnTkVPo=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:51:27.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qr05pcrdymew40hhkb",
+        "nip": "197405062007011013",
+        "name": "MUJIONO",
+        "email": "mjn.trenggalek@gmail.com",
+        "google_id": "109663901232056432931",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJB8T3SL3USnYGN1Obu_zKzrj5N9CN-1L_oWjxTFZTWS9CcX1SScw=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:49:40.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qtjf5s7twk1zwwspkz",
+        "nip": "198303032010012032",
+        "name": "DWI PRI KURNIAWATI",
+        "email": "dwikurniawati3383@gmail.com",
+        "google_id": "105940654211292472797",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJnrQTsczOtdO1LOzuoTS4sCtLmwTT_uZeHXaWG5gr6Qt0thA=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:36:16.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qwcyb2qeh2n8pc9b2g",
+        "nip": "197701172006041018",
+        "name": "KHUSNUN KH PAMURIH",
+        "email": "khusnunkh@gmail.com",
+        "google_id": "102133696956304904266",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK7bsH2Ih3tSXel0N7TTsQauubZ87MIoyqzMOYDeqXKsxOmqImv=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:49:34.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8qzccypndyv6avgpzpc",
+        "nip": "198502012010011001",
+        "name": "IMAM SUPANGAT",
+        "email": "imamsupangat728@gmail.com",
+        "google_id": "100468592660494628401",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKpqIXCG1kb1bZe1Oc9bJYljiNr7BiK91xStSSdt5Yj6PL6uA=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:51:02.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r0vt812r6fxyy76hcx",
+        "nip": "197803162010011003",
+        "name": "MUNAWAN",
+        "email": "munawan78@gmail.com",
+        "google_id": "104614887060234065362",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI57Ay8LQhEm3ns5k4Raeyglo62J3ISc5vbheg_-CQjvzFUBg=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:56:47.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r2t0hkxvpp59bzbdja",
+        "nip": "196905202010011001",
+        "name": "BANGKIT SUPRIYO",
+        "email": "pkbangkit@gmail.com",
+        "google_id": "116999219523960754903",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIP7lO7_-5FEcvBpQQG25oVW3QC7QwoOWJZnCJ0aJLrpaTZ3g=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:55:07.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r36mc3eqnn7wxz15aw",
+        "nip": "198012202010011002",
+        "name": "IMAM SUYANTO",
+        "email": "yantopeyek1980@gmail.com",
+        "google_id": "117367939911776671482",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLL04FHtMGNrySLVSsZee-47XZiVsCc4ZQkO6G8lpDEY_cfwjkFxw=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:55:16.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r5v2b9amjpws8j7jre",
+        "nip": "197806252010011001",
+        "name": "BUDI SANTOSO",
+        "email": "gendonbs46@gmail.com",
+        "google_id": "113693654983364621292",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocKMYDDwnxGOmdj7nauaSGbYSygrl8EBZuIjOKFE6dcTjDbTsTWh=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:52:23.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r6echb3wj3w8pby3z2",
+        "nip": "199606122019031003",
+        "name": "ROBI YUNI ATMOKO",
+        "email": "robiyuniatmoko46@gmail.com",
+        "google_id": "101729080636023171683",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocL1zPnNrWchLAV7CkDPKT8vpjC-I7QkK8bUCBL4X08cERLs0g=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:01:25.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r7tzrrpbg0vm6jd2nh",
+        "nip": "196903222014061001",
+        "name": "YOYOK TRIMARETNO",
+        "email": "yoyoktrimaretno@gmail.com",
+        "google_id": "101757205289327246550",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK1zACpWKK4v36odRHL-TpfVUPxJlIhO2Ez8SuWDREct_fWgWsL=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-06T01:30:11.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jq8mq8r9qnpp9wmc9dz3196v",
+        "nip": "199011092011012002",
+        "name": "RIZKA AMELIYA",
+        "email": "ameliyarizka90@gmail.com",
+        "google_id": "113423856973605649479",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocK6DBeEmZh6Cfx_JMIuZe-CPxzx9CATV9IuLP07uPdX4-P0bQ=s96-c",
+        "yahoo_avatar": null,
+        "group": "user",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-03-26T07:12:29.000000Z",
+        "updated_at": "2025-05-07T00:33:44.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    },
+    {
+        "id": "01jra6kjrhgjjm3ze4rnppw7cm",
+        "nip": null,
+        "name": "Daniar OD",
+        "email": "sherlockholmes4live@gmail.com",
+        "google_id": "115331657297672710781",
+        "yahoo_id": null,
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIpT6GrTaqoIf0CeR8u7ET8aC3gFYbAs1Dy-J0PNkKqW6a7dABO=s96-c",
+        "yahoo_avatar": null,
+        "group": "admin",
+        "opd_id": "2100000000",
+        "email_verified_at": null,
+        "created_at": "2025-04-08T07:59:59.000000Z",
+        "updated_at": "2025-05-07T02:36:20.000000Z",
+        "opd": {
+            "id": "2100000000",
+            "name": "DINAS KOMUNIKASI DAN INFORMATIKA"
+        }
+    }
+]

@@ -19,6 +19,8 @@ const InputLabeled = forwardRef(
       required,
       value,
       paddingY,
+      multiline = false,
+      rows = 3,
     },
     ref
   ) => {
@@ -42,6 +44,8 @@ const InputLabeled = forwardRef(
           id={id}
           required={required}
           icon={icon}
+          multiline={multiline}
+          rows={rows}
         />
       </div>
     );

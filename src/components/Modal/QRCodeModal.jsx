@@ -1,44 +1,38 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import QRCodeComponent from "../QRCodeComponent";
 import { fetchAPI } from "../../utils/api";
+import { formattedTimeDate } from "../../utils/date";
 
 const QRCodeModal = ({ isOpen, onClose, qrCodeId }) => {
   const [attendances, setAttendances] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (qrCodeId) {
       const fetchAttendance = async () => {
         setLoading(true);
         try {
-          const data = await fetchAPI(`/qrcodes/${qrCodeId}/attendances`);
+          const endpoint = showAll
+            ? `/qrcodes/${qrCodeId}/attendances`
+            : `/qrcodes/${qrCodeId}/attendances?limit=5`;
+          const data = await fetchAPI(endpoint);
           setAttendances(data);
         } catch (err) {
-          ("Error fetching attendance:", err);
+          console.error("Error fetching attendance:", err);
         }
         setLoading(false);
       };
 
       fetchAttendance();
     }
-  }, [qrCodeId]);
+  }, [qrCodeId, showAll]);
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return (
-      date.toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }) +
-      " " +
-      date.toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-    );
+  const handleShowAll = () => {
+    navigate(`/attendance/${qrCodeId}`); // Navigate to the new page with the QR code ID
   };
 
   return (
@@ -55,13 +49,20 @@ const QRCodeModal = ({ isOpen, onClose, qrCodeId }) => {
             {attendances.map((record) => (
               <li key={record.id} className="py-2 border-b last:border-none">
                 {record.user.name} - {record.status} (
-                {formatDate(record.created_at)})
+                {formattedTimeDate(record.created_at)})
               </li>
             ))}
           </ul>
         ) : (
           <p className="text-gray-500 mt-2">No attendance records found.</p>
         )}
+
+        <button
+          className="mt-5 px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={handleShowAll}
+        >
+          {showAll ? "Show Latest 5" : "Show All"}
+        </button>
       </div>
     </Modal>
   );

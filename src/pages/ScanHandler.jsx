@@ -25,7 +25,11 @@ const ScanHandler = () => {
     } else {
       localStorage.setItem("pending_scan", code);
       toast.info("Kode QR terdeteksi, memproses absen pada dashboard.");
-      navigate("/dashboard");
+      if (user.group === "admin") {
+        navigate("/qrcode/scan");
+      } else {
+        navigate("/dashboard");
+      }
     }
   }, [user, loading, code, navigate]);
 

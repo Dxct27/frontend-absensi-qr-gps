@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -11,23 +11,7 @@ import QRCodeModal from "../../components/Modal/QRCodeModal";
 import { downloadSingleQRAsPDF } from "../../utils/qrcodeDownload";
 import { toast } from "react-toastify";
 import ConfirmModal from "../../components/Modal/ConfirmModal";
-
-const formatDate = (dateString) => {
-  if (!dateString) return "-";
-  const date = new Date(dateString);
-  return (
-    date.toLocaleTimeString("id-ID", {
-      hour: "2-digit",
-      minute: "2-digit",
-    }) +
-    " " +
-    date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    })
-  );
-};
+import { formattedTimeDate } from "../../utils/date";
 
 const QRCodeListTable = ({
   showCheckbox,
@@ -125,7 +109,7 @@ const QRCodeListTable = ({
     downloadSingleQRAsPDF(qr);
   };
 
-  const columns = [
+  const columns = useMemo(() => [
     ...(showCheckbox
       ? [
           {
@@ -148,12 +132,12 @@ const QRCodeListTable = ({
     {
       accessorKey: "waktu_awal",
       header: "Waktu Awal",
-      cell: ({ getValue }) => formatDate(getValue()),
+      cell: ({ getValue }) => formattedTimeDate(getValue()),
     },
     {
       accessorKey: "waktu_akhir",
       header: "Waktu Akhir",
-      cell: ({ getValue }) => formatDate(getValue()),
+      cell: ({ getValue }) => formattedTimeDate(getValue()),
     },
     {
       header: "Actions",
@@ -199,7 +183,7 @@ const QRCodeListTable = ({
         </details>
       ),
     },
-  ];
+  ]);
 
   const table = useReactTable({
     data: qrCodes,
@@ -241,6 +225,7 @@ const QRCodeListTable = ({
           loadQRCodes();
         }}
         qrId={selectedQrId}
+        type={"qrForm"}
       />
 
       <QRCodeModal

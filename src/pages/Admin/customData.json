@@ -1,0 +1,853 @@
+
+    [
+        {
+            "id": 97,
+            "user_id": "01jq8mq8p1386x342kvxa6knyw",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:58:20",
+            "latitude": -8.0502611999999995617827153182588517665863037109375,
+            "longitude": 111.70818239999999832434696145355701446533203125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:58:22.000000Z",
+            "updated_at": "2025-05-08T00:58:22.000000Z",
+            "user": {
+                "id": "01jq8mq8p1386x342kvxa6knyw",
+                "name": "MUHAMMAD FIRMANA REYNALDI",
+                "nip": "199601292023211008"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 78,
+            "user_id": "01jq8mq8p3cmwn8b89e9krq8p7",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:52:39",
+            "latitude": -8.050295099999999592910171486437320709228515625,
+            "longitude": 111.708142100000003438253770582377910614013671875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:52:39.000000Z",
+            "updated_at": "2025-05-08T00:52:39.000000Z",
+            "user": {
+                "id": "01jq8mq8p3cmwn8b89e9krq8p7",
+                "name": "AGUNG WAHYUDI, S.Kom",
+                "nip": "199902222024211003"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 91,
+            "user_id": "01jq8mq8p5nsrqhcwehmyw2b0k",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:55:32",
+            "latitude": -8.050295399999999546025719610042870044708251953125,
+            "longitude": 111.7081907999999970115823089145123958587646484375,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:55:33.000000Z",
+            "updated_at": "2025-05-08T00:55:33.000000Z",
+            "user": {
+                "id": "01jq8mq8p5nsrqhcwehmyw2b0k",
+                "name": "YESI RAHMADILA",
+                "nip": "199207232023212044"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 105,
+            "user_id": "01jq8mq8pa7db1vc5941mznraq",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:02:04",
+            "latitude": -8.0503172000000002839215085259638726711273193359375,
+            "longitude": 111.7081988000000052352334023453295230865478515625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:02:05.000000Z",
+            "updated_at": "2025-05-08T01:02:05.000000Z",
+            "user": {
+                "id": "01jq8mq8pa7db1vc5941mznraq",
+                "name": "EDIF HAYUNAN SISWANTO",
+                "nip": "197106091992011002"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 81,
+            "user_id": "01jq8mq8pc0nkx3n00zmz0fcet",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:53:42",
+            "latitude": -8.0503014000000003846935214824043214321136474609375,
+            "longitude": 111.70822309999999788487912155687808990478515625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:53:42.000000Z",
+            "updated_at": "2025-05-08T00:53:42.000000Z",
+            "user": {
+                "id": "01jq8mq8pc0nkx3n00zmz0fcet",
+                "name": "IWAN KUKUH ARIFFIANTO",
+                "nip": "197702171996021002"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 95,
+            "user_id": "01jq8mq8pe88pswa20mvhbrndq",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:56:42",
+            "latitude": -8.050317599999999629289959557354450225830078125,
+            "longitude": 111.708214400000002797241904772818088531494140625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:56:44.000000Z",
+            "updated_at": "2025-05-08T00:56:44.000000Z",
+            "user": {
+                "id": "01jq8mq8pe88pswa20mvhbrndq",
+                "name": "DWI YUNI HARTATI",
+                "nip": "198206172006042020"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 99,
+            "user_id": "01jq8mq8pg4azsq6cdsw5jnp1q",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:58:44",
+            "latitude": -8.0502196999999995341568137519061565399169921875,
+            "longitude": 111.7081637000000000625732354819774627685546875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:58:44.000000Z",
+            "updated_at": "2025-05-08T00:58:44.000000Z",
+            "user": {
+                "id": "01jq8mq8pg4azsq6cdsw5jnp1q",
+                "name": "MUDIONO",
+                "nip": "196810041989031006"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 90,
+            "user_id": "01jq8mq8ph1wve0xv6ew8cyfvp",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:55:30",
+            "latitude": -8.050291200000000202408045879565179347991943359375,
+            "longitude": 111.7081916000000063604602473787963390350341796875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:55:29.000000Z",
+            "updated_at": "2025-05-08T00:55:29.000000Z",
+            "user": {
+                "id": "01jq8mq8ph1wve0xv6ew8cyfvp",
+                "name": "ISNAR WITOYO",
+                "nip": "197401291994031004"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 92,
+            "user_id": "01jq8mq8pkbfrar1fhpgcmkfj8",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:55:36",
+            "latitude": -8.0502944000000002944261723314411938190460205078125,
+            "longitude": 111.708175600000004124012775719165802001953125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:55:36.000000Z",
+            "updated_at": "2025-05-08T00:55:36.000000Z",
+            "user": {
+                "id": "01jq8mq8pkbfrar1fhpgcmkfj8",
+                "name": "IKHSANUDIN",
+                "nip": "198106272011011008"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 94,
+            "user_id": "01jq8mq8pqp3zq4z24g4xw2zx8",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:56:40",
+            "latitude": -8.05026960000000002537490217946469783782958984375,
+            "longitude": 111.70818620000000009895302355289459228515625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:56:41.000000Z",
+            "updated_at": "2025-05-08T00:56:41.000000Z",
+            "user": {
+                "id": "01jq8mq8pqp3zq4z24g4xw2zx8",
+                "name": "SUPRIYANTO",
+                "nip": "197806162010011021"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 98,
+            "user_id": "01jq8mq8ptyt6np6kv7bvcxezt",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:58:40",
+            "latitude": -8.0502756049738000143634053529240190982818603515625,
+            "longitude": 111.708243005529993752134032547473907470703125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:58:40.000000Z",
+            "updated_at": "2025-05-08T00:58:40.000000Z",
+            "user": {
+                "id": "01jq8mq8ptyt6np6kv7bvcxezt",
+                "name": "ANIK MASRUROH",
+                "nip": "198107152010012011"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 83,
+            "user_id": "01jq8mq8pwmxw8fthq5jm335t6",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:53:55",
+            "latitude": -8.05033290000000079089659266173839569091796875,
+            "longitude": 111.7081112000000047146386350505053997039794921875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:53:57.000000Z",
+            "updated_at": "2025-05-08T00:53:57.000000Z",
+            "user": {
+                "id": "01jq8mq8pwmxw8fthq5jm335t6",
+                "name": "MITA DWI JATMIKOWATI",
+                "nip": "198306102009032006"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 104,
+            "user_id": "01jq8mq8pynzkdyj1eydgetpar",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:00:43",
+            "latitude": -8.05010910266599921669694595038890838623046875,
+            "longitude": 111.708194436219997669468284584581851959228515625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:00:43.000000Z",
+            "updated_at": "2025-05-08T01:00:43.000000Z",
+            "user": {
+                "id": "01jq8mq8pynzkdyj1eydgetpar",
+                "name": "HESTI IKAYANTI",
+                "nip": "198408212010012019"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 79,
+            "user_id": "01jq8mq8pzm7e7fbj72b6xdvtm",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:53:02",
+            "latitude": -8.05031914183319941002991981804370880126953125,
+            "longitude": 111.7081572038500070220834459178149700164794921875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:53:02.000000Z",
+            "updated_at": "2025-05-08T00:53:02.000000Z",
+            "user": {
+                "id": "01jq8mq8pzm7e7fbj72b6xdvtm",
+                "name": "AGUS DWI SANTOSO",
+                "nip": "198306052011011005"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 110,
+            "user_id": "01jq8mq8q1r27ypp6vajdvqbvs",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:07:04",
+            "latitude": -8.050287000000000858790372149087488651275634765625,
+            "longitude": 111.7081960000000009358700481243431568145751953125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:07:05.000000Z",
+            "updated_at": "2025-05-08T01:07:05.000000Z",
+            "user": {
+                "id": "01jq8mq8q1r27ypp6vajdvqbvs",
+                "name": "TITIS NUR PITAKANINGTYAS",
+                "nip": "197904062006042021"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 82,
+            "user_id": "01jq8mq8q3jfs1bw136208cezp",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:53:48",
+            "latitude": -8.050266799999999278725226758979260921478271484375,
+            "longitude": 111.7081553000000013753378880210220813751220703125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:53:48.000000Z",
+            "updated_at": "2025-05-08T00:53:48.000000Z",
+            "user": {
+                "id": "01jq8mq8q3jfs1bw136208cezp",
+                "name": "OKTA DHIRGA SUKRISDYANTO",
+                "nip": "198910032009031002"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 107,
+            "user_id": "01jq8mq8q54s24w5bn3fxvdcvz",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:05:09",
+            "latitude": -8.050326699999999391366145573556423187255859375,
+            "longitude": 111.708200000000005047695594839751720428466796875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:05:10.000000Z",
+            "updated_at": "2025-05-08T01:05:10.000000Z",
+            "user": {
+                "id": "01jq8mq8q54s24w5bn3fxvdcvz",
+                "name": "NINING LESTARI",
+                "nip": "198107252009032007"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 84,
+            "user_id": "01jq8mq8q6965xcj0fj2x4h2vp",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:54:16",
+            "latitude": -8.050267500000000353566065314225852489471435546875,
+            "longitude": 111.7081768999999979996573529206216335296630859375,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:54:17.000000Z",
+            "updated_at": "2025-05-08T00:54:17.000000Z",
+            "user": {
+                "id": "01jq8mq8q6965xcj0fj2x4h2vp",
+                "name": "DEVANDA ILHAM KURNIAWAN",
+                "nip": "199106232020121004"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 80,
+            "user_id": "01jq8mq8q82gtm4fh0pqenzj05",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:53:39",
+            "latitude": -8.0502673145577006152961985208094120025634765625,
+            "longitude": 111.7081826342899972814848297275602817535400390625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:53:39.000000Z",
+            "updated_at": "2025-05-08T00:53:39.000000Z",
+            "user": {
+                "id": "01jq8mq8q82gtm4fh0pqenzj05",
+                "name": "SILVANA HARWI",
+                "nip": "199011192009032001"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 77,
+            "user_id": "01jq8mq8qb57gnwpdhkg67088y",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:52:36",
+            "latitude": -8.050266900000000447334969067014753818511962890625,
+            "longitude": 111.7081720000000046866261982358992099761962890625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:52:36.000000Z",
+            "updated_at": "2025-05-08T00:52:36.000000Z",
+            "user": {
+                "id": "01jq8mq8qb57gnwpdhkg67088y",
+                "name": "ALIFAH NUR SUCIANI",
+                "nip": "199706272020122003"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 88,
+            "user_id": "01jq8mq8qfdb4tyzngj61twn25",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:55:19",
+            "latitude": -8.0503581999999997975692167528904974460601806640625,
+            "longitude": 111.70808510000000524087226949632167816162109375,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:55:20.000000Z",
+            "updated_at": "2025-05-08T00:55:20.000000Z",
+            "user": {
+                "id": "01jq8mq8qfdb4tyzngj61twn25",
+                "name": "DIAZ HENDRIANTO",
+                "nip": "198807202019031004"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 87,
+            "user_id": "01jq8mq8qhx6qgaa36qc3y5j54",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:55:04",
+            "latitude": -8.050306400000000195404936675913631916046142578125,
+            "longitude": 111.708177000000006273694452829658985137939453125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:55:04.000000Z",
+            "updated_at": "2025-05-08T00:55:04.000000Z",
+            "user": {
+                "id": "01jq8mq8qhx6qgaa36qc3y5j54",
+                "name": "HAPSARI CIPTANINGTYAS",
+                "nip": "199609282019032004"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 89,
+            "user_id": "01jq8mq8qj4fgp28mfbxfja8jd",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:55:20",
+            "latitude": -8.050260800000000216414264286868274211883544921875,
+            "longitude": 111.70816750000000183717929758131504058837890625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:55:24.000000Z",
+            "updated_at": "2025-05-08T00:55:24.000000Z",
+            "user": {
+                "id": "01jq8mq8qj4fgp28mfbxfja8jd",
+                "name": "DANANG ADE BAHRANI",
+                "nip": "199307102020121005"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 102,
+            "user_id": "01jq8mq8qma9fn7pewg60mnbfq",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:59:21",
+            "latitude": -8.0502763999999995547796061146073043346405029296875,
+            "longitude": 111.7081787999999988869603839702904224395751953125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:59:22.000000Z",
+            "updated_at": "2025-05-08T00:59:22.000000Z",
+            "user": {
+                "id": "01jq8mq8qma9fn7pewg60mnbfq",
+                "name": "ANITTABI' MILIATY",
+                "nip": "199605302020122004"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 85,
+            "user_id": "01jq8mq8qntp9jgheyv21p37zn",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:54:16",
+            "latitude": -8.0502719154572002224767857114784419536590576171875,
+            "longitude": 111.7081924450800016757057164795696735382080078125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:54:17.000000Z",
+            "updated_at": "2025-05-08T00:54:17.000000Z",
+            "user": {
+                "id": "01jq8mq8qntp9jgheyv21p37zn",
+                "name": "ELYANA PUTRI BUDIANTI",
+                "nip": "199407302020122006"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 100,
+            "user_id": "01jq8mq8qqcpdenncr3dew6qfr",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:58:57",
+            "latitude": -8.05029520000000076151991379447281360626220703125,
+            "longitude": 111.708179499999999961801222525537014007568359375,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:58:57.000000Z",
+            "updated_at": "2025-05-08T00:58:57.000000Z",
+            "user": {
+                "id": "01jq8mq8qqcpdenncr3dew6qfr",
+                "name": "ARISKA WAHYU INDRA PRATAMA",
+                "nip": "199307062020121001"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 93,
+            "user_id": "01jq8mq8qtjf5s7twk1zwwspkz",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:56:33",
+            "latitude": -8.050282179999999954134182189591228961944580078125,
+            "longitude": 111.708170609999996258920873515307903289794921875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:56:35.000000Z",
+            "updated_at": "2025-05-08T00:56:35.000000Z",
+            "user": {
+                "id": "01jq8mq8qtjf5s7twk1zwwspkz",
+                "name": "DWI PRI KURNIAWATI",
+                "nip": "198303032010012032"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 103,
+            "user_id": "01jq8mq8qwcyb2qeh2n8pc9b2g",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:00:10",
+            "latitude": -8.050424899999999439614839502610266208648681640625,
+            "longitude": 111.7082302000000026964698918163776397705078125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:00:11.000000Z",
+            "updated_at": "2025-05-08T01:00:11.000000Z",
+            "user": {
+                "id": "01jq8mq8qwcyb2qeh2n8pc9b2g",
+                "name": "KHUSNUN KH PAMURIH",
+                "nip": "197701172006041018"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 108,
+            "user_id": "01jq8mq8qzccypndyv6avgpzpc",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:05:33",
+            "latitude": -8.050271699999999697183739044703543186187744140625,
+            "longitude": 111.708154500000006237314664758741855621337890625,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:05:35.000000Z",
+            "updated_at": "2025-05-08T01:05:35.000000Z",
+            "user": {
+                "id": "01jq8mq8qzccypndyv6avgpzpc",
+                "name": "IMAM SUPANGAT",
+                "nip": "198502012010011001"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 101,
+            "user_id": "01jq8mq8r2t0hkxvpp59bzbdja",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:59:11",
+            "latitude": -8.0502947000000002475417204550467431545257568359375,
+            "longitude": 111.70818800000000692307366989552974700927734375,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:59:11.000000Z",
+            "updated_at": "2025-05-08T00:59:11.000000Z",
+            "user": {
+                "id": "01jq8mq8r2t0hkxvpp59bzbdja",
+                "name": "BANGKIT SUPRIYO",
+                "nip": "196905202010011001"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 109,
+            "user_id": "01jq8mq8r36mc3eqnn7wxz15aw",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:05:47",
+            "latitude": -8.05030430000000052359609981067478656768798828125,
+            "longitude": 111.7082063999999945735908113420009613037109375,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:05:48.000000Z",
+            "updated_at": "2025-05-08T01:05:48.000000Z",
+            "user": {
+                "id": "01jq8mq8r36mc3eqnn7wxz15aw",
+                "name": "IMAM SUYANTO",
+                "nip": "198012202010011002"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 106,
+            "user_id": "01jq8mq8r5v2b9amjpws8j7jre",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "08:02:22",
+            "latitude": -8.0504574000000008737742973607964813709259033203125,
+            "longitude": 111.708174200000001974331098608672618865966796875,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T01:02:21.000000Z",
+            "updated_at": "2025-05-08T01:02:21.000000Z",
+            "user": {
+                "id": "01jq8mq8r5v2b9amjpws8j7jre",
+                "name": "BUDI SANTOSO",
+                "nip": "197806252010011001"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 86,
+            "user_id": "01jq8mq8r6echb3wj3w8pby3z2",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:54:20",
+            "latitude": -8.050394600000000622230800217948853969573974609375,
+            "longitude": 111.7081275000000033514879760332405567169189453125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:54:20.000000Z",
+            "updated_at": "2025-05-08T00:54:20.000000Z",
+            "user": {
+                "id": "01jq8mq8r6echb3wj3w8pby3z2",
+                "name": "ROBI YUNI ATMOKO",
+                "nip": "199606122019031003"
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        },
+        {
+            "id": 96,
+            "user_id": "01jra6kjrhgjjm3ze4rnppw7cm",
+            "opd_id": "2100000000",
+            "qrcode_id": 24,
+            "date": "2025-05-08",
+            "timestamp": "07:57:46",
+            "latitude": -8.0502838000000007667722456972114741802215576171875,
+            "longitude": 111.708148899999997638587956316769123077392578125,
+            "status": "hadir",
+            "notes": null,
+            "attachment": null,
+            "created_at": "2025-05-08T00:57:47.000000Z",
+            "updated_at": "2025-05-08T00:57:47.000000Z",
+            "user": {
+                "id": "01jra6kjrhgjjm3ze4rnppw7cm",
+                "name": "Daniar OD",
+                "nip": null
+            },
+            "qrcode": {
+                "id": 24,
+                "type": "daily",
+                "event_id": null
+            }
+        }
+    ]

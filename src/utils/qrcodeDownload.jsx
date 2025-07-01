@@ -2,23 +2,11 @@ import { jsPDF } from "jspdf";
 import QRCode from "react-qr-code";
 import html2canvas from "html2canvas";
 import { createRoot } from "react-dom/client";
-
-const formatDateTime = (dateString) => {
-  if (!dateString) return "Invalid Date";
-  const date = new Date(dateString);
-  return `${date.toLocaleTimeString("id-ID", {
-    hour: "2-digit",
-    minute: "2-digit",
-  })} ${date.toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })}`;
-};
+import { formattedTimeDate } from "./date";
 
 export const downloadSingleQRAsPDF = async (
   qrDetails,
-  fileName = `Kode QR ${qrDetails.name}-${formatDateTime(
+  fileName = `Kode QR ${qrDetails.name}-${formattedTimeDate(
     qrDetails.waktu_awal
   )}.pdf`
 ) => {
@@ -58,7 +46,7 @@ export const downloadSingleQRAsPDF = async (
     align: "center",
   });
   pdf.text(
-    `Valid: ${formatDateTime(qrDetails.waktu_awal)} - ${formatDateTime(
+    `Valid: ${formattedTimeDate(qrDetails.waktu_awal)} - ${formattedTimeDate(
       qrDetails.waktu_akhir
     )}`,
     pageWidth / 2,
@@ -146,7 +134,7 @@ export const downloadMultipleQRsAsPDF = async (selectedQRs) => {
       align: "center",
     });
     pdf.text(`Radius: ${qr.radius}m`, centerX, textY + 6, { align: "center" });
-    pdf.text(`Valid: ${formatDateTime(qr.waktu_awal)} - ${formatDateTime(qr.waktu_akhir)}`, centerX, textY + 9, {
+    pdf.text(`Valid: ${formattedTimeDate(qr.waktu_awal)} - ${formattedTimeDate(qr.waktu_akhir)}`, centerX, textY + 9, {
       align: "center",
     });
   }

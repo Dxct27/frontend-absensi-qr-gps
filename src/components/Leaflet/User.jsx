@@ -29,6 +29,7 @@ const LeafletUser = ({ onLocationUpdate, onLocationError }) => {
           };
           setPosition([coords.lat, coords.lng]);
           onLocationUpdate(coords);
+          // console.log("Location leaflet:", coords);
         },
         (err) => {
           let message = "Gagal mendapatkan lokasi.";

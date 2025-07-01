@@ -10,6 +10,7 @@ import Label from "../Label";
 import RectangleButton from "../RectangleButton";
 import { fetchAPI } from "../../utils/api";
 import { useAuth } from "../../context/AuthContext";
+import { formattedDate } from "../../utils/date";
 
 registerLocale("id", id);
 
@@ -51,11 +52,8 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
       formData.append("user_id", user.id);
       formData.append("opd_id", user.opd_id);
 
-      const formattedDate = selectedDate.toLocaleDateString("en-CA", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      });
+      const formattedDate = formattedDate(selectedDate);
+      
       formData.append("date", formattedDate);
 
       formData.append("status", leaveType.toLowerCase());
@@ -71,8 +69,8 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
         toast.success(response.message || "Izin berhasil diajukan!");
         const redirectPath =
           user.group === "admin"
-            ? "/admin/attendancehistory"
-            : "/attendancehistory";
+            ? "/admin/attendance-history"
+            : "/attendance-history";
         setTimeout(() => (window.location.href = redirectPath), 2000);
       } else {
         throw new Error(
@@ -104,7 +102,7 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
         <div className="flex flex-col">
           <Label>Tanggal</Label>
           <DatePicker
-            className="border px-2 py-1"
+            className="border p-2 w-full rounded-md"
             showIcon
             locale="id"
             dateFormat={"dd/MM/yyyy"}
@@ -114,15 +112,18 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
         </div>
         <InputLabeled
           label="Keterangan"
+          placeholder="Masukkan keterangan izin"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
+          multiline={true}
+          rows={3}
         />
         <div className="flex flex-col">
           <Label>Lampiran (PDF, JPG, JPEG, PNG, maks. 2 MB)</Label>
           <div className="flex items-center border border-gray-400 px-2 py-1 rounded-md">
             <label
               htmlFor="file-upload"
-              className="bg-gray-300 text-black px-3 py-1 rounded-l-md cursor-pointer"
+              className="bg-gray-300 hover:bg-gray-400 text-black px-3 py-1 rounded-l-md cursor-pointer"
             >
               Pilih File
             </label>
@@ -143,7 +144,7 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
                     toast.error(
                       "Format file tidak valid! Hanya PDF, JPG, JPEG, PNG."
                     );
-                    e.target.value = ""; // Reset input if invalid
+                    e.target.value = "";
                     return;
                   }
                   if (file.size > 2 * 1024 * 1024) {
@@ -163,7 +164,7 @@ const LeavePermissionModal = ({ isOpen, onClose }) => {
         </div>
 
         <RectangleButton
-          className="w-fit !bg-blue-500 text-white border-2 border-black px-5"
+          className="bg-blue-500 text-white border-2 p-2"
           onClick={handleSubmit}
           disabled={loading}
         >
